@@ -1,0 +1,494 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="HelpWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mainwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="basiczombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bucketzombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="card.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cherry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="conezombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="footballzombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gameIndex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gameSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="loading.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mower.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="other.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="peashot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="plant.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="potato.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="repeater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="screenzombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="shop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="shovel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="snowpea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="startpage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sun.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sunflower.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wallnut.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="HelpWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Mainwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="basiczombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bucketzombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="card.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cherry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="conezombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="footballzombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="game.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="gameIndex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="gameSettings.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="loading.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mower.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="other.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pea.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="peashot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="plant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="potato.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="repeater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="screenzombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shovel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="snowpea.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="startpage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="sun.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sunflower.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wallnut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="debug\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="release\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="HelpWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="Mainwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Background.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Background2.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boom.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound\Boom.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BucketZombieAttack.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BucketZombieWalk.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Burn.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Button.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Card.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\CherryBomb.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\CherryBomb.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\ConeZombieAttack.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\ConeZombieWalk.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound\Eat.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound\Fire.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\FootballZombieAttack.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\FootballZombieDie.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\FootballZombieWalk.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\LawnMower.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\LogoWord.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound\Lose.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound\Mush.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound\NewsLost.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound\NotEnoughSun.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Pea.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound\Pea.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound\PeaHit.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\PeaSnow.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Peashooter.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Peashooter.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound\Place.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound\Pole.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound\Potato.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\PotatoMine.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\PotatoMine.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\PotatoMine1.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\PotatoMineBomb.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Repeater.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Repeater.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\ScreenZombieAttack.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\ScreenZombieWalk.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound\ShieldHit.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Shop.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Shovel.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\ShovelBank.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\SnowPea.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\SnowPea.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\StartScreen.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Sun.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound\Sun.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\SunFlower.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\SunFlower.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Surface.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Title.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\WallNut.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\WallNut.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\WallNut1.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\WallNut2.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\ZombieAttack.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\ZombieDie.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\ZombieHead.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\ZombieWalk1.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\ZombieWalk2.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\ZombiesWon.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\floor.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\help-hover.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\help.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <QtRcc Include="images\images.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <None Include="images\init.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\mainlogo.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\menu-exit.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\menu-help.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\menu-options.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\mini.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\mini1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\mx.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\mx1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\play.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\play1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <QtRcc Include="sound\sound.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <None Include="images\yizi.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\yizi1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
