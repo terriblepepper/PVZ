@@ -1,16 +1,6 @@
-#include "game.h"
-#include "shop.h"
-#include "map.h"
-#include "shovel.h"
-#include "basiczombie.h"
-#include "conezombie.h"
-#include "bucketzombie.h"
-#include "screenzombie.h"
-#include "footballzombie.h"
-#include "zombie.h"
-#include "mower.h"
-#include"gameIndex.h"
 #include<qdebug.h>
+#include "game.h"
+
 game::game(QWidget *parent)
     : QWidget{parent}
 {
@@ -37,7 +27,8 @@ game::game(QWidget *parent)
         mower->setPos(215, 120 + 95 * i);
         scene->addItem(mower);
     }
-    //bgmPlay();
+    //bgm播放
+    bgmPlay();
     // 创建视图对象并设置属性
     view = new QGraphicsView(scene, this);
     view->resize(905, 605);//设置绘制窗口大小
@@ -45,7 +36,27 @@ game::game(QWidget *parent)
     view->setBackgroundBrush(QPixmap(":/new/prefix1/Background.jpg")); // 设置背景图片
     view->setCacheMode(QGraphicsView::CacheBackground);
     view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-    graphicsWidgets();
+
+    //创建按钮等控件渲染
+    QPushButton*menuButton = new QPushButton;// 创建菜单按钮
+    menuButton->setFixedSize(136, 36); // 设置按钮大小
+
+    // 设置按钮的样式表，包括普通状态和悬停状态下的背景图片
+    menuButton->setStyleSheet("QPushButton {"
+        "    border-image: url(:/new/prefix1/gamingMenu.png);"
+        "}"
+        "QPushButton:hover {"
+        "    border-image: url(:/new/prefix1/gamingMenu1.png);"
+        "}");
+
+    // 将菜单按钮嵌入到 QGraphicsProxyWidget
+    QGraphicsProxyWidget* gamingWidgetsProxy = scene->addWidget(menuButton);
+    gamingWidgetsProxy->setPos(894, 0); // 设置按钮在场景中的位置
+
+    // 将菜单按钮添加到场景
+    scene->addItem(gamingWidgetsProxy);
+    //连接菜单按钮
+    connect(menuButton, &QPushButton::clicked, this, &game::goToGamingMenu);
     // 连接计时器的timeout信号到场景的advance槽，实现场景中物体的动画效果
     connect(mQTimer, &QTimer::timeout, scene, &QGraphicsScene::advance);
     // 连接计时器的timeout信号到游戏的addZombie槽，添加僵尸
@@ -54,16 +65,20 @@ game::game(QWidget *parent)
     connect(mQTimer, &QTimer::timeout, this, &game::checkGameState);
     mQTimer->start(33 / fpsIndex); // 启动计时器，(33 / fpsIndex)每毫秒触发一次timeout信号，驱动游戏动画效果
     //qInfo() << "qTimer:" << mQTimer->interval();
-    bgmPlay();
     view->show(); // 显示视图
 }
 game::~game()
 {
-    //delete gamingBGM;
-    //delete gamingBGM_List;
+    delete gamingBGM;
+    delete gamingBGM_List;
     delete mQTimer;
     delete view;
     delete scene;
+}
+
+void game::getGamingMenu(gamingMenuDialog* menuG)
+{
+    gamingMenu = menuG;
 }
 
 void game::addZombie()
@@ -118,22 +133,12 @@ void game::bgmPlay()
     gamingBGM_List->addMedia(QUrl::fromLocalFile("./sound/05. Loonboon.mp3"));
     gamingBGM_List->addMedia(QUrl::fromLocalFile("./sound/14. Brainiac Maniac.mp3"));
     // 设置播放模式为循环播放
-    //gamingBGM_List->setPlaybackMode(QMediaPlaylist::Loop);
+    gamingBGM_List->setPlaybackMode(QMediaPlaylist::Loop);
     // 将播放列表设置给播放器
     gamingBGM->setPlaylist(gamingBGM_List);
     
     // 设置随机种子
     qsrand(static_cast<uint>(QTime::currentTime().msec()));
-    // 连接播放完一首歌后的信号到lambda函数以随机选择下一首歌
-    QObject::connect(gamingBGM, &QMediaPlayer::stateChanged, [&]() {
-        if (gamingBGM->state() == QMediaPlayer::StoppedState) {
-            int index = qrand() % gamingBGM_List->mediaCount(); // 随机生成音乐索引
-            qDebug() << "Playing song at index:" << index;
-            gamingBGM_List->setCurrentIndex(index); // 设置当前播放音乐
-            gamingBGM->play();
-        }
-        });
-
     // 随机选取一个音乐进行播放
     int index = qrand() % gamingBGM_List->mediaCount(); // 随机生成音乐索引
     qDebug() << "Initial song index:" << index;
@@ -144,26 +149,12 @@ void game::bgmPlay()
     
 }
 
-void game::graphicsWidgets()
+void game::goToGamingMenu()
 {
-    // 创建菜单按钮
-    QPushButton* menuButton = new QPushButton;
-    menuButton->setFixedSize(136, 36); // 设置按钮大小
-
-    // 设置按钮的样式表，包括普通状态和悬停状态下的背景图片
-    menuButton->setStyleSheet("QPushButton {"
-        "    border-image: url(:/new/prefix1/gamingMenu.png);"
-        "}"
-        "QPushButton:hover {"
-        "    border-image: url(:/new/prefix1/gamingMenu1.png);"
-        "}");
-
-    // 将菜单按钮嵌入到 QGraphicsProxyWidget
-    QGraphicsProxyWidget* gamingWidgetsProxy = scene->addWidget(menuButton);
-    gamingWidgetsProxy->setPos(894, 0); // 设置按钮在场景中的位置
-
-    // 将菜单按钮添加到场景
-    scene->addItem(gamingWidgetsProxy);
+    //gamingMenuDialog* gamingMenu = new(gamingMenuDialog);
+    mQTimer->stop();
+    gamingBGM->pause();
+    gamingMenu->show();
 }
 
 void game::checkGameState()

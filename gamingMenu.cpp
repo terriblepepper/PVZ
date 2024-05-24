@@ -1,7 +1,13 @@
 #include "gamingMenu.h"
+#include"game.h"
+#include"gameIndex.h"
+#include"startpage.h"
+#include"card.h"
+#include"startpage.h"
 
 gamingMenuDialog::gamingMenuDialog(QWidget* parent) : QDialog(parent)
 {
+    setFixedSize(300, 400);
     // 创建音量滑块
     volumeSlider = new QSlider(Qt::Horizontal, this);
     volumeSlider->setRange(0, 100); // 假设音量范围是0到100
@@ -22,7 +28,7 @@ gamingMenuDialog::gamingMenuDialog(QWidget* parent) : QDialog(parent)
     connect(restartButton, &QPushButton::clicked, this, &gamingMenuDialog::onRestartClicked);
     connect(mainMenuButton, &QPushButton::clicked, this, &gamingMenuDialog::onMainMenuClicked);
     connect(resumeButton, &QPushButton::clicked, this, &gamingMenuDialog::onResumeClicked);
-
+    connect(this, &QDialog::rejected, this, &gamingMenuDialog::onResumeClicked);
     // 设置布局
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addWidget(volumeSlider);
@@ -33,6 +39,16 @@ gamingMenuDialog::gamingMenuDialog(QWidget* parent) : QDialog(parent)
 }
 
 
+void gamingMenuDialog::getMainMenuPoints(startpage* menu)
+{
+    mainMenuPage = menu;
+}
+
+void gamingMenuDialog::getGameWindow(game* game)
+{
+    gaming = game;
+}
+
 void gamingMenuDialog::onVolumeChanged(int volume)
 {
     // 处理音量变化
@@ -42,18 +58,27 @@ void gamingMenuDialog::onVolumeChanged(int volume)
 void gamingMenuDialog::onRestartClicked()
 {
     // 发出重新开始游戏的信号
-    emit restartGame();
+    //emit restartGame();
+    gaming->deleteLater();
+    card::cool = { 227 * fpsIndex, 227 * fpsIndex, 606 * fpsIndex, 606 * fpsIndex, 227 * fpsIndex, 606 * fpsIndex, 227 * fpsIndex };
+    gaming = new (game);
+    gaming->show();
+    close();
 }
 
 void gamingMenuDialog::onMainMenuClicked()
 {
-    // 发出返回主菜单的信号
-    emit gameToMainMenu();
+    this->close();
+    gaming->deleteLater();
+    this->deleteLater();
+    mainMenuPage->show();
 }
 
 void gamingMenuDialog::onResumeClicked()
 {
     // 发出恢复游戏的信号
-    emit resumeGame();
+    //emit resumeGame();
+    gaming->gamingBGM->play();
+    gaming->mQTimer->start(33/fpsIndex);
     close(); // 关闭对话框
 }

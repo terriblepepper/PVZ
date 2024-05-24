@@ -1,8 +1,5 @@
-#include <QIcon>
-#include <QPushButton>
 #include "loading.h"
-#include"startpage.h"
-#include"HelpWidget.h"
+
 loading::loading(QWidget *parent)
     : QWidget{parent}
 {
@@ -27,8 +24,7 @@ loading::loading(QWidget *parent)
                        "color: purple;" // 设置按钮按下时的字体颜色
                        "}");
     btn->setText(QString("开始游戏！")); // 设置按钮文本
-        connect(btn, &QPushButton::clicked,this,&loading::startGame);
-
+    connect(btn, &QPushButton::clicked,this,&loading::startGame);
 }
 
 void loading::startGame()
@@ -38,6 +34,7 @@ void loading::startGame()
     mstartpage->setWidget(helpPage);
     helpPage->setWidget(mstartpage);
     this->close();//关闭加载窗口
+    this->deleteLater();
     mstartpage->show();
 }
 void loading::paintEvent(QPaintEvent *event)

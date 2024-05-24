@@ -23,8 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(mqtimer, &QTimer::timeout, [this]() {
         mqtimer->stop(); // 定时器触发后停止
         loading* load = new loading; // 创建 loading 对象
-        load->show(); // 显示 loading 窗口
         this->close(); // 关闭主窗口
+        load->show(); // 显示 loading 窗口
     });
 
 }

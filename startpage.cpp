@@ -1,12 +1,5 @@
-#include <QIcon>
-#include<qmessagebox.h>
-#include <QPushButton>
 #include "startpage.h"
-#include "game.h"
-#include"gameIndex.h"
-#include"Mainwindow.h"//bgm
-#include "HelpWidget.h"
-#include"card.h"
+
 startpage::startpage(QWidget *parent)
     : QWidget{parent}
 {
@@ -99,10 +92,14 @@ startpage::startpage(QWidget *parent)
         /*设置卡片冷却时间（在card.cpp设置会出现赋值失效）*/
         initCardCool();
         loadingBGM->stop();
-        game* ga=new game;
+        game* gaming = new (game);//创建游戏窗口
+        gamingMenuDialog* gamingMenu = new(gamingMenuDialog);//创建游戏菜单
+        gamingMenu->getMainMenuPoints(this);
+        gamingMenu->getGameWindow(gaming);
+        gaming->getGamingMenu(gamingMenu);
         this->setEnabled(false);
         this->close();
-        ga->show();
+        gaming->show();
     });
     //退出
     connect(btn_exit, &QPushButton::clicked, [this]() {
@@ -141,7 +138,6 @@ void startpage::initCardCool()
 
 void startpage::goToHelp()
 {    
-        this->setEnabled(false);
         this->hide();
         Help->setEnabled(true);
         Help->show();

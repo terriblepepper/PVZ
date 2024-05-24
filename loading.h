@@ -3,20 +3,21 @@
 #include <QWidget>
 #include <QTimer>
 #include <QPainter>
-
+#include <QIcon>
+#include <QPushButton>
+#include"startpage.h"
+#include"HelpWidget.h"
 class startpage;
 class HelpWidget;
 class loading : public QWidget
 {
     Q_OBJECT
 public:
-    QTimer* mqtimer;
     QPainter* mpainter_1;
-    startpage* mstartpage;
-    HelpWidget* helpPage;
+    startpage* mstartpage;//开始菜单
+    HelpWidget* helpPage;//帮助菜单
     void paintEvent(QPaintEvent *event);
     explicit loading(QWidget *parent = nullptr);
-   
 public slots:
     void startGame();
 };

@@ -5,7 +5,17 @@
 #define STARTPAGE_H
 #include <QWidget>
 #include <QPainter>
+#include <QIcon>
+#include<qmessagebox.h>
+#include <QPushButton>
 #include"gameSettings.h"
+#include"gamingMenu.h"
+#include "game.h"
+#include"gameIndex.h"
+#include"Mainwindow.h"//bgm
+#include "HelpWidget.h"
+#include"card.h"
+
 
 class HelpWidget;
 class startpage : public QWidget
