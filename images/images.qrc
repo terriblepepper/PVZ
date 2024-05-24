@@ -69,5 +69,7 @@
         <file>survive1.png</file>
         <file>adventure.png</file>
         <file>adventure1.png</file>
+        <file>gamingMenu.png</file>
+        <file>gamingMenu1.png</file>
     </qresource>
 </RCC>

@@ -45,7 +45,7 @@ game::game(QWidget *parent)
     view->setBackgroundBrush(QPixmap(":/new/prefix1/Background.jpg")); // 设置背景图片
     view->setCacheMode(QGraphicsView::CacheBackground);
     view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-
+    graphicsWidgets();
     // 连接计时器的timeout信号到场景的advance槽，实现场景中物体的动画效果
     connect(mQTimer, &QTimer::timeout, scene, &QGraphicsScene::advance);
     // 连接计时器的timeout信号到游戏的addZombie槽，添加僵尸
@@ -117,10 +117,11 @@ void game::bgmPlay()
     gamingBGM_List->addMedia(QUrl::fromLocalFile("./sound/11. Rigor Mormist.mp3"));
     gamingBGM_List->addMedia(QUrl::fromLocalFile("./sound/05. Loonboon.mp3"));
     gamingBGM_List->addMedia(QUrl::fromLocalFile("./sound/14. Brainiac Maniac.mp3"));
-    // 设置播放模式为随机播放
-    gamingBGM_List->setPlaybackMode(QMediaPlaylist::Loop);
+    // 设置播放模式为循环播放
+    //gamingBGM_List->setPlaybackMode(QMediaPlaylist::Loop);
     // 将播放列表设置给播放器
     gamingBGM->setPlaylist(gamingBGM_List);
+    
     // 设置随机种子
     qsrand(static_cast<uint>(QTime::currentTime().msec()));
     // 连接播放完一首歌后的信号到lambda函数以随机选择下一首歌
@@ -137,10 +138,32 @@ void game::bgmPlay()
     int index = qrand() % gamingBGM_List->mediaCount(); // 随机生成音乐索引
     qDebug() << "Initial song index:" << index;
     gamingBGM_List->setCurrentIndex(index); // 设置当前播放音乐
-
+    
     // 开始播放音乐
     gamingBGM->play();
     
+}
+
+void game::graphicsWidgets()
+{
+    // 创建菜单按钮
+    QPushButton* menuButton = new QPushButton;
+    menuButton->setFixedSize(136, 36); // 设置按钮大小
+
+    // 设置按钮的样式表，包括普通状态和悬停状态下的背景图片
+    menuButton->setStyleSheet("QPushButton {"
+        "    border-image: url(:/new/prefix1/gamingMenu.png);"
+        "}"
+        "QPushButton:hover {"
+        "    border-image: url(:/new/prefix1/gamingMenu1.png);"
+        "}");
+
+    // 将菜单按钮嵌入到 QGraphicsProxyWidget
+    QGraphicsProxyWidget* gamingWidgetsProxy = scene->addWidget(menuButton);
+    gamingWidgetsProxy->setPos(894, 0); // 设置按钮在场景中的位置
+
+    // 将菜单按钮添加到场景
+    scene->addItem(gamingWidgetsProxy);
 }
 
 void game::checkGameState()

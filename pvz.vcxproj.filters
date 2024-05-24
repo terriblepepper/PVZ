@@ -137,6 +137,9 @@
     <ClCompile Include="zombie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gamingMenu.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="HelpWidget.h">
@@ -226,6 +229,9 @@
     <ClInclude Include="zombie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <QtMoc Include="gamingMenu.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -490,5 +496,10 @@
     <None Include="images\yizi1.png">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Debug\moc_gamingMenu.obj">
+      <Filter>Header Files</Filter>
+    </Object>
   </ItemGroup>
 </Project>

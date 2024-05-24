@@ -23,7 +23,7 @@ public:
     void game::checkGameState();//检测游戏状态
     void addZombie();//加入僵尸实现
     void bgmPlay();
-    
+    void graphicsWidgets();
     int level;//设置关卡
 signals:
 

@@ -6,6 +6,7 @@ HelpWidget::HelpWidget(QWidget *parent)
 	, ui(new Ui::HelpWidgetClass())
 {
 	ui->setupUi(this);
+	setWindowTitle("PlantsVsZombies");
 	connect(ui->mainMenu, &QPushButton::clicked, this, &HelpWidget::goToMainMenu);
 }
 
