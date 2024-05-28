@@ -5,10 +5,10 @@
 #include "zombie.h"
 #include "peashot.h"
 
-class repeater : public plant
+class DoublePea : public plant
 {
 public:
-    repeater();
+    DoublePea();
     void advance(int phase) override;
     bool collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const override;
 };

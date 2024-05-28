@@ -1,0 +1,37 @@
+[
+    {
+        "name": "SunFlower",
+        "cool": 227,
+        "cost": 50
+    },
+    {
+        "name": "Peashooter",
+        "cool": 227,
+        "cost": 100
+    },
+    {
+        "name": "CherryBomb",
+        "cool": 606,
+        "cost": 150
+    },
+    {
+        "name": "WallNut",
+        "cool": 606,
+        "cost": 50
+    },   
+    {
+        "name": "SnowPea",
+        "cool": 227,
+        "cost": 175
+    },    
+    {
+        "name": "PotatoMine",
+        "cool": 606,
+        "cost": 25
+    },    
+    {
+        "name": "DoublePea",
+        "cool": 227,
+        "cost": 200
+    }
+]

@@ -11,7 +11,8 @@
 #include "wallnut.h"
 #include "snowpea.h"
 #include "potato.h"
-#include "repeater.h"
+#include "DoublePea.h"
+#include"gameIndex.h"
 
 class shop : public other
 {
@@ -21,7 +22,7 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void advance(int phase) override;
-    void addPlant(QString s, QPointF pos);
+    void addPlant(QString s, QPointF pos);//ÃÌº”÷≤ŒÔ
 private:
     int counter;
     int time;

@@ -27,8 +27,6 @@
         <file>PotatoMine.png</file>
         <file>PotatoMine1.gif</file>
         <file>PotatoMineBomb.gif</file>
-        <file>Repeater.gif</file>
-        <file>Repeater.png</file>
         <file>ScreenZombieAttack.gif</file>
         <file>ScreenZombieWalk.gif</file>
         <file>Shop.png</file>
@@ -71,5 +69,13 @@
         <file>adventure1.png</file>
         <file>gamingMenu.png</file>
         <file>gamingMenu1.png</file>
+        <file>levelSelectBackground.jpg</file>
+        <file>levelbutton.png</file>
+        <file>levelbutton1.png</file>
+        <file>DoublePea.gif</file>
+        <file>DoublePea.png</file>
+        <file>SeedChooser_Background.png</file>
+        <file>SeedChooser_BackgroundStack.png</file>
+        <file>gameWin.png</file>
     </qresource>
 </RCC>

@@ -11,12 +11,13 @@ class zombie : public QGraphicsItem
 {
 public:
     enum { Type = UserType + 2};
-    int hp;
+    double hp;
     int state;
-    int atk;
+    double atk;
     qreal speed;
     QMovie* mQMovie;
     QMovie* mhead;
+    bool isSnow;
     zombie();
     ~zombie();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget )override;

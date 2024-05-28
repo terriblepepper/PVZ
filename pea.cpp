@@ -4,9 +4,9 @@
 #include"gameIndex.h"
 pea::pea()
 {
-    hp = 200; // 设置豌豆射手的生命值为200
-    atk = 25; // 设置豌豆射手的攻击力为25
-    time = int(1.4 * 1000 / (33 / fpsIndex)); // 计算豌豆射手攻击间隔的帧数，1.4秒对应的帧数（33/fpsIndex为帧间隔）
+    hp = 200.0; // 设置豌豆射手的生命值为200
+    atk = 25.0; // 设置豌豆射手的攻击力为25
+    time = int(1.4 * 1000000 / (33333 / fpsIndex)); // 计算豌豆射手攻击间隔的帧数，1.4秒对应的帧数（33333/fpsIndex为帧间隔）
     setMovie(":/new/prefix1/Peashooter.gif"); // 设置豌豆射手的动画
 }
 
@@ -15,7 +15,7 @@ void pea::advance(int phase)
     if (!phase)
         return;
     update(); // 更新豌豆射手的绘制
-    if (hp <= 0)
+    if ((int)hp <= 0)
         delete this; // 如果豌豆射手的生命值小于等于0，删除豌豆射手对象
     else if (++counter >= time) // 每过一个攻击间隔的帧数
     {

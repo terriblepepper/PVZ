@@ -1,16 +1,16 @@
 #include "gamingMenu.h"
-#include"game.h"
-#include"gameIndex.h"
-#include"startpage.h"
-#include"card.h"
-#include"startpage.h"
+
 
 gamingMenuDialog::gamingMenuDialog(QWidget* parent) : QDialog(parent)
 {
-    setFixedSize(300, 400);
+    Qt::WindowFlags flags = windowFlags();
+    this->setStyleSheet("font-size: 18px;font-family: MiSans");
+    setWindowFlags(flags & ~Qt::WindowCloseButtonHint);
     // 创建音量滑块
+    volumeLabel = new QLabel("音量:"+QString::number(musicVolume)+"%", this);
     volumeSlider = new QSlider(Qt::Horizontal, this);
     volumeSlider->setRange(0, 100); // 假设音量范围是0到100
+    volumeSlider->setValue(musicVolume);
     connect(volumeSlider, &QSlider::valueChanged, this, &gamingMenuDialog::onVolumeChanged);
 
     // 创建按钮
@@ -25,16 +25,19 @@ gamingMenuDialog::gamingMenuDialog(QWidget* parent) : QDialog(parent)
 
 
     // 连接按钮信号
+    connect(volumeSlider, &QSlider::valueChanged, this, &gamingMenuDialog::onVolumeChanged);
     connect(restartButton, &QPushButton::clicked, this, &gamingMenuDialog::onRestartClicked);
     connect(mainMenuButton, &QPushButton::clicked, this, &gamingMenuDialog::onMainMenuClicked);
     connect(resumeButton, &QPushButton::clicked, this, &gamingMenuDialog::onResumeClicked);
-    connect(this, &QDialog::rejected, this, &gamingMenuDialog::onResumeClicked);
     // 设置布局
     QVBoxLayout* layout = new QVBoxLayout(this);
+    layout->addWidget(volumeLabel);
     layout->addWidget(volumeSlider);
     layout->addWidget(restartButton);
     layout->addWidget(mainMenuButton);
     layout->addWidget(resumeButton);
+    this->setFixedSize(300, 210);
+    setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     setLayout(layout);
 }
 
@@ -44,41 +47,77 @@ void gamingMenuDialog::getMainMenuPoints(startpage* menu)
     mainMenuPage = menu;
 }
 
-void gamingMenuDialog::getGameWindow(game* game)
+void gamingMenuDialog::getGameWindow(survivalGameMode* m1)
 {
-    gaming = game;
+    survivalGaming = m1;
+    currentGameMode = survivalGaming;
 }
+
+void gamingMenuDialog::getGameWindow(adventureGameMode* m2)
+{
+    adventureGaming = m2;
+    currentGameMode = adventureGaming;
+}
+
+void gamingMenuDialog::getCurrentGameMode(QWidget* current)
+{
+    currentGameMode = current;
+}
+
 
 void gamingMenuDialog::onVolumeChanged(int volume)
 {
     // 处理音量变化
-    // 这里可以调用游戏的音量控制函数
+    musicVolume = volume;
+    volumeLabel->setText("音量:" + QString::number(musicVolume) + "%");
+
+    if (currentGameMode == survivalGaming) {
+        survivalGaming->gamingBGM->setVolume(musicVolume);
+    }
+    else if (currentGameMode == adventureGaming) {
+        adventureGaming->gamingBGM->setVolume(musicVolume);
+    }
 }
 
 void gamingMenuDialog::onRestartClicked()
-{
-    // 发出重新开始游戏的信号
-    //emit restartGame();
-    gaming->deleteLater();
-    card::cool = { 227 * fpsIndex, 227 * fpsIndex, 606 * fpsIndex, 606 * fpsIndex, 227 * fpsIndex, 606 * fpsIndex, 227 * fpsIndex };
-    gaming = new (game);
-    gaming->show();
-    close();
+{    
+    if (currentGameMode == survivalGaming) {
+        survivalGaming->close();
+        survivalGaming->deleteLater();
+        survivalGaming = new survivalGameMode;
+        survivalGaming->getGamingMenu(this);
+        currentGameMode = survivalGaming;
+        emit restartGame(survivalGaming);
+        survivalGaming->show();
+    }
+    else if (currentGameMode == adventureGaming) {
+        adventureGaming->close();
+        adventureGaming->deleteLater();
+        adventureGaming = new adventureGameMode;
+        adventureGaming->getGamingMenu(this);
+        currentGameMode = adventureGaming;
+        emit restartGame(adventureGaming);
+        adventureGaming->show();
+    }
+    this->hide();
 }
 
 void gamingMenuDialog::onMainMenuClicked()
 {
-    this->close();
-    gaming->deleteLater();
-    this->deleteLater();
-    mainMenuPage->show();
+    emit gameToMainMenu();
 }
 
 void gamingMenuDialog::onResumeClicked()
 {
-    // 发出恢复游戏的信号
-    //emit resumeGame();
-    gaming->gamingBGM->play();
-    gaming->mQTimer->start(33/fpsIndex);
-    close(); // 关闭对话框
+    if (currentGameMode == survivalGaming) 
+    {
+        survivalGaming->gamingBGM->play();
+        survivalGaming->mQTimer->resume();
+    }
+    else if (currentGameMode == adventureGaming) 
+    {
+        adventureGaming->gamingBGM->play();
+        adventureGaming->mQTimer->resume();
+    }
+    this->hide(); // 关闭对话框
 }

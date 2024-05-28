@@ -4,9 +4,9 @@
 #include"gameIndex.h"
 snowpea::snowpea()
 {
-    atk = 25;
-    hp = 300;
-    time = int(1.4 * 1000 * fpsIndex / 33);
+    atk = 25.0;
+    hp = 300.0;
+    time = int(1.4 * 1000000 * fpsIndex / 33333);
     setMovie(":/new/prefix1/SnowPea.gif");
 }
 void snowpea::advance(int phase)
@@ -14,7 +14,7 @@ void snowpea::advance(int phase)
     if (!phase)
         return;
     update();
-    if (hp <= 0)
+    if ((int)hp <= 0)
         delete this;
     else if (++counter >= time)
     {

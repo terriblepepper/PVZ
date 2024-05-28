@@ -3,7 +3,8 @@
 
 plant::plant()
 {
-    hp=state=atk=counter=time=0;
+    state=counter=time=0;
+    hp = atk = 0.0;
     mQMovie=nullptr;
 }
 

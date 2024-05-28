@@ -12,7 +12,6 @@ SOURCES += \
     basiczombie.cpp \
     card.cpp \
     cherry.cpp \
-    game.cpp \
     loading.cpp \
     main.cpp \
     Mainwindow.cpp \
@@ -38,7 +37,11 @@ SOURCES += \
     screenzombie.cpp \
     gameIndex.cpp \
     gameSettings.cpp \
-    HelpWidget.cpp
+    HelpWidget.cpp\
+    highprecesionQtimer.cpp\
+    adventureMode.cpp\
+    gamingMenu.cpp\
+    survivalMode.cpp
 
 
 HEADERS += \
@@ -46,7 +49,6 @@ HEADERS += \
     basiczombie.h \
     card.h \
     cherry.h \
-    game.h \
     loading.h \
     map.h \
     other.h \
@@ -70,7 +72,11 @@ HEADERS += \
     screenzombie.h \
     gameIndex.h \
     gameSettings.h \
-    HelpWidget.h
+    HelpWidget.h\
+    highprecesionQtimer.h\
+    adventureMode.h\
+    gamingMenu.h\
+    survivalMode.h
 
 FORMS += \
     Mainwindow.ui \

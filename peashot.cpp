@@ -10,7 +10,7 @@ peashot::peashot(int attack, bool flag)
 {
     atk = attack; // 设置豌豆射手的攻击力
     snow = flag; // 设置是否带有冰冻效果的标志
-    speed = 360.0 * (33 / fpsIndex) / 1000; // 设置豌豆射手的速度（每秒360像素）
+    speed = 360.0 * (33333 / fpsIndex) / 1000000; // 设置豌豆射手的速度（每秒360像素）
 }
 
 QRectF peashot::boundingRect() const
@@ -47,9 +47,13 @@ void peashot::advance(int phase)
         zombie *zom = qgraphicsitem_cast<zombie *>(items[qrand() % items.size()]);
         zom->hp -= atk; // 减少僵尸的生命值，受到豌豆射手的攻击
 
-        // 如果豌豆射手带有冰冻效果，且僵尸的速度大于5.0 * (33 / fpsIndex) / 1000 / 2（初始速度的一半）
-        if (snow && zom->speed > 5.0 * (33 / fpsIndex) / 1000 / 2)
-            zom->speed /= 3; // 将僵尸的速度减少为原来的1/3
+        // 如果豌豆射手带有冰冻效果，且僵尸没被冻
+        if (snow && zom->isSnow==false)
+        {
+            zom->isSnow = true;
+            zom->speed /= 2;
+        } // 将僵尸的速度减少为原来的1/2
+
 
         delete this; // 删除豌豆射手对象
         return;

@@ -1,16 +1,16 @@
 #include "shop.h"
-#include"gameIndex.h"
 shop::shop()
 {
     sunnum = 200;
     counter = 0;
-    time = int(7.0 * 1000 / (33 / fpsIndex));
+    time = int(10.0 * 1000000 * fpsIndex / 33333 );
     card *card_name = nullptr;
-    for (int i = 0; i < card::name.size(); ++i)
+    int i = 0;
+    for (auto& key : card::cardSelectedMap.keys())
     {
-        card_name = new card(card::name[i]);
+        card_name = new card(key);
         card_name->setParentItem(this);
-        card_name->setPos(-157 + 65 * i, -2);
+        card_name->setPos(-157 + 65 * i++, -2);
     }
 }
 
@@ -27,7 +27,7 @@ void shop::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     QFont font;
     font.setPointSizeF(15);
     painter->setFont(font);
-    painter->drawText(QRectF(-255, 18, 65, 22), Qt::AlignCenter, QString::number(sunnum));
+    painter->drawText(QRectF(-255, 18, 65, 22), Qt::AlignCenter, QString::number(sunnum));//显示阳光
 }
 
 void shop::advance(int phase)
@@ -35,37 +35,47 @@ void shop::advance(int phase)
     if (!phase)
         return;
     update();
-    if (++counter >= time)
+    if (++counter >= time)//添加阳光
     {
         counter = 0;
         scene()->addItem(new sun);
     }
 }
 
-void shop::addPlant(QString s, QPointF pos)
+void shop::addPlant(QString s, QPointF pos)//在游戏中添加植物
 {
     QList<QGraphicsItem *> items = scene()->items(pos);
     foreach (QGraphicsItem *item, items)
         if (item->type() == plant::Type)
             return;
-    sunnum -= card::cost[card::map[s]];
+    sunnum -= card::card::baseCardMap[s].cost;
     plant *pl = nullptr;
-    switch (card::map[s])
-    {
-    case 0:
-        pl = new sunflower; break;
-    case 1:
-        pl = new pea; break;
-    case 2:
-        pl = new cherry; break;
-    case 3:
-        pl = new wallnut; break;
-    case 4:
-        pl = new snowpea; break;
-    case 5:
-        pl = new potato; break;
-    case 6:
-        pl = new repeater; break;
+    QString cardName = card::baseCardMap[s].name;
+
+    if (cardName == "SunFlower") {
+        pl = new sunflower;
+    }
+    else if (cardName == "Peashooter") {
+        pl = new pea;
+    }
+    else if (cardName == "CherryBomb") {
+        pl = new cherry;
+    }
+    else if (cardName == "WallNut") {
+        pl = new wallnut;
+    }
+    else if (cardName == "SnowPea") {
+        pl = new snowpea;
+    }
+    else if (cardName == "PotatoMine") {
+        pl = new potato;
+    }
+    else if (cardName == "DoublePea") {
+        pl = new DoublePea;
+    }
+    else {
+        // 处理未知的植物类型
+        qWarning() << "Unknown plant type:" << cardName;
     }
     pl->setPos(pos);
     scene()->addItem(pl);

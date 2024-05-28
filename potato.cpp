@@ -6,7 +6,7 @@ potato::potato()
 {
     atk = 18000;//Õ¡∂π¿◊÷±Ω”√Î…±
     hp = 300;
-    time = int(15.0 * 1000 / (33 / fpsIndex));
+    time = int(15.0 * 1000000 / (33333 / fpsIndex));
     setMovie(":/new/prefix1/PotatoMine1.gif");
 }
 
@@ -20,13 +20,13 @@ void potato::advance(int phase)
     if (!phase)
         return;
     update();
-    if (hp <= 0)
+    if ((int)hp <= 0)
         delete this;
     else if (state == 0 && ++counter >= time)
     {
         state = 1;
         counter = 0;
-        time = int(1.0 * 1000 / (33 / fpsIndex));
+        time = int(1.0 * 1000000 / (33333 / fpsIndex));
         setMovie(":/new/prefix1/PotatoMine.gif");
     }
     else if (state == 1 && ++counter >= time)

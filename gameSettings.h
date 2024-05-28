@@ -9,6 +9,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
+#include "gameIndex.h"
 
 class SettingsDialog : public QDialog
 {
@@ -24,11 +25,13 @@ private slots:
     void applySettings();
 
 private:
+    QLabel* volumeLabel;
     QSlider* volumeSlider;
     QComboBox* difficultyComboBox;
     QComboBox* fpsComboBox;
     QPushButton* applyButton;
     QPushButton* cancelButton;
+    void updateVolumeLabel();
 };
 
 

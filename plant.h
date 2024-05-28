@@ -12,9 +12,9 @@ class plant : public QGraphicsItem
 {
 public:
     enum { Type = UserType + 1};
-    int hp;
+    double hp;
     int state;
-    int atk;
+    double atk;
     int counter;
     int time;
     QMovie* mQMovie;

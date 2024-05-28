@@ -3,9 +3,11 @@
 #include"gameIndex.h"
 zombie::zombie()
 {
-    hp=state=atk=0;
+    hp=atk=0.0;
+    state = 0;
     speed=0.0;
     mQMovie=mhead=nullptr;
+    isSnow = false;
 }
 zombie::~zombie()
 {
@@ -25,8 +27,8 @@ void zombie::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
     QImage image = mQMovie->currentImage(); // 获取当前帧的图片
 
-    // 如果僵尸的速度小于5.0 * (33 / fpsIndex) / 1000 且状态不为3（表示僵尸被减速）
-    if (speed < 5.0 * (33 / fpsIndex) / 1000 && state != 3)
+    // 如果僵尸的速度小于5.0 * (33333 / fpsIndex) / 1000000 且状态不为3（表示僵尸被减速）
+    if (isSnow && state != 3)
     {
         // 设置帧图片的部分像素的颜色为灰色，用于表示僵尸被减速状态
         if (state != 2) // 如果状态不为2（僵尸普通状态），设置帧播放速度为50
@@ -47,8 +49,8 @@ void zombie::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     if (mhead)
     {
         image = mhead->currentImage(); // 获取头部动画的当前帧图片
-        // 如果僵尸的速度小于5.0 * (33 / fpsIndex) / 1000，表示僵尸被减速
-        if (speed < 5.0 * (33 / fpsIndex) / 1000)
+        // 如果僵尸的速度小于5.0 * (33333 / fpsIndex) / 1000000，表示僵尸被减速
+        if (isSnow)
         {
             int w = image.width();
             int h = image.height();

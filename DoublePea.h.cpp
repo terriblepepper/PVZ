@@ -1,19 +1,19 @@
-#include "repeater.h"
+#include "DoublePea.h"
 #include"gameIndex.h"
-repeater::repeater()
+DoublePea::DoublePea()
 {
-    atk = 25;
-    hp = 300;
-    time = int(1.4 * 1000 / (33 / fpsIndex));
-    setMovie(":/new/prefix1/Repeater.gif");
+    atk = 25.0;
+    hp = 300.0;
+    time = int(1.4 * 1000000 / (33333 / fpsIndex));
+    setMovie(":/new/prefix1/DoublePea.gif");
 }
 
-void repeater::advance(int phase)
+void DoublePea::advance(int phase)
 {
     if (!phase)
         return;
     update();
-    if (hp <= 0)
+    if ((int)hp <= 0)
         delete this;
     else if (++counter >= time)
     {
@@ -34,7 +34,7 @@ void repeater::advance(int phase)
     }
 }
 
-bool repeater::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const
+bool DoublePea::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const
 {
     Q_UNUSED(mode)
     return other->type() == zombie::Type && qFuzzyCompare(other->y(), y());

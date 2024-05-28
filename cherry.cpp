@@ -4,8 +4,8 @@
 
 cherry::cherry()
 {
-    atk = 18000;//”£Ã“’®µØ÷±Ω”√Î…±
-    hp = 800;
+    atk = 18000.0;//”£Ã“’®µØ÷±Ω”√Î…±
+    hp = 800.0;
     setMovie(":/new/prefix1/CherryBomb.gif");
 }
 QRectF cherry::boundingRect() const
@@ -17,7 +17,7 @@ void cherry::advance(int phase)
     if(!phase)
         return;
     update();
-    if(hp<=0)
+    if((int)hp<=0)
         delete this;
     else if (state == 0 && mQMovie->currentFrameNumber() == mQMovie->frameCount() - 1)
     {

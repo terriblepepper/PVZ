@@ -2,13 +2,16 @@
 #include"gameIndex.h"
 SettingsDialog::SettingsDialog(QWidget* parent) : QDialog(parent)
 {
+    Qt::WindowFlags flags = windowFlags();
+    setWindowFlags(flags & ~Qt::WindowCloseButtonHint);
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
-
+    this->setFixedSize(300, 300);
+    setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     // 音乐音量设置
-    QLabel* volumeLabel = new QLabel("音量", this);
+    volumeLabel = new QLabel("音量:"+QString::number(musicVolume)+"%", this);
     volumeSlider = new QSlider(Qt::Horizontal, this);
     volumeSlider->setRange(0, 100);
-    volumeSlider->setValue(50); // 默认值
+    volumeSlider->setValue(musicVolume); // 默认值
 
     mainLayout->addWidget(volumeLabel);
     mainLayout->addWidget(volumeSlider);
@@ -20,6 +23,7 @@ SettingsDialog::SettingsDialog(QWidget* parent) : QDialog(parent)
     difficultyComboBox->addItem("中等");
     difficultyComboBox->addItem("困难");
     difficultyComboBox->addItem("变态");
+    difficultyComboBox->setCurrentText(Difficulty);
 
     mainLayout->addWidget(difficultyLabel);
     mainLayout->addWidget(difficultyComboBox);
@@ -29,7 +33,9 @@ SettingsDialog::SettingsDialog(QWidget* parent) : QDialog(parent)
     fpsComboBox = new QComboBox(this);
     fpsComboBox->addItem("30");
     fpsComboBox->addItem("60");
+    fpsComboBox->addItem("90");
     fpsComboBox->addItem("120");
+    fpsComboBox->setCurrentText(QString::number(fpsIndex * 30));
 
     mainLayout->addWidget(fpsLabel);
     mainLayout->addWidget(fpsComboBox);
@@ -46,6 +52,7 @@ SettingsDialog::SettingsDialog(QWidget* parent) : QDialog(parent)
     // 连接信号和槽
     connect(applyButton, &QPushButton::clicked, this, &SettingsDialog::applySettings);
     connect(cancelButton, &QPushButton::clicked, this, &QDialog::reject);
+    connect(volumeSlider, &QSlider::valueChanged, this, &SettingsDialog::updateVolumeLabel);
 }
 
 void SettingsDialog::applySettings()
@@ -56,4 +63,9 @@ void SettingsDialog::applySettings()
 
     emit settingsChanged(volume, difficulty, fps);
     accept();
+}
+
+void SettingsDialog::updateVolumeLabel()
+{
+    volumeLabel->setText("音量:" + QString::number(volumeSlider->value()) + "%");
 }

@@ -1,16 +1,18 @@
 #include "Mainwindow.h"
 #include "ui_Mainwindow.h"
-#include "loading.h"
-#include"gameIndex.h"
+
 QMediaPlaylist* loadingBGMList = new (QMediaPlaylist);//loading->start的bgm
 QMediaPlayer* loadingBGM = new (QMediaPlayer);
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    loadingBGMList->addMedia(QUrl::fromLocalFile("./sound/02_CrazyDave(Intro Theme).mp3"));
+    loadingBGMList->addMedia(QUrl::fromLocalFile("./sound/02CrazyDave.mp3"));
+    // 捕捉QMediaPlayer的错误信号
     loadingBGMList->setPlaybackMode(QMediaPlaylist::Loop);
     loadingBGM->setPlaylist(loadingBGMList);
+    loadingBGM->setVolume(musicVolume);
     loadingBGM->play();
     ui->setupUi(this);
     this->setFixedSize(900,600);
@@ -21,12 +23,11 @@ MainWindow::MainWindow(QWidget *parent)
     mqtimer->setInterval(4000); // 设置定时器时间间隔为 4000 毫秒
     mqtimer->start(); // 启动定时器
     connect(mqtimer, &QTimer::timeout, [this]() {
+        loading* load = new(loading);
         mqtimer->stop(); // 定时器触发后停止
-        loading* load = new loading; // 创建 loading 对象
         this->close(); // 关闭主窗口
         load->show(); // 显示 loading 窗口
     });
-
 }
 
 MainWindow::~MainWindow()
@@ -40,4 +41,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     mpainter_1->drawImage(QRect(0, 0, 900, 600), img); // 在主窗口绘制图片
     mpainter_1->end(); // 结束绘制
 }
+
+
+
 

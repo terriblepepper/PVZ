@@ -53,6 +53,9 @@
     <ClCompile Include="Mainwindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="adventureMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="basiczombie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -71,13 +74,16 @@
     <ClCompile Include="footballzombie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="gameIndex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gameSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gamingMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="highprecesionQtimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="loading.cpp">
@@ -107,7 +113,7 @@
     <ClCompile Include="potato.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="repeater.cpp">
+    <ClCompile Include="DoublePea.h.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="screenzombie.cpp">
@@ -131,13 +137,19 @@
     <ClCompile Include="sunflower.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="survivalMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="wallnut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="zombie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gamingMenu.cpp">
+    <ClCompile Include="CardSelectionDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -146,6 +158,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Mainwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="adventureMode.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <ClInclude Include="basiczombie.h">
@@ -166,13 +181,16 @@
     <ClInclude Include="footballzombie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <QtMoc Include="game.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <ClInclude Include="gameIndex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <QtMoc Include="gameSettings.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="gamingMenu.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="highprecesionQtimer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="loading.h">
@@ -199,7 +217,7 @@
     <ClInclude Include="potato.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="repeater.h">
+    <ClInclude Include="DoublePea.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="screenzombie.h">
@@ -223,13 +241,19 @@
     <ClInclude Include="sunflower.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <QtMoc Include="survivalMode.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
     <ClInclude Include="wallnut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="zombie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <QtMoc Include="gamingMenu.h">
+    <QtMoc Include="CardSelectionDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CustomButton.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -246,6 +270,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="Mainwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="CardSelectionDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -361,10 +388,7 @@
     <None Include="images\PotatoMineBomb.gif">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="images\Repeater.gif">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="images\Repeater.png">
+    <None Include="images\DoublePea.gif">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="images\ScreenZombieAttack.gif">
@@ -442,7 +466,19 @@
     <None Include="images\ZombiesWon.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="images\adventure.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\adventure1.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="images\floor.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\gamingMenu.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\gamingMenu1.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="images\help-hover.png">
@@ -455,6 +491,9 @@
       <Filter>Resource Files</Filter>
     </QtRcc>
     <None Include="images\init.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\levelSelectBackground.jpg">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="images\mainlogo.png">
@@ -475,12 +514,6 @@
     <None Include="images\mini1.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="images\mx.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="images\mx1.png">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="images\play.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -490,6 +523,12 @@
     <QtRcc Include="sound\sound.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+    <None Include="images\survive.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\survive1.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="images\yizi.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -498,8 +537,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Object Include="Debug\moc_gamingMenu.obj">
-      <Filter>Header Files</Filter>
-    </Object>
+    <Image Include="images\DoublePea.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="configs.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
   </ItemGroup>
 </Project>

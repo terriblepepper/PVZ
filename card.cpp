@@ -1,12 +1,9 @@
 #include "card.h"
 #include "shop.h"
 #include"gameIndex.h"
- QMap<QString, int> card::map = {{"SunFlower", 0}, {"Peashooter", 1}, {"CherryBomb", 2}, {"WallNut", 3},
-                                     {"SnowPea", 4}, {"PotatoMine", 5}, {"Repeater", 6}};
- QVector<QString> card::name = {"SunFlower", "Peashooter", "CherryBomb", "WallNut",
-                                     "SnowPea", "PotatoMine", "Repeater"};
- QVector<int> card::cost = { 50, 100, 150, 50, 175, 25, 200 };
- QVector<int> card::cool = { 227 * fpsIndex, 227 * fpsIndex, 606 * fpsIndex, 606 * fpsIndex, 227 * fpsIndex, 606 * fpsIndex, 227 * fpsIndex };//设置卡片冷却时间
+
+QMap<QString, CardsData> card::baseCardMap;
+QMap<QString, CardsData> card::cardSelectedMap;
 
 card::card(QString cardName)
 {
@@ -19,7 +16,7 @@ QRectF card::boundingRect() const
     return QRectF(-50, -30, 100, 60);
 }
 
-void card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)//在游戏中绘制卡片
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
@@ -29,13 +26,12 @@ void card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     QFont font;
     font.setPointSizeF(15);
     painter->setFont(font);
-    painter->drawText(-30, 60, QString("%1").arg(cost[map[text]], 3, 10, QChar(' ')));
-    qInfo() << "counter:" << counter << "cool" << cool[map[text]];
-    if (counter < cool[map[text]])
+    painter->drawText(-30, 60, QString("%1").arg(cardSelectedMap[text].cost, 3, 10, QChar(' ')));
+    if (counter < cardSelectedMap[text].cool)
     {
         QBrush brush(QColor(0, 0, 0, 200));
         painter->setBrush(brush);
-        painter->drawRect(QRectF(-48, -68, 98, 132 * (1 - qreal(counter) / cool[map[text]])));
+        painter->drawRect(QRectF(-48, -68, 98, 132 * (1 - qreal(counter) / cardSelectedMap[text].cool)));
     }
 }
 
@@ -45,41 +41,61 @@ void card::advance(int phase)
     if (!phase)
         return;
     update();
-    if (counter < cool[map[text]])
+    if (counter < cardSelectedMap[text].cool)
         ++counter;
 }
 
-void card::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void card::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     Q_UNUSED(event)
-    if (counter < cool[map[text]])
+
+        // 如果卡片冷却中，拒绝鼠标事件
+        if (counter < cardSelectedMap[text].cool) {
+            qDebug() << "Card is cooling down";
+            event->setAccepted(false);
+            return; // Add a return here to ensure the event is not further processed
+        }
+
+    // 获取卡片父对象（shop 类），检查阳光数是否足够购买卡片
+    shop* sh = qgraphicsitem_cast<shop*>(parentItem());
+    if (cardSelectedMap[text].cost > sh->sunnum) {
+        qDebug() << "Not enough sun points";
         event->setAccepted(false);
-    shop *sh = qgraphicsitem_cast<shop *>(parentItem());
-    if (cost[map[text]] > sh->sunnum)
-        event->setAccepted(false);
-    setCursor(Qt::ArrowCursor);//默认的鼠标指针形状
+        return; // Add a return here to ensure the event is not further processed
+    }
+
+    // 设置鼠标指针为默认箭头形状
+    setCursor(Qt::ArrowCursor);
 }
 
-void card::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void card::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
+    qDebug() << "Mouse move event triggered";
+
+    // 检查是否满足拖拽的条件
     if (QLineF(event->screenPos(), event->buttonDownScreenPos(Qt::LeftButton)).length()
-        < QApplication::startDragDistance())//检查鼠标点击事件的起点和终点之间的距离是否小于系统设置的开始拖拽的距离阈值。
-        //这是为了防止在点击时意外触发拖拽操作。
+        < QApplication::startDragDistance())
         return;
-    QDrag *drag = new QDrag(event->widget());//创建一个新的拖拽对象QDrag，该对象用于实现拖拽操作。
-    QMimeData *mime = new QMimeData;//用于存储要拖拽的数据。
+
+    // 创建拖拽对象
+    QDrag* drag = new QDrag(event->widget());
+    QMimeData* mime = new QMimeData;
     QImage image(":/new/prefix1/" + text + ".png");
     mime->setText(text);
     mime->setImageData(image);
     drag->setMimeData(mime);
     drag->setPixmap(QPixmap::fromImage(image));
     drag->setHotSpot(QPoint(35, 35));
-    drag->exec();//执行拖拽操作，开始拖拽。
+    drag->exec();
+
+    // 设置鼠标指针为默认箭头形状
     setCursor(Qt::ArrowCursor);
 }
 
-void card::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void card::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
     Q_UNUSED(event)
-    setCursor(Qt::ArrowCursor);
+
+        // 设置鼠标指针为默认箭头形状
+        setCursor(Qt::ArrowCursor);
 }

@@ -1,11 +1,11 @@
 #include "basiczombie.h"
 #include"gameIndex.h"
-
+#include<QDebug>
 basiczombie::basiczombie()
 {
-    hp = 270; // 设置基础僵尸的生命值为270
-    atk = 100 * (33 / fpsIndex) / 1000; // 设置基础僵尸的攻击力为100（每秒攻击100点）
-    speed = 5.0 * (33 /fpsIndex) / 1000; // 设置基础僵尸的速度为5.0像素/秒（16毫秒为帧间隔）
+    hp = 270.0; // 设置基础僵尸的生命值为270
+    atk = 100.0 * (33333.0 / (double)fpsIndex) / 1000000.0; // 设置基础僵尸的攻击力为100（每秒攻击100点）
+    speed = 5.0 * (33333.0 / (double)fpsIndex) / 1000000.0; // 设置基础僵尸的速度为5.0像素/秒（16毫秒为帧间隔）
     setMovie(":/new/prefix1/ZombieWalk1.gif"); // 设置基础僵尸的行走动画
 }
 
@@ -31,6 +31,7 @@ void basiczombie::advance(int phase)
     {
         plant *pl = qgraphicsitem_cast<plant *>(items[0]);
         pl->hp -= atk; // 减少植物的生命值，受到基础僵尸的攻击
+        qInfo() << "basicAtk" << atk;
         if (state != 1) // 如果基础僵尸的状态不为1（攻击状态）
         {
             state = 1; // 将状态设置为1（攻击）
