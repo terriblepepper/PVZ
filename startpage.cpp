@@ -156,6 +156,7 @@ startpage::startpage(QWidget *parent)
 
         switch (ret) {
         case QMessageBox::Yes:
+            writeSettingsToFile("./configs/settings.ini");
             exit(1);
             break;
         case QMessageBox::No:
