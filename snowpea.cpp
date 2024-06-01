@@ -22,7 +22,7 @@ void snowpea::advance(int phase)
         if (!collidingItems().isEmpty())
         {
             peashot *pe = new peashot(atk, true);
-            pe->setX(x() + 30/fpsIndex);
+            pe->setX(x() + 30);
             pe->setY(y());
             scene()->addItem(pe);
             return;

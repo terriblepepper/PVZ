@@ -4,8 +4,8 @@
 
 cherry::cherry()
 {
-    atk = 18000.0;//”£Ã“’®µØ÷±Ω”√Î…±
-    hp = 800.0;
+    atk = 1800.0;//”£Ã“’®µØ÷±Ω”√Î…±
+    hp = 8000.0;
     setMovie(":/new/prefix1/CherryBomb.gif");
 }
 QRectF cherry::boundingRect() const

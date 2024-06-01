@@ -77,5 +77,14 @@
         <file>SeedChooser_Background.png</file>
         <file>SeedChooser_BackgroundStack.png</file>
         <file>gameWin.png</file>
+        <file>newZombies/gargantuar/death_noimp.gif</file>
+        <file>newZombies/gargantuar/smash_noimp.gif</file>
+        <file>newZombies/gargantuar/walk_noimp.gif</file>
+        <file>newPlants/Jalapeno/explode.gif</file>
+        <file>newPlants/Jalapeno/idle.gif</file>
+        <file>Jalapeno.png</file>
+        <file>newPlants/GatlingPea/idle.gif</file>
+        <file>newPlants/GatlingPea/shooting.gif</file>
+        <file>GatlingPea.png</file>
     </qresource>
 </RCC>

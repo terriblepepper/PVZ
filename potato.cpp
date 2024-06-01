@@ -4,9 +4,9 @@
 
 potato::potato()
 {
-    atk = 18000;//土豆雷直接秒杀
-    hp = 300;
-    time = int(15.0 * 1000000 / (33333 / fpsIndex));
+    atk = 1800.0;//土豆雷直接秒杀
+    hp = 300.0;
+    time = int(15.0 * 1000000 / (33333.0 / (double)fpsIndex));
     setMovie(":/new/prefix1/PotatoMine1.gif");
 }
 

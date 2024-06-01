@@ -20,6 +20,7 @@
 #include "bucketzombie.h"
 #include "screenzombie.h"
 #include "footballzombie.h"
+#include"gargantuarzombie.h"
 #include "zombie.h"
 #include "mower.h"
 #include"gameIndex.h"

@@ -1,13 +1,13 @@
 {
     "round1":[
-        {
+        {           
             "basic": 2
         }
     ],
     "round2":[
         {
             "basic": 2,
-            "cone": 1
+            "cone": 2
         }
     ]
 }

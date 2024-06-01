@@ -15,5 +15,6 @@
         <file>ShieldHit.wav</file>
         <file>sound.qrc</file>
         <file>Sun.wav</file>
+        <file>cherrybomb.mp3</file>
     </qresource>
 </RCC>

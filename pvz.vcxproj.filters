@@ -152,6 +152,15 @@
     <ClCompile Include="CustomButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Jalapeno.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GatlingPea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gargantuarzombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="HelpWidget.h">
@@ -545,5 +554,16 @@
     <QtRcc Include="configs.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Jalapeno.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GatlingPea.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gargantuarzombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

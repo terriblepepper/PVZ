@@ -22,11 +22,11 @@ void DoublePea::advance(int phase)
         if (!collidingItems().isEmpty())
         {
             peashot *pe = new peashot(atk);
-            pe->setX(x() + 32);
+            pe->setX(x() + 30);
             pe->setY(y());
             scene()->addItem(pe);
             pe = new peashot(atk);
-            pe->setX(x() + 64);
+            pe->setX(x() + 60);
             pe->setY(y());
             scene()->addItem(pe);
             return;

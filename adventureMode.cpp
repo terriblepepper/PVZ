@@ -77,8 +77,8 @@ void adventureGameMode::setupUi() {
     backgroundPixmap = backgroundPixmap.scaled(this->size(), Qt::IgnoreAspectRatio);
     levelWidget->setStyleSheet("background-image: url(:/new/prefix1/levelSelectBackground.jpg);");
 
-    // 添加关卡选择按钮，这里假设有 20 个关卡
-    for (int i = 1; i <= 20; ++i) {
+    // 添加关卡选择按钮，这里预计 20 个关卡
+    for (int i = 1; i <= 5; ++i) {
         QPushButton* levelButton = new QPushButton(QString("关卡%1").arg(i));
         //设置button的工程名字
         levelButton->setObjectName(QString("level_%1").arg(i));
@@ -172,8 +172,6 @@ void adventureGameMode::startGame() {
         mower->setPos(215, 120 + 95 * i);
         scene->addItem(mower);
     }
-    const QList<QGraphicsItem*> items = scene->items();
-
     // 设置视图大小并显示
     view->resize(905, 605); // 确保视图大小与场景大小匹配
     view->move(0, 0); // 确保视图在窗口中的位置正确
@@ -267,6 +265,10 @@ void adventureGameMode::addZombie()
                     else if (key == "screen")
                     {
                         zombie = new ScreenZombie;
+                    }
+                    else if (key == "gargantuar")
+                    {
+                        zombie = new gargantuarzombie;
                     }
                     zombie->setPos(988 + offsetX, 120 + 95 * randRoad);
                     scene->addItem(zombie);

@@ -12,6 +12,8 @@
 #include "snowpea.h"
 #include "potato.h"
 #include "DoublePea.h"
+#include"Jalapeno.h"
+#include"GatlingPea.h"
 #include"gameIndex.h"
 
 class shop : public other

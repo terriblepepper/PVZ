@@ -200,7 +200,10 @@
   <ItemGroup>
     <ClCompile Include="CardSelectionDialog.cpp" />
     <ClCompile Include="CustomButton.cpp" />
+    <ClCompile Include="gargantuarzombie.cpp" />
+    <ClCompile Include="GatlingPea.cpp" />
     <ClCompile Include="HelpWidget.cpp" />
+    <ClCompile Include="Jalapeno.cpp" />
     <ClCompile Include="Mainwindow.cpp" />
     <ClCompile Include="adventureMode.cpp" />
     <ClCompile Include="basiczombie.cpp" />
@@ -251,6 +254,9 @@
     <QtMoc Include="gamingMenu.h" />
     <QtMoc Include="highprecesionQtimer.h" />
     <QtMoc Include="loading.h" />
+    <ClInclude Include="gargantuarzombie.h" />
+    <ClInclude Include="GatlingPea.h" />
+    <ClInclude Include="Jalapeno.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="mower.h" />
     <ClInclude Include="other.h" />

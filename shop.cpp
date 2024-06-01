@@ -3,7 +3,7 @@ shop::shop()
 {
     sunnum = 200;
     counter = 0;
-    time = int(10.0 * 1000000 * fpsIndex / 33333 );
+    time = int(10.0 * 1000000 * (double)fpsIndex / 33333 );
     card *card_name = nullptr;
     int i = 0;
     for (auto& key : card::cardSelectedMap.keys())
@@ -72,6 +72,12 @@ void shop::addPlant(QString s, QPointF pos)//在游戏中添加植物
     }
     else if (cardName == "DoublePea") {
         pl = new DoublePea;
+    }
+    else if (cardName == "GatlingPea") {
+        pl = new GatlingPea;
+    }
+    else if (cardName == "Jalapeno") {
+        pl = new Jalapeno;
     }
     else {
         // 处理未知的植物类型

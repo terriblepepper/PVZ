@@ -5,7 +5,7 @@ basiczombie::basiczombie()
 {
     hp = 270.0; // 设置基础僵尸的生命值为270
     atk = 100.0 * (33333.0 / (double)fpsIndex) / 1000000.0; // 设置基础僵尸的攻击力为100（每秒攻击100点）
-    speed = 5.0 * (33333.0 / (double)fpsIndex) / 1000000.0; // 设置基础僵尸的速度为5.0像素/秒（16毫秒为帧间隔）
+    speed = 7.0 * (33333.0 / (double)fpsIndex) / 1000000.0; // 设置基础僵尸的速度为5.0像素/秒（16毫秒为帧间隔）
     setMovie(":/new/prefix1/ZombieWalk1.gif"); // 设置基础僵尸的行走动画
 }
 

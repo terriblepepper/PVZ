@@ -33,5 +33,15 @@
         "name": "DoublePea",
         "cool": 227,
         "cost": 200
+    },
+    {
+        "name": "Jalapeno",
+        "cool": 606,
+        "cost": 125
+    },
+    {
+        "name": "GatlingPea",
+        "cool": 800,
+        "cost": 250
     }
 ]
