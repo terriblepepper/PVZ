@@ -1,7 +1,7 @@
 #include "shop.h"
 shop::shop()
 {
-    sunnum = 200000;
+    sunnum = 200;
     counter = 0;
     time = int(10.0 * 1000000 * (double)fpsIndex / 33333 );
     card *card_name = nullptr;
@@ -27,7 +27,7 @@ void shop::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     QFont font;
     font.setPointSizeF(15);
     painter->setFont(font);
-    painter->drawText(QRectF(-255, 18, 65, 22), Qt::AlignCenter, QString::number(sunnum));//ÏÔÊ¾Ñô¹â
+    painter->drawText(QRectF(-255, 18, 65, 22), Qt::AlignCenter, QString::number(sunnum));//æ˜¾ç¤ºé˜³å…‰
 }
 
 void shop::advance(int phase)
@@ -35,14 +35,14 @@ void shop::advance(int phase)
     if (!phase)
         return;
     update();
-    if (++counter >= time)//Ìí¼ÓÑô¹â
+    if (++counter >= time)//æ·»åŠ é˜³å…‰
     {
         counter = 0;
         scene()->addItem(new sun);
     }
 }
 
-void shop::addPlant(QString s, QPointF pos)//ÔÚÓÎÏ·ÖĞÌí¼ÓÖ²Îï
+void shop::addPlant(QString s, QPointF pos)//åœ¨æ¸¸æˆä¸­æ·»åŠ æ¤ç‰©
 {
     QList<QGraphicsItem *> items = scene()->items(pos);
     foreach (QGraphicsItem *item, items)
@@ -103,7 +103,7 @@ void shop::addPlant(QString s, QPointF pos)//ÔÚÓÎÏ·ÖĞÌí¼ÓÖ²Îï
         pl = new TwinSunflower;
     }
     else {
-        // ´¦ÀíÎ´ÖªµÄÖ²ÎïÀàĞÍ
+        // å¤„ç†æœªçŸ¥çš„æ¤ç‰©ç±»å‹
         qWarning() << "Unknown plant type:" << cardName;
     }
     pl->setPos(pos);
