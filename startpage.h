@@ -40,6 +40,7 @@ public:
     void setWidget(HelpWidget* help);
     void initCardInformation();
     static bool isSurvivalSelect;
+    bool static closeWinTellItem;
 public slots:
     void goToHelp();//转到帮助菜单
     void openSettingsDialog();//打开设置菜单

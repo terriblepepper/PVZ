@@ -36,12 +36,42 @@
     },
     {
         "name": "Jalapeno",
-        "cool": 606,
+        "cool": 680,
         "cost": 125
     },
     {
         "name": "GatlingPea",
         "cool": 800,
         "cost": 250
+    },
+    {
+        "name": "FumeShroom",
+        "cool": 227,
+        "cost": 75
+    },
+    {
+        "name": "PuffShroom",
+        "cool": 227,
+        "cost": 0
+    },
+    {
+        "name": "GloomShroom",
+        "cool": 750,
+        "cost": 150
+    },
+    {
+        "name": "SunShroom",
+        "cool": 150,
+        "cost": 25
+    },
+    {
+        "name": "Torchwood",
+        "cool": 227,
+        "cost": 175
+    },
+    {
+        "name": "TwinSunflower",
+        "cool": 1,
+        "cost": 150
     }
 ]

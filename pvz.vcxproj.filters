@@ -161,6 +161,39 @@
     <ClCompile Include="gargantuarzombie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PuffShroom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="smallBubble.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GloomShroom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Torchwood.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FumeShroom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SunShroom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TwinSunflower.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="flagzombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="smallzombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="yetizombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="icetrackerzombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="HelpWidget.h">
@@ -563,6 +596,39 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gargantuarzombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FumeShroom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PuffShroom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="smallBubble.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GloomShroom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SunShroom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Torchwood.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TwinSunflower.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="flagzombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="smallzombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="yetizombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="icetrackerzombie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

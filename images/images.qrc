@@ -19,10 +19,8 @@
         <file>init.png</file>
         <file>LawnMower.png</file>
         <file>mainlogo.png</file>
-        <file>Pea.png</file>
         <file>Peashooter.gif</file>
         <file>Peashooter.png</file>
-        <file>PeaSnow.png</file>
         <file>PotatoMine.gif</file>
         <file>PotatoMine.png</file>
         <file>PotatoMine1.gif</file>
@@ -86,5 +84,35 @@
         <file>newPlants/GatlingPea/idle.gif</file>
         <file>newPlants/GatlingPea/shooting.gif</file>
         <file>GatlingPea.png</file>
+        <file>newPlants/FumeShroom/idle.gif</file>
+        <file>newPlants/FumeShroom/shooting.gif</file>
+        <file>Bubbles.gif</file>
+        <file>FumeShroom.png</file>
+        <file>GloomShroom.png</file>
+        <file>SunShroom.png</file>
+        <file>Torchwood.png</file>
+        <file>TwinSunflower.png</file>
+        <file>PuffShroom.png</file>
+        <file>smallBubble.gif</file>
+        <file>newPlants/GloomShroom/idle.gif</file>
+        <file>newPlants/GloomShroom/shooting.gif</file>
+        <file>FirePea.gif</file>
+        <file>newPlants/SunShroom/bigidle.gif</file>
+        <file>newPlants/PuffShroom/idle.gif</file>
+        <file>newPlants/PuffShroom/shooting.gif</file>
+        <file>newPlants/Torchwood/idle.gif</file>
+        <file>newPlants/TwinSunflower/idle.gif</file>
+        <file>Pea.gif</file>
+        <file>PeaSnow.gif</file>
+        <file>newZombies/flag/eat.gif</file>
+        <file>newZombies/flag/walk.gif</file>
+        <file>newZombies/small/death.gif</file>
+        <file>newZombies/small/eat.gif</file>
+        <file>newZombies/small/walk.gif</file>
+        <file>newZombies/yeti/death.gif</file>
+        <file>newZombies/yeti/eat.gif</file>
+        <file>newZombies/yeti/walk.gif</file>
+        <file>newZombies/icetracker/drive.gif</file>
+        <file>newZombies/icetracker/wheelie.gif</file>
     </qresource>
 </RCC>

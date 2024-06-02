@@ -1,5 +1,6 @@
 #include "CardSelectionDialog.h"
 #include<qdebug.h>
+#include "adventureMode.h"
 CardSelectionDialog::CardSelectionDialog(QWidget *parent)
 	: QWidget(parent)
 	, ui(new Ui::CardSelectionDialogClass())
@@ -118,31 +119,34 @@ void CardSelectionDialog::createCardBtn()
 	cardTotal = 0;//记录总共有的卡片数
 	for (auto& key : card::baseCardMap.keys())
 	{
-		//创建卡片矩阵
-		CustomButton* seedButton = new CustomButton(ui->widget);//创建卡片按钮(父类为StackedWidget）
-		//设置按钮名称
-		seedButton->setObjectName("btn_" + key);
-		//设置卡片图标
-		seedButton->setBackgroundImage(":/new/prefix1/Card.png", QPoint(0, 0), 0.6, 0.58);
-		seedButton->setOverlayImage(QString(":/new/prefix1/") + key + ".png", QPoint(12, 20), 0.48, 0.483);
-		seedButton->setFixedSize(60, 81);
-		seedButton->move(10 + (seedButton->width() + 3) * (cardTotal % 7), 26 + (seedButton->height() + 3) * (cardTotal / 7));
-		buttonOrignPos.insert(key, seedButton->pos());
-		//把按钮添加到map中以便后续操作
-		buttonTotalMap.insert(key, seedButton);
-		seedButton->setButtonName(key);
-		//绘制卡片需要的阳光数
-		QString displayText = QString("%1").arg(card::baseCardMap[key].cost, 3, 10, QChar(' '));
-		qInfo() << "key" << key;
-		qInfo() << "Text" << displayText;
-		seedButton->setDisplayText(displayText);
-		
-		//连接移动卡片的信号槽
-		connect(seedButton, &QPushButton::clicked, [this,seedButton]() {
-			moveCard(seedButton->objectName());
-			});
-		//卡片数加一
-		cardTotal++;
+		if (!(adventureGameMode::level > 5 && adventureGameMode::level < 11 && (key == "SunFlower"|| key == "TwinSunflower")))
+		{
+			//创建卡片矩阵
+			CustomButton* seedButton = new CustomButton(ui->widget);//创建卡片按钮(父类为StackedWidget）
+			//设置按钮名称
+			seedButton->setObjectName("btn_" + key);
+			//设置卡片图标
+			seedButton->setBackgroundImage(":/new/prefix1/Card.png", QPoint(0, 0), 0.6, 0.58);
+			seedButton->setOverlayImage(QString(":/new/prefix1/") + key + ".png", QPoint(12, 20), 0.48, 0.483);
+			seedButton->setFixedSize(60, 81);
+			seedButton->move(10 + (seedButton->width() + 3) * (cardTotal % 7), 26 + (seedButton->height() + 3) * (cardTotal / 7));
+			buttonOrignPos.insert(key, seedButton->pos());
+			//把按钮添加到map中以便后续操作
+			buttonTotalMap.insert(key, seedButton);
+			seedButton->setButtonName(key);
+			//绘制卡片需要的阳光数
+			QString displayText = QString("%1").arg(card::baseCardMap[key].cost, 3, 10, QChar(' '));
+			qInfo() << "key" << key<<"level:"<<adventureGameMode::level;
+			qInfo() << "Text" << displayText;
+			seedButton->setDisplayText(displayText);
+
+			//连接移动卡片的信号槽
+			connect(seedButton, &QPushButton::clicked, [this, seedButton]() {
+				moveCard(seedButton->objectName());
+				});
+			//卡片数加一
+			cardTotal++;
+		}
 	}
 }
 

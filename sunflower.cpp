@@ -3,7 +3,6 @@
 sunflower::sunflower()
 {
     hp = 300.0;
-    time = int(10.0 * 1000000 / (33333 / fpsIndex));
     setMovie(":/new/prefix1/SunFlower.gif");
 }
 void sunflower::advance(int phase)
@@ -13,9 +12,13 @@ void sunflower::advance(int phase)
     update();
     if ((int)hp <= 0)
         delete this;
-    else if (++counter >= time)
+    else 
     {
-        counter = 0;
-        scene()->addItem(new sun(pos()));
+        time = (int)((qrand() % 15 + 8) * 1000000. / (33333. / (double)fpsIndex));//将生产阳光时间随机化
+        if (++counter >= time) 
+        {
+            counter = 0;
+            scene()->addItem(new sun(pos()));
+        }
     }
 }

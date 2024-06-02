@@ -6,7 +6,7 @@ pea::pea()
 {
     hp = 200.0; // 设置豌豆射手的生命值为200
     atk = 25.0; // 设置豌豆射手的攻击力为25
-    time = int(1.4 * 1000000 / (33333 / fpsIndex)); // 计算豌豆射手攻击间隔的帧数，1.4秒对应的帧数（33333/fpsIndex为帧间隔）
+    time = int(1.4 * 1000000. / (33333. / (double)fpsIndex)); // 计算豌豆射手攻击间隔的帧数，1.4秒对应的帧数（33333/fpsIndex为帧间隔）
     setMovie(":/new/prefix1/Peashooter.gif"); // 设置豌豆射手的动画
 }
 

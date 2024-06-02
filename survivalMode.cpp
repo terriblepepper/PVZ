@@ -81,7 +81,7 @@ void survivalGameMode::addZombie()
         }//随着游戏时间增加提高僵尸出现频率
         counter = 0;
         time = qrand() % (2 * maxtime / 3) + maxtime / 3;
-        int type = qrand() % 105;
+        int type = qrand() % 130;
         int i = qrand() % 5;
         zombie* zombie;
         if (type < 40)
@@ -96,6 +96,14 @@ void survivalGameMode::addZombie()
             zombie = new FootballZombie;
         else if (type < 105)
             zombie = new gargantuarzombie;
+        else if (type < 115)
+            zombie = new flagzombie;
+        else if (type < 125)
+            zombie = new smallzombie;
+        else if (type < 128)
+            zombie = new yetizombie;
+        else if (type < 130)
+            zombie = new icetrackerzombie;
         zombie->setPos(1028, 120 + 95 * i);
         scene->addItem(zombie);
     }

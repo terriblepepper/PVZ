@@ -7,9 +7,9 @@ sun::sun()
 
     dest = QPoint(200 + qrand() % 200, 200 + qrand() % 200);
     setPos(QPointF(dest.x(), 70));
-    speed = 60.0 * 50 / (1000000 * fpsIndex);
+    speed = 20.0 * 50 / (1000000.0 * (double)fpsIndex);
     counter = 0;
-    time = int(10.0 * 1000000 * fpsIndex / 33333);
+    time = int(10.0 * 1000000.0 * (double)fpsIndex / 33333);
     movie = new QMovie(":/new/prefix1/Sun.gif");
     movie->start();
     setAcceptedMouseButtons(Qt::LeftButton);
@@ -19,7 +19,7 @@ sun::sun(QPointF pos)
 {
     dest = QPointF(pos.x() + qrand() % 30, pos.y() + qrand() % 30);
     setPos(QPointF(dest.x(), pos.y()));
-    speed = 60 * 50 / (1000000 * fpsIndex);
+    speed = 20 * 50 / (1000000 * fpsIndex);
     counter = 0;
     time = int(10.0 * 1000000 * fpsIndex / 33333);
     movie = new QMovie(":/new/prefix1/Sun.gif");

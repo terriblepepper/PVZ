@@ -1,7 +1,7 @@
 #include "shop.h"
 shop::shop()
 {
-    sunnum = 200;
+    sunnum = 200000;
     counter = 0;
     time = int(10.0 * 1000000 * (double)fpsIndex / 33333 );
     card *card_name = nullptr;
@@ -78,6 +78,29 @@ void shop::addPlant(QString s, QPointF pos)//在游戏中添加植物
     }
     else if (cardName == "Jalapeno") {
         pl = new Jalapeno;
+    }
+    else if(cardName == "FumeShroom")
+    {
+        pl = new FumeShroom;
+    }
+    else if (cardName == "PuffShroom")
+    {
+        pl = new PuffShroom;
+    }
+    else if (cardName == "GloomShroom")
+    {
+        pl = new GloomShroom;
+    }
+    else if (cardName == "SunShroom")
+    {
+        pl = new SunShroom;
+    }
+    else if (cardName == "Torchwood")
+    {
+        pl = new Torchwood;
+    }
+    if (cardName == "TwinSunflower") {
+        pl = new TwinSunflower;
     }
     else {
         // 处理未知的植物类型

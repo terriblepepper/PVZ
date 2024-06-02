@@ -1,5 +1,6 @@
 #include "startpage.h"
 
+bool startpage::closeWinTellItem = true;//提醒场景能否删除物品对象
 bool startpage::isSurvivalSelect = false;
 startpage::startpage(QWidget *parent)
     : QWidget{parent}
@@ -234,11 +235,15 @@ void startpage::updateVolume()//接收游戏中变化音量信号的处理
 
 void startpage::handleGameToMainMenu()
 {
+    startpage::closeWinTellItem = false;
+    bool change = true;
+    QTimer::singleShot(1100, [change]() { startpage::closeWinTellItem = change; });
     loadingBGM->play();
-        if (isSurvivalSelect)
+        if (isSurvivalSelect && survivalGaming != nullptr)
         {
             survivalGaming->close();
             survivalGaming->deleteLater();
+            survivalGaming = nullptr;
             gamingMenu->close();
             gamingMenu->deleteLater();
         }
@@ -246,6 +251,7 @@ void startpage::handleGameToMainMenu()
         {
             adventureGaming->close();
             adventureGaming->deleteLater();
+            adventureGaming = nullptr;
             gamingMenu->close();
             gamingMenu->deleteLater();
         }
@@ -257,6 +263,9 @@ void startpage::handleRestartGame(survivalGameMode* g)
 {
     initCardInformation();
     survivalGaming = g;
+    startpage::closeWinTellItem = false;
+    bool change = true;
+    QTimer::singleShot(1100, [change]() { startpage::closeWinTellItem = change; });
     currentGameMode = survivalGaming;
 }
 
@@ -264,6 +273,9 @@ void startpage::handleRestartGame(adventureGameMode* g2)
 {
     adventureGaming = g2;
     currentGameMode = adventureGaming;
+    startpage::closeWinTellItem = false;
+    bool change = true;
+    QTimer::singleShot(1100, [change]() { startpage::closeWinTellItem = change; });
     connect(adventureGaming, &adventureGameMode::onBackClicked, this, &startpage::handleGameToMainMenu);
 }
 

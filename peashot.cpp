@@ -7,16 +7,16 @@
 #include <QGraphicsScene>
 
 peashot::peashot(int attack, bool flag)
+    : atk(attack), snow(flag), speed(360.0 * (33333 / fpsIndex) / 1000000)
 {
-    atk = attack; // 设置豌豆射手的攻击力
-    snow = flag; // 设置是否带有冰冻效果的标志
-    speed = 360.0 * (33333 / fpsIndex) / 1000000; // 设置豌豆射手的速度（每秒360像素）
+    currentPixmap = QPixmap(snow ? ":/new/prefix1/PeaSnow.gif" : ":/new/prefix1/Pea.gif");
 }
+
 
 QRectF peashot::boundingRect() const
 {
     // 设置豌豆射手的边界矩形
-    return QRectF(-12, -28, 24, 24); // 矩形的左上角坐标为(-12, -28)，宽度为24，高度为24
+    return QRectF(-18, -42, 36, 36); 
 }
 
 bool peashot::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const
@@ -26,13 +26,13 @@ bool peashot::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode
     return other->type() == zombie::Type && qFuzzyCompare(other->y(), y()) && qAbs(other->x() - x()) < 15;
 }
 
-void peashot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void peashot::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(option)
-    Q_UNUSED(widget)
-    // 绘制豌豆射手的图片，根据是否带有冰冻效果，选择不同的图片
-    painter->drawPixmap(QRect(-12, -28, 24, 24), QPixmap(snow ? ":/new/prefix1/PeaSnow.png" : ":/new/prefix1/Pea.png"));
+        Q_UNUSED(widget)
+        painter->drawPixmap(QRect(-18, -42, 36, 36), currentPixmap);
 }
+
 
 void peashot::advance(int phase)
 {
@@ -62,4 +62,15 @@ void peashot::advance(int phase)
     // 如果豌豆射手的位置超过屏幕边界（x > 1069），则删除豌豆射手对象
     if (x() > 1069)
         delete this;
+}
+
+void peashot::addAtk(double att)
+{
+    atk = atk + att;
+}
+
+void peashot::setImage(const QString& filePath)
+{
+    currentPixmap = QPixmap(filePath);
+    update(); // 更新绘制
 }

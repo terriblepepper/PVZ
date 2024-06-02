@@ -200,9 +200,13 @@
   <ItemGroup>
     <ClCompile Include="CardSelectionDialog.cpp" />
     <ClCompile Include="CustomButton.cpp" />
+    <ClCompile Include="flagzombie.cpp" />
+    <ClCompile Include="FumeShroom.cpp" />
     <ClCompile Include="gargantuarzombie.cpp" />
     <ClCompile Include="GatlingPea.cpp" />
+    <ClCompile Include="GloomShroom.cpp" />
     <ClCompile Include="HelpWidget.cpp" />
+    <ClCompile Include="icetrackerzombie.cpp" />
     <ClCompile Include="Jalapeno.cpp" />
     <ClCompile Include="Mainwindow.cpp" />
     <ClCompile Include="adventureMode.cpp" />
@@ -226,15 +230,22 @@
     <ClCompile Include="plant.cpp" />
     <ClCompile Include="potato.cpp" />
     <ClCompile Include="DoublePea.h.cpp" />
+    <ClCompile Include="PuffShroom.cpp" />
     <ClCompile Include="screenzombie.cpp" />
     <ClCompile Include="shop.cpp" />
     <ClCompile Include="shovel.cpp" />
+    <ClCompile Include="smallBubble.cpp" />
+    <ClCompile Include="smallzombie.cpp" />
     <ClCompile Include="snowpea.cpp" />
     <ClCompile Include="startpage.cpp" />
     <ClCompile Include="sun.cpp" />
     <ClCompile Include="sunflower.cpp" />
+    <ClCompile Include="SunShroom.cpp" />
     <ClCompile Include="survivalMode.cpp" />
+    <ClCompile Include="Torchwood.cpp" />
+    <ClCompile Include="TwinSunflower.cpp" />
     <ClCompile Include="wallnut.cpp" />
+    <ClCompile Include="yetizombie.cpp" />
     <ClCompile Include="zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -248,7 +259,9 @@
     <ClInclude Include="cherry.h" />
     <ClInclude Include="conezombie.h" />
     <QtMoc Include="CustomButton.h" />
+    <ClInclude Include="flagzombie.h" />
     <ClInclude Include="footballzombie.h" />
+    <ClInclude Include="FumeShroom.h" />
     <ClInclude Include="gameIndex.h" />
     <QtMoc Include="gameSettings.h" />
     <QtMoc Include="gamingMenu.h" />
@@ -256,6 +269,8 @@
     <QtMoc Include="loading.h" />
     <ClInclude Include="gargantuarzombie.h" />
     <ClInclude Include="GatlingPea.h" />
+    <ClInclude Include="GloomShroom.h" />
+    <ClInclude Include="icetrackerzombie.h" />
     <ClInclude Include="Jalapeno.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="mower.h" />
@@ -265,15 +280,22 @@
     <ClInclude Include="plant.h" />
     <ClInclude Include="potato.h" />
     <ClInclude Include="DoublePea.h" />
+    <ClInclude Include="PuffShroom.h" />
     <ClInclude Include="screenzombie.h" />
     <ClInclude Include="shop.h" />
     <ClInclude Include="shovel.h" />
+    <ClInclude Include="smallBubble.h" />
+    <ClInclude Include="smallzombie.h" />
     <ClInclude Include="snowpea.h" />
     <QtMoc Include="startpage.h" />
     <ClInclude Include="sun.h" />
     <ClInclude Include="sunflower.h" />
     <QtMoc Include="survivalMode.h" />
+    <ClInclude Include="SunShroom.h" />
+    <ClInclude Include="Torchwood.h" />
+    <ClInclude Include="TwinSunflower.h" />
     <ClInclude Include="wallnut.h" />
+    <ClInclude Include="yetizombie.h" />
     <ClInclude Include="zombie.h" />
   </ItemGroup>
   <ItemGroup>

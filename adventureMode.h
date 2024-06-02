@@ -28,6 +28,10 @@
 #include "screenzombie.h"
 #include "footballzombie.h"
 #include"gargantuarzombie.h"
+#include"flagzombie.h"
+#include"smallzombie.h"
+#include"yetizombie.h"
+#include"icetrackerzombie.h"
 #include "zombie.h"
 #include "mower.h"
 #include"gameIndex.h"
@@ -51,6 +55,7 @@ public:
     QGraphicsScene* scene;
     QMediaPlayer* gamingBGM = nullptr;
     QMediaPlaylist* gamingBGM_List =nullptr;
+    static int level ;//关卡
     void startGame();
 public slots:
     void checkGameState();
@@ -81,7 +86,6 @@ private:
     QPushButton* gameOverButton = nullptr;
     QPushButton* gameWinButton = nullptr;
     QMap<int, QPushButton*> btn_levelMap;
-    int level = 0;//关卡
     int duration = 0;//每波完成后下一波间隔时间
     int time = 0;//定时器
     bool isRoundDone = true;

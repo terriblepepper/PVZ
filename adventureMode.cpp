@@ -1,8 +1,11 @@
 #include "adventureMode.h"
 
+int adventureGameMode::level = 0;
 adventureGameMode::adventureGameMode(QWidget* parent) : QWidget(parent) {
     setupUi();
     setFixedSize(910, 610);
+    setWindowTitle("PlantsVsZombies");
+    setWindowIcon(QIcon(":/new/prefix1/WallNut.png")); // 设置窗口图标
 }
 
 void adventureGameMode::goToGamingMenu()
@@ -16,7 +19,7 @@ void adventureGameMode::initIndex()
 {
     duration = 30 * fpsIndex * 10;
     //加载关卡信息
-    loadLevelConfig("./configs/levels/Level" + QString::number(level) + ".json", rounds);
+    loadLevelConfig("./configs/levels/Level" + QString::number(adventureGameMode::level) + ".json", rounds);
 }
 
 bool adventureGameMode::loadLevelConfig(const QString& filePath, QQueue<QMap<QString, int>>& waves)
@@ -51,6 +54,7 @@ bool adventureGameMode::loadLevelConfig(const QString& filePath, QQueue<QMap<QSt
 }
 
 void adventureGameMode::setupUi() {
+    adventureGameMode::level = 0;//重置关卡
     card::cardSelectedMap.clear();//清空已选择卡片以防重复选择
      QVBoxLayout* mainLayout = new QVBoxLayout(this);
      back = new QPushButton("返回");
@@ -77,8 +81,8 @@ void adventureGameMode::setupUi() {
     backgroundPixmap = backgroundPixmap.scaled(this->size(), Qt::IgnoreAspectRatio);
     levelWidget->setStyleSheet("background-image: url(:/new/prefix1/levelSelectBackground.jpg);");
 
-    // 添加关卡选择按钮，这里预计 20 个关卡
-    for (int i = 1; i <= 5; ++i) {
+    // 添加关卡选择按钮，这里预计 10 个关卡
+    for (int i = 1; i <= 10; ++i) {
         QPushButton* levelButton = new QPushButton(QString("关卡%1").arg(i));
         //设置button的工程名字
         levelButton->setObjectName(QString("level_%1").arg(i));
@@ -93,6 +97,8 @@ void adventureGameMode::setupUi() {
             "border-image: url(:/new/prefix1/levelbutton1.png) center no-repeat;"
             "}");
         connect(levelButton, &QPushButton::clicked, [this, levelButton]() {
+            QString temp = levelButton->objectName();
+            adventureGameMode::level = temp.remove("level_").toInt();//按下关卡按钮就立马设置关卡
             emit stopLoadingBGM();
             adSelecting = new (CardSelectionDialog);
             adSelecting->setWindowFlags(adSelecting->windowFlags() | Qt::WindowStaysOnTopHint);
@@ -101,8 +107,6 @@ void adventureGameMode::setupUi() {
             //接收恢复BGM信号
             connect(adSelecting, &CardSelectionDialog::resumeLevel_BGM, this, &adventureGameMode::backFromSelect);
             connect(adSelecting, &CardSelectionDialog::cardIsSelected, [this, levelButton]()  {
-                QString temp = levelButton->objectName();
-                level = temp.remove("level_").toInt();
                 startGame();
                 });
             });
@@ -132,6 +136,7 @@ void adventureGameMode::initCardCool()
 }
 
 void adventureGameMode::startGame() {
+    setWindowTitle("PlantsVsZombies | Level"+QString::number(adventureGameMode::level));
     //初始化参数
     initIndex();
     initCardCool();//设置卡片冷却时间
@@ -163,7 +168,10 @@ void adventureGameMode::startGame() {
     // 设置视图属性并将场景添加到视图中
     view->setScene(scene);
     view->setRenderHint(QPainter::Antialiasing);
-    view->setBackgroundBrush(QPixmap(":/new/prefix1/Background.jpg")); // 设置背景图片
+    if(adventureGameMode::level<6)
+        view->setBackgroundBrush(QPixmap(":/new/prefix1/Background.jpg")); // 设置背景图片
+    else if(adventureGameMode::level > 5 && adventureGameMode::level < 11)
+        view->setBackgroundBrush(QPixmap(":/new/prefix1/Background2.jpg")); // 设置背景图片
     view->setCacheMode(QGraphicsView::CacheBackground);
     view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
     //添加除草机
@@ -269,6 +277,22 @@ void adventureGameMode::addZombie()
                     else if (key == "gargantuar")
                     {
                         zombie = new gargantuarzombie;
+                    }
+                    else if (key == "flag")
+                    {
+                        zombie = new flagzombie;
+                    }
+                    else if (key == "small")
+                    {
+                        zombie = new smallzombie;
+                    }
+                    else if (key == "yeti")
+                    {
+                        zombie = new yetizombie;
+                    }
+                    else if (key == "icetracker")
+                    {
+                        zombie = new icetrackerzombie;
                     }
                     zombie->setPos(988 + offsetX, 120 + 95 * randRoad);
                     scene->addItem(zombie);

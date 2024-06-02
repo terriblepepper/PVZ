@@ -14,7 +14,8 @@
     ],
     "round3":[
         {
-            "basic": 8,
+            "flag": 2,
+            "basic": 6,
             "cone": 5,
             "bucket": 2,
             "gargantuar": 1,
@@ -23,8 +24,9 @@
     ],
     "round4":[
         {
+            "flag": 3,
             "bucket": 4,
-            "basic": 8,
+            "basic": 5,
             "cone": 6,
             "football": 1,
             "gargantuar": 2,
@@ -33,7 +35,8 @@
     ],
     "round5":[
         {
-            "basic": 12,
+            "flag": 4,
+            "basic": 10,
             "cone": 8,
             "bucket": 8,
             "football": 4,

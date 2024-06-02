@@ -14,6 +14,12 @@
 #include "DoublePea.h"
 #include"Jalapeno.h"
 #include"GatlingPea.h"
+#include"FumeShroom.h"
+#include"PuffShroom.h"
+#include"GloomShroom.h"
+#include"SunShroom.h"
+#include"Torchwood.h"
+#include"TwinSunflower.h"
 #include"gameIndex.h"
 
 class shop : public other
