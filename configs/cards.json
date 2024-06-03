@@ -71,7 +71,17 @@
     },
     {
         "name": "TwinSunflower",
-        "cool": 1,
+        "cool": 606,
         "cost": 150
+    },
+    {
+        "name": "CaiWen",
+        "cool": 185,
+        "cost": 150
+    },
+    {
+        "name":"Pot",
+        "cool":1,
+        "cost":25
     }
 ]

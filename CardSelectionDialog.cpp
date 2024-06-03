@@ -127,7 +127,7 @@ void CardSelectionDialog::createCardBtn()
 			seedButton->setObjectName("btn_" + key);
 			//ÉèÖÃ¿¨Æ¬Í¼±ê
 			seedButton->setBackgroundImage(":/new/prefix1/Card.png", QPoint(0, 0), 0.6, 0.58);
-			seedButton->setOverlayImage(QString(":/new/prefix1/") + key + ".png", QPoint(12, 20), 0.48, 0.483);
+			seedButton->setOverlayImage(QString("./images/") + key + ".png", QPoint(12, 20), 0.48, 0.483);
 			seedButton->setFixedSize(60, 81);
 			seedButton->move(10 + (seedButton->width() + 3) * (cardTotal % 7), 26 + (seedButton->height() + 3) * (cardTotal / 7));
 			buttonOrignPos.insert(key, seedButton->pos());
@@ -157,5 +157,6 @@ void CardSelectionDialog::bgmPlay()
 	selectingBGM_List->addMedia(QUrl::fromLocalFile("./sound/03chooseYourSeeds.mp3"));
 	selectingBGM_List->setPlaybackMode(QMediaPlaylist::Loop);
 	selectingBGM->setMedia(selectingBGM_List);
+	selectingBGM->setVolume(musicVolume);
 	selectingBGM->play();
 }

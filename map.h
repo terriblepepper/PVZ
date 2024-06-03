@@ -12,10 +12,10 @@ class Map : public other
 public:
     Map();
     QRectF boundingRect() const override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-    void dragEnterEvent(QGraphicsSceneDragDropEvent *event)override;
-    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event)override;
-    void dropEvent(QGraphicsSceneDragDropEvent *event)override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+    void dragEnterEvent(QGraphicsSceneDragDropEvent* event)override;
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent* event)override;
+    void dropEvent(QGraphicsSceneDragDropEvent* event)override;
 private:
     bool dragover;
 };

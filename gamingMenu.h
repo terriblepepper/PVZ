@@ -9,6 +9,7 @@
 #include"startpage.h"
 #include"survivalMode.h"
 #include"adventureMode.h"
+#include"smallgameMode.h"
 #include"gameIndex.h"
 #include"card.h"
 #include"gameIndex.h"
@@ -17,6 +18,7 @@
 class startpage;
 class survivalGameMode;
 class adventureGameMode;
+class smallGameMode;
 class gamingMenuDialog : public QDialog
 {
     Q_OBJECT
@@ -26,14 +28,17 @@ public:
     void getMainMenuPoints(startpage* menu);
     void getGameWindow(survivalGameMode* m1);
     void getGameWindow(adventureGameMode* m2);
+    void getGameWindow(smallGameMode* m3);
     void getCurrentGameMode(QWidget* current);
     startpage* mainMenuPage;
     QWidget* currentGameMode = nullptr; // 保存当前游戏模式的指针
     survivalGameMode* survivalGaming;
     adventureGameMode* adventureGaming;
+    smallGameMode* smallGaming;
 signals:
     void restartGame(survivalGameMode* t1);
     void restartGame(adventureGameMode* t2);
+    void restartGame(smallGameMode* t3);
     void gameToMainMenu();
     void changeVolume();//告诉主菜单更新音量
 private slots:

@@ -2,8 +2,9 @@
 #include"gameIndex.h"
 SunShroom::SunShroom()
 {
-    hp = 180.0;
+    hp = 250.0;
     setMovie(":/new/prefix1/newPlants/SunShroom/bigidle.gif");
+    setScale(1.5);
 }
 
 void SunShroom::advance(int phase)

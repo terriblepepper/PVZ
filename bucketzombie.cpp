@@ -1,11 +1,19 @@
 #include "bucketzombie.h"
 #include"gameIndex.h"
+#include"adventureMode.h"
 BucketZombie::BucketZombie()
 {
     hp = 1370.0;
-    atk = 100.0 * (33333.0 / (double)fpsIndex) / 1000000.0;
+    atk = 100.0 / (30 * (double)fpsIndex);;
     speed = 40.0 * (33333.0 / (double)fpsIndex)  / 1000000.0 / 4.7;
-    setMovie(":/new/prefix1/BucketZombieWalk.gif");
+    if (adventureGameMode::level > 10 && adventureGameMode::level < 16)
+    {
+        setMovie(":/new/prefix1/newZombies/bucket2/walk.gif");
+    }
+    else
+    {
+        setMovie(":/new/prefix1/BucketZombieWalk.gif");
+    } 
 }
 
 void BucketZombie::advance(int phase)
@@ -33,14 +41,28 @@ void BucketZombie::advance(int phase)
         if (state != 1)
         {
             state = 1;
-            setMovie(":/new/prefix1/BucketZombieAttack.gif");
+            if (adventureGameMode::level > 10 && adventureGameMode::level < 16)
+            {
+                setMovie(":/new/prefix1/newZombies/bucket2/eat.gif");
+            }
+            else
+            {
+                setMovie(":/new/prefix1/BucketZombieAttack.gif");
+            }
         }
         return;
     }
     if (state)
     {
         state = 0;
-        setMovie(":/new/prefix1/BucketZombieWalk.gif");
+        if (adventureGameMode::level > 10 && adventureGameMode::level < 16)
+        {
+            setMovie(":/new/prefix1/newZombies/bucket2/walk.gif");
+        }
+        else
+        {
+            setMovie(":/new/prefix1/BucketZombieWalk.gif");
+        }
     }
     setX(x() - speed);
 }

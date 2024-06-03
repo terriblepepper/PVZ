@@ -1,6 +1,8 @@
+#if defined(_MSC_VER) && (_MSC_VER >= 1600)    
+# pragma execution_character_set("utf-8")    
+#endif
 #ifndef SHOP_H
 #define SHOP_H
-
 #include "other.h"
 #include "plant.h"
 #include "card.h"
@@ -20,7 +22,12 @@
 #include"SunShroom.h"
 #include"Torchwood.h"
 #include"TwinSunflower.h"
+#include"CaiWen.h"
+#include"pot.h"
 #include"gameIndex.h"
+#include"adventureMode.h"
+#include"smallgameMode.h"
+#include"BowlingNut.h"
 
 class shop : public other
 {
@@ -31,6 +38,7 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void advance(int phase) override;
     void addPlant(QString s, QPointF pos);//ÃÌº”÷≤ŒÔ
+    bool judgeAdd(QString s, QPointF &pos, plant* p);
 private:
     int counter;
     int time;

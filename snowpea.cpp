@@ -32,5 +32,5 @@ void snowpea::advance(int phase)
 bool snowpea::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const
 {
     Q_UNUSED(mode)
-    return other->type() == zombie::Type && qFuzzyCompare(other->y(), y());
+        return other->type() == zombie::Type && qAbs(other->y() - y()) < 30;
 }

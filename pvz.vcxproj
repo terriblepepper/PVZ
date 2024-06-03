@@ -165,7 +165,7 @@
       <IgnoreImportLibrary>true</IgnoreImportLibrary>
       <OutputFile>$(OutDir)\pvz.exe</OutputFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
-      <StackReserveSize>8388608</StackReserveSize>
+      <StackReserveSize>838860800</StackReserveSize>
       <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Link>
@@ -198,7 +198,11 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="apolozombie.cpp" />
+    <ClCompile Include="BowlingNut.cpp" />
+    <ClCompile Include="CaiWen.cpp" />
     <ClCompile Include="CardSelectionDialog.cpp" />
+    <ClCompile Include="cleopatrazombie.cpp" />
     <ClCompile Include="CustomButton.cpp" />
     <ClCompile Include="flagzombie.cpp" />
     <ClCompile Include="FumeShroom.cpp" />
@@ -227,14 +231,18 @@
     <ClCompile Include="other.cpp" />
     <ClCompile Include="pea.cpp" />
     <ClCompile Include="peashot.cpp" />
+    <ClCompile Include="pharaohzombie.cpp" />
     <ClCompile Include="plant.cpp" />
+    <ClCompile Include="pot.cpp" />
     <ClCompile Include="potato.cpp" />
     <ClCompile Include="DoublePea.h.cpp" />
     <ClCompile Include="PuffShroom.cpp" />
+    <ClCompile Include="pyramidzombie.cpp" />
     <ClCompile Include="screenzombie.cpp" />
     <ClCompile Include="shop.cpp" />
     <ClCompile Include="shovel.cpp" />
     <ClCompile Include="smallBubble.cpp" />
+    <ClCompile Include="smallgameMode.cpp" />
     <ClCompile Include="smallzombie.cpp" />
     <ClCompile Include="snowpea.cpp" />
     <ClCompile Include="startpage.cpp" />
@@ -252,11 +260,15 @@
     <QtMoc Include="HelpWidget.h" />
     <QtMoc Include="Mainwindow.h" />
     <QtMoc Include="adventureMode.h" />
+    <ClInclude Include="apolozombie.h" />
     <ClInclude Include="basiczombie.h" />
+    <ClInclude Include="BowlingNut.h" />
     <ClInclude Include="bucketzombie.h" />
+    <ClInclude Include="CaiWen.h" />
     <ClInclude Include="card.h" />
     <QtMoc Include="CardSelectionDialog.h" />
     <ClInclude Include="cherry.h" />
+    <ClInclude Include="cleopatrazombie.h" />
     <ClInclude Include="conezombie.h" />
     <QtMoc Include="CustomButton.h" />
     <ClInclude Include="flagzombie.h" />
@@ -277,14 +289,18 @@
     <ClInclude Include="other.h" />
     <ClInclude Include="pea.h" />
     <ClInclude Include="peashot.h" />
+    <ClInclude Include="pharaohzombie.h" />
     <ClInclude Include="plant.h" />
+    <ClInclude Include="pot.h" />
     <ClInclude Include="potato.h" />
     <ClInclude Include="DoublePea.h" />
     <ClInclude Include="PuffShroom.h" />
+    <ClInclude Include="pyramidzombie.h" />
     <ClInclude Include="screenzombie.h" />
     <ClInclude Include="shop.h" />
     <ClInclude Include="shovel.h" />
     <ClInclude Include="smallBubble.h" />
+    <QtMoc Include="smallgameMode.h" />
     <ClInclude Include="smallzombie.h" />
     <ClInclude Include="snowpea.h" />
     <QtMoc Include="startpage.h" />
@@ -344,10 +360,8 @@
     <None Include="sound\Mush.wav" />
     <None Include="sound\NewsLost.wav" />
     <None Include="sound\NotEnoughSun.wav" />
-    <None Include="images\Pea.png" />
     <None Include="sound\Pea.wav" />
     <None Include="sound\PeaHit.wav" />
-    <None Include="images\PeaSnow.png" />
     <None Include="images\Peashooter.gif" />
     <None Include="images\Peashooter.png" />
     <None Include="sound\Place.wav" />
@@ -391,6 +405,7 @@
     <None Include="images\help-hover.png" />
     <None Include="images\help.png" />
     <QtRcc Include="configs.qrc" />
+    <QtRcc Include="images2.qrc" />
     <QtRcc Include="images\images.qrc">
       <InitFuncName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">images</InitFuncName>
       <InitFuncName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">images</InitFuncName>

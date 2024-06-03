@@ -59,6 +59,12 @@ void gamingMenuDialog::getGameWindow(adventureGameMode* m2)
     currentGameMode = adventureGaming;
 }
 
+void gamingMenuDialog::getGameWindow(smallGameMode* m3)
+{
+    smallGaming = m3;
+    currentGameMode =smallGaming;
+}
+
 void gamingMenuDialog::getCurrentGameMode(QWidget* current)
 {
     currentGameMode = current;
@@ -76,6 +82,10 @@ void gamingMenuDialog::onVolumeChanged(int volume)
     }
     else if (currentGameMode == adventureGaming) {
         adventureGaming->gamingBGM->setVolume(musicVolume);
+    }
+    else if (currentGameMode == smallGaming)
+    {
+        smallGaming->gamingBGM->setVolume(musicVolume);
     }
 }
 
@@ -99,6 +109,16 @@ void gamingMenuDialog::onRestartClicked()
         emit restartGame(adventureGaming);
         adventureGaming->show();
     }
+    else if (currentGameMode == smallGaming)
+    {
+        smallGaming->close();
+        smallGaming->deleteLater();
+        smallGaming = new smallGameMode;
+        smallGaming->getGamingMenu(this);
+        currentGameMode = smallGaming;
+        emit restartGame(smallGaming);
+        smallGaming->show();
+    }
     this->hide();
 }
 
@@ -118,6 +138,11 @@ void gamingMenuDialog::onResumeClicked()
     {
         adventureGaming->gamingBGM->play();
         adventureGaming->mQTimer->resume();
+    }
+    else if (currentGameMode == smallGaming)
+    {
+        smallGaming->gamingBGM->play();
+        smallGaming->mQTimer->resume();
     }
     this->hide(); // ¹Ø±Õ¶Ô»°¿ò
 }

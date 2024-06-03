@@ -35,6 +35,5 @@ void pea::advance(int phase)
 bool pea::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const
 {
     Q_UNUSED(mode)
-    // 当豌豆射手与僵尸在同一纵坐标上（y相等）发生碰撞时，返回true
-    return other->type() == zombie::Type && qFuzzyCompare(other->y(), y());
+        return other->type() == zombie::Type && qAbs(other->y() - y()) < 30;
 }

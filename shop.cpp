@@ -1,9 +1,9 @@
-#include "shop.h"
+#include"shop.h"
+
 shop::shop()
 {
     sunnum = 200;
     counter = 0;
-    time = int(10.0 * 1000000 * (double)fpsIndex / 33333 );
     card *card_name = nullptr;
     int i = 0;
     for (auto& key : card::cardSelectedMap.keys())
@@ -32,6 +32,7 @@ void shop::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 
 void shop::advance(int phase)
 {
+    time = (int)((qrand() % 30 + 5) * 1000000. / (33333. / (double)fpsIndex));//将生产阳光时间随机化
     if (!phase)
         return;
     update();
@@ -45,43 +46,66 @@ void shop::advance(int phase)
 void shop::addPlant(QString s, QPointF pos)//在游戏中添加植物
 {
     QList<QGraphicsItem *> items = scene()->items(pos);
-    foreach (QGraphicsItem *item, items)
+    int countAround = 0;
+    foreach(QGraphicsItem * item, items) 
+    {
         if (item->type() == plant::Type)
-            return;
-    sunnum -= card::card::baseCardMap[s].cost;
+        {
+            countAround++;
+            plant* p = dynamic_cast<plant*>(item);
+            if (!judgeAdd(s, pos, p))
+                return;
+        }       
+    }
+    if (countAround <= 0 && adventureGameMode::level < 21 && adventureGameMode::level>15 && s != "Pot")
+        return;
+
+    sunnum -= card::card::cardSelectedMap[s].cost;
     plant *pl = nullptr;
-    QString cardName = card::baseCardMap[s].name;
+    QString cardName = card::cardSelectedMap[s].name;
 
     if (cardName == "SunFlower") {
         pl = new sunflower;
     }
-    else if (cardName == "Peashooter") {
+    else if (cardName == "Peashooter") 
+    {
         pl = new pea;
     }
-    else if (cardName == "CherryBomb") {
+    else if (cardName == "CherryBomb") 
+    {
         pl = new cherry;
     }
-    else if (cardName == "WallNut") {
+    else if (cardName == "WallNut") 
+    {
         pl = new wallnut;
     }
-    else if (cardName == "SnowPea") {
+    else if (cardName == "SnowPea") 
+    {
         pl = new snowpea;
     }
-    else if (cardName == "PotatoMine") {
+    else if (cardName == "PotatoMine") 
+    {
         pl = new potato;
     }
-    else if (cardName == "DoublePea") {
+    else if (cardName == "DoublePea") 
+    {
         pl = new DoublePea;
     }
-    else if (cardName == "GatlingPea") {
+    else if (cardName == "GatlingPea") 
+    {
         pl = new GatlingPea;
+        //微调坐标
+        pos.setY(pos.y() - 10);
     }
-    else if (cardName == "Jalapeno") {
+    else if (cardName == "Jalapeno") 
+    {
         pl = new Jalapeno;
     }
     else if(cardName == "FumeShroom")
     {
         pl = new FumeShroom;
+        pos.setY(pos.y() - 10);
+        pos.setX(pos.x() + 10);
     }
     else if (cardName == "PuffShroom")
     {
@@ -99,15 +123,36 @@ void shop::addPlant(QString s, QPointF pos)//在游戏中添加植物
     {
         pl = new Torchwood;
     }
-    if (cardName == "TwinSunflower") {
+    else if (cardName == "TwinSunflower") 
+    {
         pl = new TwinSunflower;
     }
-    else {
+    else if (cardName == "CaiWen")
+    {
+        pl = new CaiWen;
+        pos.setX(pos.x() - 10);
+    }
+    else if (cardName == "Pot")
+    {
+        pl = new Pot;
+        pos.setY(pos.y() - 25);
+    }
+    else if (cardName == "BowlingNut")
+    {
+        pl = new BowlingNut;
+    }
+    else 
+    {
         // 处理未知的植物类型
         qWarning() << "Unknown plant type:" << cardName;
+        return;
     }
-    pl->setPos(pos);
+    //处理越界问题
+    if (pos.y() > 500)
+        return;
+    pl->setPos(pos);  
     scene()->addItem(pl);
+    qInfo() << "pos: " << pos;
     QList<QGraphicsItem *> child = childItems();
     foreach (QGraphicsItem *item, child)
     {
@@ -118,3 +163,13 @@ void shop::addPlant(QString s, QPointF pos)//在游戏中添加植物
     counter = 0;
 }
 
+bool shop::judgeAdd(QString s, QPointF &pos, plant* p)
+{
+    
+    if (p->isPot && s != "Pot")
+    {
+        pos.setY(pos.y() - 10);
+        return true;
+    }
+    return false;
+}

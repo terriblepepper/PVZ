@@ -3,7 +3,7 @@
 icetrackerzombie::icetrackerzombie()
 {
     hp = 2700.0;
-    atk = 1800 * (33333.0 / (double)fpsIndex) / 1000000.0;
+    atk = 1680 / (30 * (double)fpsIndex);
     speed = 7.0 * (33333.0 / (double)fpsIndex) / 1000000.0 ;
     setMovie(":/new/prefix1/newZombies/icetracker/drive.gif");
     setScale(2);

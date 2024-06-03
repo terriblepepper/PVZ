@@ -37,5 +37,5 @@ void DoublePea::advance(int phase)
 bool DoublePea::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const
 {
     Q_UNUSED(mode)
-    return other->type() == zombie::Type && qFuzzyCompare(other->y(), y());
+    return other->type() == zombie::Type && qAbs(other->y()- y())<30;
 }

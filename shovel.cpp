@@ -3,7 +3,7 @@
 
 shovel::shovel()
 {
-
+    setZValue(9999);
 }
 QRectF shovel::boundingRect() const
 {
@@ -41,14 +41,16 @@ void shovel::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 }
 void shovel::removePlant(QPointF pos)
 {
-    QList<QGraphicsItem*> items = scene()->items(pos);
-    foreach(QGraphicsItem* item,items)
+    if (!scene()->items(pos).isEmpty())
     {
-        if(item->type()==plant::Type)
+        QList<QGraphicsItem*> items = scene()->items(pos);
+        foreach(QGraphicsItem * item, items)
         {
-            delete item;
-            return;
+            if (item->type() == plant::Type)
+            {
+                delete item;
+                return;
+            }
         }
     }
-
 }

@@ -1,0 +1,91 @@
+{
+    "round1":[
+        {
+            "basic": 4,
+            "cone": 3,
+            "bucket":3,
+            "small":3
+        }
+    ],
+    "round2":[
+        {
+            "flag": 3,
+            "basic": 5,
+            "cone": 4,
+            "bucket":4,
+            "small":3,
+            "screen":3,
+            "gargantuar":1,
+            "yeti":2
+        }
+    ],
+    "round3":[
+        {
+            "flag": 3,
+            "basic": 5,
+            "cone": 4,
+            "bucket":3,
+            "football": 2,
+            "small": 4,
+            "gargantuar":2,
+            "screen":4,
+            "yeti":2
+        }
+    ],
+    "round4":[
+        {
+            "flag": 4,
+            "basic": 7,
+            "cone": 7,
+            "bucket":7,
+            "football": 4,
+            "gargantuar":3,
+            "small":7,
+            "icetracker":3,
+            "yeti":3,
+            "screen":5
+        }
+    ],
+    "round5":[
+        {
+            "flag": 4,
+            "basic": 10,
+            "cone": 9,
+            "bucket":8,
+            "football": 7,
+            "gargantuar":4,
+            "small":8,
+            "icetracker":5,
+            "yeti":4,
+            "screen":6
+        }
+    ],
+    "round6":[
+        {
+            "flag": 4,
+            "basic": 12,
+            "cone": 12,
+            "bucket":10,
+            "football": 10,
+            "gargantuar":6,
+            "small":10,
+            "icetracker":5,
+            "yeti":6,
+            "screen":8
+        }
+    ],
+    "round7":[
+        {
+            "flag": 4,
+            "basic": 16,
+            "cone": 16,
+            "bucket":14,
+            "football": 12,
+            "gargantuar":8,
+            "small":14,
+            "icetracker":8,
+            "yeti":10,
+            "screen":12
+        }
+    ]
+}

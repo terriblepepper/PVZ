@@ -13,6 +13,7 @@
 #include"gamingMenu.h"
 #include"adventureMode.h"
 #include "survivalMode.h"
+#include"smallgameMode.h"
 #include"gameIndex.h"
 #include"Mainwindow.h"//bgm
 #include "HelpWidget.h"
@@ -28,6 +29,7 @@ struct Cards {
 class HelpWidget;
 class adventureGameMode;
 class survivalGameMode;
+class smallGameMode;
 class gamingMenuDialog;
 class CardSelectionDialog;
 class startpage : public QWidget
@@ -49,14 +51,16 @@ public slots:
     void handleGameToMainMenu();
     void handleRestartGame(survivalGameMode* g);
     void handleRestartGame(adventureGameMode* g);
+    void handleRestartGame(smallGameMode* g);
 private:
     HelpWidget* Help;//帮助菜单指针
     QWidget* currentGameMode = nullptr; // 保存当前游戏模式的指针
     survivalGameMode* survivalGaming = nullptr;
     adventureGameMode* adventureGaming = nullptr;
+    smallGameMode* smallGaming = nullptr;
     gamingMenuDialog* gamingMenu = nullptr;
     CardSelectionDialog* selectingCardsWidget = nullptr;
-    QVector<Cards> cards;
+    QVector<Cards> cards;//读取出的卡片json文件信息
     bool isLoadCards = false;
     void loadCards(const QString& filename);
     void writeSettingsToFile(const QString& filePath);//写回配置文件(修改被应用时）

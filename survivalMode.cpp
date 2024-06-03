@@ -70,7 +70,6 @@ void survivalGameMode::getGamingMenu(gamingMenuDialog* menuG)
 
 void survivalGameMode::addZombie()
 {
-    //qInfo() << "low:" << low;
     if (++counter >= time)
     {
         low++;
@@ -81,7 +80,7 @@ void survivalGameMode::addZombie()
         }//随着游戏时间增加提高僵尸出现频率
         counter = 0;
         time = qrand() % (2 * maxtime / 3) + maxtime / 3;
-        int type = qrand() % 130;
+        int type = qrand() % 152;
         int i = qrand() % 5;
         zombie* zombie;
         if (type < 40)
@@ -104,10 +103,17 @@ void survivalGameMode::addZombie()
             zombie = new yetizombie;
         else if (type < 130)
             zombie = new icetrackerzombie;
+        else if (type < 135)
+            zombie = new apolozombie;
+        else if (type < 140)
+            zombie = new cleopatrazombie;
+        else if (type < 142)
+            zombie = new pharaohzombie;
+        else if (type < 152)
+            zombie = new pyramidzombie;
         zombie->setPos(1028, 120 + 95 * i);
         scene->addItem(zombie);
     }
-
 }
 
 void survivalGameMode::bgmPlay()

@@ -52,5 +52,5 @@ void FumeShroom::advance(int phase)
 bool FumeShroom::collidesWithItem(const QGraphicsItem* other, Qt::ItemSelectionMode mode) const
 {
     Q_UNUSED(mode)
-        return other->type() == zombie::Type && qAbs(pos().x() - other->pos().x()) < 200 && pos().y() == other->pos().y() && other->pos().x() > pos().x();
+        return other->type() == zombie::Type && qAbs(pos().x() - other->pos().x()) < 200 && qAbs( pos().y() - other->pos().y())<25 && other->pos().x() > pos().x();
 }

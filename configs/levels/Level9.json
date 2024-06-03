@@ -1,0 +1,58 @@
+{
+    "round1":[
+        {
+            "small": 3,
+            "basic": 2,
+            "cone": 1
+        }
+    ],
+    "round2":[
+        {
+            "flag": 1,
+            "basic": 2,
+            "cone": 2,
+            "bucket":1,
+            "football": 3
+        }
+    ],
+    "round3":[
+        {
+            "flag": 1,
+            "basic": 3,
+            "small": 4,
+            "cone": 3,
+            "bucket":2,
+            "football": 4,
+            "screen": 2,
+            "icetracker": 1,
+            "gargantuar": 2
+        }
+    ],
+    "round4":[
+        {
+            "flag": 2,
+            "small": 5,
+            "basic": 6,
+            "cone": 6,
+            "bucket":6,
+            "football": 5,
+            "screen": 3,
+            "icetracker": 3,
+            "gargantuar": 3
+        }
+    ],
+    "round5":[
+        {
+            "flag": 2,
+            "basic": 10,
+            "small": 7,
+            "cone": 8,
+            "bucket":7,
+            "football": 7,
+            "screen": 4,
+            "icetracker": 3,
+            "gargantuar": 3,
+            "yeti": 2
+        }
+    ]
+}

@@ -3,7 +3,7 @@
 yetizombie::yetizombie()
 {
     hp = 1350.0;
-    atk = 200 * (33333.0 / (double)fpsIndex) / 1000000.0;
+    atk = 200 / (30 * (double)fpsIndex);
     speed = 21.0 * (33333.0 / (double)fpsIndex) / 1000000.0 / 4.7;
     setMovie(":/new/prefix1/newZombies/yeti/walk.gif");
     setScale(1.6);

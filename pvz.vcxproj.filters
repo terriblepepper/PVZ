@@ -194,6 +194,30 @@
     <ClCompile Include="icetrackerzombie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CaiWen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="apolozombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cleopatrazombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pharaohzombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pyramidzombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="smallgameMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BowlingNut.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="HelpWidget.h">
@@ -238,9 +262,6 @@
     <QtMoc Include="loading.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClInclude Include="map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="mower.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -296,6 +317,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="CustomButton.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="smallgameMode.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -391,16 +415,10 @@
     <None Include="sound\NotEnoughSun.wav">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="images\Pea.png">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="sound\Pea.wav">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="sound\PeaHit.wav">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="images\PeaSnow.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="images\Peashooter.gif">
@@ -587,6 +605,9 @@
     <QtRcc Include="configs.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+    <QtRcc Include="images2.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Jalapeno.h">
@@ -629,6 +650,30 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="icetrackerzombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CaiWen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="apolozombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cleopatrazombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pharaohzombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pyramidzombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BowlingNut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,0 +1,53 @@
+{
+    "round1":[
+        {
+            "basic": 2,
+            "cone": 1,
+            "small":3,
+            "apolo":2,
+            "pharaoh":1
+        }
+    ],
+    "round2":[
+        {
+            "flag": 1,
+            "basic": 4,
+            "cone": 3,
+            "bucket":2,
+            "pyramid": 2,
+            "gargantuar": 1,
+            "small": 3,
+            "apolo": 2,
+            "cleopatra":2,
+            "pharaoh":2
+        }
+    ],
+    "round3":[
+        {
+            "flag": 2,
+            "basic": 7,
+            "cone": 4,
+            "bucket":3,
+            "pyramid": 3,
+            "cleopatra": 3,
+            "small": 5,
+            "gargantuar":2,
+            "apolo": 3,
+            "pharaoh":2
+        }
+    ],
+    "round4":[
+        {
+            "flag": 3,
+            "basic": 8,
+            "cone": 4,
+            "bucket":3,
+            "pyramid": 4,
+            "cleopatra": 4,
+            "small": 5,
+            "gargantuar":3,
+            "apolo": 5,
+            "pharaoh":3
+        }
+    ]
+}

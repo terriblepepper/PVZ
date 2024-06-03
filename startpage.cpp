@@ -89,6 +89,7 @@ startpage::startpage(QWidget *parent)
                          "border-image:url(:/new/prefix1/survive1.png);"
                          "}"
                          );
+
     //进入冒险模式
     connect(btn_adventure, &QPushButton::clicked, [this]() {
         gamingMenu = new(gamingMenuDialog);//创建游戏菜单
@@ -98,7 +99,6 @@ startpage::startpage(QWidget *parent)
         gamingMenu->getMainMenuPoints(this);
         gamingMenu->getGameWindow(adventureGaming);
         adventureGaming->getGamingMenu(gamingMenu);
-        //initCardInformation();
         this->close();
         adventureGaming->show();
         //接收回到菜单信号进行连接
@@ -116,35 +116,63 @@ startpage::startpage(QWidget *parent)
         //接收恢复关卡界面BGM信号
         connect(adventureGaming, &adventureGameMode::resumeLoadingBGM, loadingBGM, &QMediaPlayer::play);
         });
-        // 进入生存模式
-        connect(btn_survivegame,&QPushButton::clicked,[this](){
-        loadingBGM->stop();
-        selectingCardsWidget = new(CardSelectionDialog);//创建卡片选择窗口
+
+    //进入小游戏模式
+    connect(btn_smallgame, &QPushButton::clicked, [this]() {
+        gamingMenu = new(gamingMenuDialog);//创建游戏菜单
+        smallGaming = new (smallGameMode);//创建游戏窗口
+        currentGameMode = smallGaming;
+        gamingMenu->getCurrentGameMode(currentGameMode);
+        gamingMenu->getMainMenuPoints(this);
+        gamingMenu->getGameWindow(smallGaming);
+        smallGaming->getGamingMenu(gamingMenu);
         this->close();
-        selectingCardsWidget->show();
-        connect(selectingCardsWidget, &CardSelectionDialog::cancelGame, this, &startpage::handleGameToMainMenu);
-        connect(selectingCardsWidget, &CardSelectionDialog::cardIsSelected, [this]() {
-            /*设置卡片冷却时间（在card.cpp设置会出现赋值失效）*/
-            isSurvivalSelect = true;
-            initCardInformation();
-            gamingMenu = new(gamingMenuDialog);//创建游戏菜单
-            survivalGaming = new (survivalGameMode);//创建游戏窗口
-            gamingMenu->getCurrentGameMode(currentGameMode);
-            gamingMenu->getMainMenuPoints(this);
-            gamingMenu->getGameWindow(survivalGaming);
-            survivalGaming->getGamingMenu(gamingMenu);
-            currentGameMode = survivalGaming;
-            survivalGaming->show();
-            //接收回到菜单信号进行连接
-            connect(gamingMenu, &gamingMenuDialog::gameToMainMenu, this, &startpage::handleGameToMainMenu);
-            //接收重新开始信号
-            connect(gamingMenu, static_cast<void(gamingMenuDialog::*)(survivalGameMode*)>(&gamingMenuDialog::restartGame),
-                this, static_cast<void(startpage::*)(survivalGameMode*)>(&startpage::handleRestartGame));
-            //接收更新音量信号
-            connect(gamingMenu, &gamingMenuDialog::changeVolume, this, &startpage::updateVolume);
-            //接收游戏失败确认信号
-            connect(survivalGaming, &survivalGameMode::gameOver, this, &startpage::handleGameToMainMenu);
-            });
+        smallGaming->show();
+        //接收回到菜单信号进行连接
+        connect(gamingMenu, &gamingMenuDialog::gameToMainMenu, this, &startpage::handleGameToMainMenu);
+        connect(smallGaming, &smallGameMode::onBackClicked, this, &startpage::handleGameToMainMenu);
+        //接收重新开始信号
+        connect(gamingMenu, static_cast<void(gamingMenuDialog::*)(smallGameMode*)>(&gamingMenuDialog::restartGame),
+            this, static_cast<void(startpage::*)(smallGameMode*)>(&startpage::handleRestartGame));
+        //接收更新音量信号
+        connect(gamingMenu, &gamingMenuDialog::changeVolume, this, &startpage::updateVolume);
+        //接收停止主菜单BGM信号
+        connect(smallGaming, &smallGameMode::stopLoadingBGM, loadingBGM, &QMediaPlayer::stop);
+        //接收游戏失败确认信号
+        connect(smallGaming, &smallGameMode::gameFinish, this, &startpage::handleGameToMainMenu);
+        //接收恢复关卡界面BGM信号
+        connect(smallGaming, &smallGameMode::resumeLoadingBGM, loadingBGM, &QMediaPlayer::play);
+        });
+
+    // 进入生存模式
+    connect(btn_survivegame,&QPushButton::clicked,[this](){
+    loadingBGM->stop();
+    selectingCardsWidget = new(CardSelectionDialog);//创建卡片选择窗口
+    this->close();
+    selectingCardsWidget->show();
+    connect(selectingCardsWidget, &CardSelectionDialog::cancelGame, this, &startpage::handleGameToMainMenu);
+    connect(selectingCardsWidget, &CardSelectionDialog::cardIsSelected, [this]() {
+        /*设置卡片冷却时间（在card.cpp设置会出现赋值失效）*/
+        isSurvivalSelect = true;
+        initCardInformation();
+        gamingMenu = new(gamingMenuDialog);//创建游戏菜单
+        survivalGaming = new (survivalGameMode);//创建游戏窗口
+        gamingMenu->getCurrentGameMode(currentGameMode);
+        gamingMenu->getMainMenuPoints(this);
+        gamingMenu->getGameWindow(survivalGaming);
+        survivalGaming->getGamingMenu(gamingMenu);
+        currentGameMode = survivalGaming;
+        survivalGaming->show();
+        //接收回到菜单信号进行连接
+        connect(gamingMenu, &gamingMenuDialog::gameToMainMenu, this, &startpage::handleGameToMainMenu);
+        //接收重新开始信号
+        connect(gamingMenu, static_cast<void(gamingMenuDialog::*)(survivalGameMode*)>(&gamingMenuDialog::restartGame),
+            this, static_cast<void(startpage::*)(survivalGameMode*)>(&startpage::handleRestartGame));
+        //接收更新音量信号
+        connect(gamingMenu, &gamingMenuDialog::changeVolume, this, &startpage::updateVolume);
+        //接收游戏失败确认信号
+        connect(survivalGaming, &survivalGameMode::gameOver, this, &startpage::handleGameToMainMenu);
+        });
     });
     //退出
     connect(btn_exit, &QPushButton::clicked, [this]() {
@@ -189,7 +217,6 @@ void startpage::initCardInformation()
                 Cards.cool = cardData.cool;
                 Cards.cost = cardData.cost;
                 card::baseCardMap.insert(cardData.name, Cards);
-                //qInfo() << "load json" << cardData.name<<cardData.cool;
         }
         isLoadCards = true;
         return;
@@ -198,7 +225,6 @@ void startpage::initCardInformation()
     {
         for (const auto& key : card::cardSelectedMap.keys()) {
             card::cardSelectedMap[key].cool = card::baseCardMap[key].cool * fpsIndex;
-            //qInfo() << fpsIndex << card::cardSelectedMap[key].cool;
         }
         
     } 
@@ -255,6 +281,14 @@ void startpage::handleGameToMainMenu()
             gamingMenu->close();
             gamingMenu->deleteLater();
         }
+        else if (smallGaming != nullptr && currentGameMode == smallGaming)
+        {
+            smallGaming->close();
+            smallGaming->deleteLater();
+            smallGaming = nullptr;
+            gamingMenu->close();
+            gamingMenu->deleteLater();
+        }
         
     this->show();
 }
@@ -277,6 +311,16 @@ void startpage::handleRestartGame(adventureGameMode* g2)
     bool change = true;
     QTimer::singleShot(1100, [change]() { startpage::closeWinTellItem = change; });
     connect(adventureGaming, &adventureGameMode::onBackClicked, this, &startpage::handleGameToMainMenu);
+}
+
+void startpage::handleRestartGame(smallGameMode* g3)
+{
+    smallGaming = g3;
+    currentGameMode = smallGaming;
+    startpage::closeWinTellItem = false;
+    bool change = true;
+    QTimer::singleShot(1100, [change]() { startpage::closeWinTellItem = change; });
+    connect(smallGaming, &smallGameMode::onBackClicked, this, &startpage::handleGameToMainMenu);
 }
 
 void startpage::loadCards(const QString& filename)

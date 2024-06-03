@@ -16,14 +16,14 @@ peashot::peashot(int attack, bool flag)
 QRectF peashot::boundingRect() const
 {
     // 设置豌豆射手的边界矩形
-    return QRectF(-18, -42, 36, 36); 
+    return QRectF(-36, -42, 72, 36); 
 }
 
 bool peashot::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const
 {
     Q_UNUSED(mode)
     // 当豌豆射手与僵尸碰撞时，返回true
-    return other->type() == zombie::Type && qFuzzyCompare(other->y(), y()) && qAbs(other->x() - x()) < 15;
+    return other->type() == zombie::Type && qAbs(other->y()- y())<20 && qAbs(other->x() - x()) < 5;
 }
 
 void peashot::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)

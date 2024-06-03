@@ -27,20 +27,20 @@ void GatlingPea::advance(int phase)
         if (!collidingItems().isEmpty())
         {
             peashot* pe = new peashot(atk);
-            pe->setX(x() + 30);
-            pe->setY(y());
+            pe->setX(x() + 20);
+            pe->setY(y()+18);
+            scene()->addItem(pe);
+            pe = new peashot(atk);
+            pe->setX(x() + 40);
+            pe->setY(y()+18);
             scene()->addItem(pe);
             pe = new peashot(atk);
             pe->setX(x() + 60);
-            pe->setY(y());
+            pe->setY(y()+18);
             scene()->addItem(pe);
             pe = new peashot(atk);
-            pe->setX(x() + 90);
-            pe->setY(y());
-            scene()->addItem(pe);
-            pe = new peashot(atk);
-            pe->setX(x() + 120);
-            pe->setY(y());
+            pe->setX(x() + 80);
+            pe->setY(y()+18);
             scene()->addItem(pe);
             return;
         }
@@ -50,6 +50,5 @@ void GatlingPea::advance(int phase)
 bool GatlingPea::collidesWithItem(const QGraphicsItem* other, Qt::ItemSelectionMode mode) const
 {
     Q_UNUSED(mode)
-        // 当豌豆射手与僵尸在同一纵坐标上（y相等）发生碰撞时，返回true
-        return other->type() == zombie::Type && qFuzzyCompare(other->y(), y());
+        return other->type() == zombie::Type && qAbs(other->y() - y()) < 30;
 }
