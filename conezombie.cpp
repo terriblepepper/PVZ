@@ -1,11 +1,20 @@
 #include "conezombie.h"
 #include"gameIndex.h"
+#include"adventureMode.h"
 ConeZombie::ConeZombie()
 {
     hp = 640.0;
-    atk = 100.0 * (33333.0 / (double)fpsIndex) / 1000000.0;
+    atk = 100.0 / (30 * (double)fpsIndex);
     speed = 40.0 * (33333.0 / (double)fpsIndex) / 1000000.0 / 4.7;
-    setMovie(":/new/prefix1/ConeZombieWalk.gif");
+    if (adventureGameMode::level < 16 && adventureGameMode::level>10)
+    {
+        setMovie(":/new/prefix2/images/newZombies/cone2/walk.gif");
+        
+    }
+    else
+    {
+        setMovie(":/new/prefix1/ConeZombieWalk.gif");
+    }
 }
 
 void ConeZombie::advance(int phase)
@@ -33,14 +42,28 @@ void ConeZombie::advance(int phase)
         if (state != 1)
         {
             state = 1;
-            setMovie(":/new/prefix1/ConeZombieAttack.gif");
+            if (adventureGameMode::level < 16 && adventureGameMode::level>10)
+            {
+                setMovie(":/new/prefix2/images/newZombies/cone2/eat.gif");
+            }
+            else
+            {
+                setMovie(":/new/prefix1/ConeZombieAttack.gif");
+            }
         }
         return;
     }
     if (state)
     {
         state = 0;
-        setMovie(":/new/prefix1/ConeZombieWalk.gif");
+        if (adventureGameMode::level < 16 && adventureGameMode::level>10)
+        {
+            setMovie(":/new/prefix2/images/newZombies/cone2/walk.gif");
+        }
+        else
+        {
+            setMovie(":/new/prefix1/ConeZombieWalk.gif");
+        }
     }
     setX(x() - speed);
 }

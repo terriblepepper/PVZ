@@ -114,5 +114,12 @@
         <file>newZombies/yeti/walk.gif</file>
         <file>newZombies/icetracker/drive.gif</file>
         <file>newZombies/icetracker/wheelie.gif</file>
+        <file>newPlants/CaiWen/idle.gif</file>
+        <file>newPlants/CaiWen/shooting.gif</file>
+        <file>CaiWen.png</file>
+        <file>Background3.jpg</file>
+        <file>Background4.jpg</file>
+        <file>newZombies/bucket2/eat.gif</file>
+        <file>newZombies/bucket2/walk.gif</file>
     </qresource>
 </RCC>

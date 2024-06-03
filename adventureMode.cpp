@@ -81,8 +81,8 @@ void adventureGameMode::setupUi() {
     backgroundPixmap = backgroundPixmap.scaled(this->size(), Qt::IgnoreAspectRatio);
     levelWidget->setStyleSheet("background-image: url(:/new/prefix1/levelSelectBackground.jpg);");
 
-    // 添加关卡选择按钮，这里预计 10 个关卡
-    for (int i = 1; i <= 10; ++i) {
+    // 添加关卡选择按钮，这里预计 15 个关卡
+    for (int i = 1; i <= 15; ++i) {
         QPushButton* levelButton = new QPushButton(QString("关卡%1").arg(i));
         //设置button的工程名字
         levelButton->setObjectName(QString("level_%1").arg(i));
@@ -172,7 +172,10 @@ void adventureGameMode::startGame() {
         view->setBackgroundBrush(QPixmap(":/new/prefix1/Background.jpg")); // 设置背景图片
     else if(adventureGameMode::level > 5 && adventureGameMode::level < 11)
         view->setBackgroundBrush(QPixmap(":/new/prefix1/Background2.jpg")); // 设置背景图片
+    else if (adventureGameMode::level > 10 && adventureGameMode::level < 16)
+        view->setBackgroundBrush(QPixmap(":/new/prefix1/Background3.jpg")); // 设置背景图片
     view->setCacheMode(QGraphicsView::CacheBackground);
+
     view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
     //添加除草机
     for (int i = 0; i < 5; ++i) {
@@ -202,8 +205,6 @@ void adventureGameMode::checkGameState()
     //检查游戏是否结束，是否有僵尸到达屏幕最左边
     const QList<QGraphicsItem*> items = scene->items();
     int zombieCount = 0;
-    qInfo() << "checkgamestate" << rounds.isEmpty() << items.isEmpty();
-    if (!items.isEmpty())qInfo() << "survive:" << items.size();
     foreach(QGraphicsItem * item, items)
     {
         if (item->type() == zombie::Type)
@@ -293,6 +294,22 @@ void adventureGameMode::addZombie()
                     else if (key == "icetracker")
                     {
                         zombie = new icetrackerzombie;
+                    }
+                    else if (key == "apolo")
+                    {
+                        zombie = new apolozombie;
+                    }
+                    else if (key == "cleopatra")
+                    {
+                        zombie = new cleopatrazombie;
+                    }
+                    else if (key == "pharaoh")
+                    {
+                        zombie = new pharaohzombie;
+                    }
+                    else if (key == "pyramid")
+                    {
+                        zombie = new pyramidzombie;
                     }
                     zombie->setPos(988 + offsetX, 120 + 95 * randRoad);
                     scene->addItem(zombie);

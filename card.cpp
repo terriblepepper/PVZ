@@ -53,15 +53,14 @@ void card::mousePressEvent(QGraphicsSceneMouseEvent* event)
         if (counter < cardSelectedMap[text].cool) {
             qDebug() << "Card is cooling down";
             event->setAccepted(false);
-            return; // Add a return here to ensure the event is not further processed
+            return; 
         }
 
     // 获取卡片父对象（shop 类），检查阳光数是否足够购买卡片
     shop* sh = qgraphicsitem_cast<shop*>(parentItem());
     if (cardSelectedMap[text].cost > sh->sunnum) {
-        qDebug() << "Not enough sun points";
         event->setAccepted(false);
-        return; // Add a return here to ensure the event is not further processed
+        return; 
     }
 
     // 设置鼠标指针为默认箭头形状
@@ -70,7 +69,6 @@ void card::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
 void card::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-    qDebug() << "Mouse move event triggered";
 
     // 检查是否满足拖拽的条件
     if (QLineF(event->screenPos(), event->buttonDownScreenPos(Qt::LeftButton)).length()

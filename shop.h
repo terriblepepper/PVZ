@@ -20,8 +20,9 @@
 #include"SunShroom.h"
 #include"Torchwood.h"
 #include"TwinSunflower.h"
+#include"CaiWen.h"
 #include"gameIndex.h"
-
+#include"adventureMode.h"
 class shop : public other
 {
 public:

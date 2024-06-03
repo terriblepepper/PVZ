@@ -10,14 +10,22 @@ Torchwood::Torchwood()
 
 void Torchwood::advance(int phase)
 {
-    QList<QGraphicsItem*> items = collidingItems();
-    if (!items.isEmpty())
+    if (!phase)
+        return;
+    update();
+    if ((int)hp <= 0)
+        delete this;
+    else
     {
-        foreach(QGraphicsItem * item, items)
+        QList<QGraphicsItem*> items = collidingItems();
+        if (!items.isEmpty())
         {
-            peashot* pea = qgraphicsitem_cast<peashot*>(item);
-            pea->addAtk(15.0);
-            pea->setImage(":/new/prefix1/FirePea.gif");
+            foreach(QGraphicsItem * item, items)
+            {
+                peashot* pea = qgraphicsitem_cast<peashot*>(item);
+                pea->addAtk(15.0);
+                pea->setImage(":/new/prefix1/FirePea.gif");
+            }
         }
     }
 }
@@ -25,5 +33,5 @@ void Torchwood::advance(int phase)
 bool Torchwood::collidesWithItem(const QGraphicsItem* other, Qt::ItemSelectionMode mode) const
 {
     Q_UNUSED(mode)
-        return other->type() == peashot::Type && qAbs(pos().x()- other->pos().x())<1 && qAbs(pos().y() - other->pos().y())<15;
+        return other->type() == peashot::Type && qAbs(pos().x()- other->pos().x())<5 && qAbs(pos().y() - other->pos().y())<30;
 }

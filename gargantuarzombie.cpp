@@ -1,12 +1,21 @@
 #include"gargantuarzombie.h"
 #include"gameIndex.h"
 #include<QDebug>
+#include"adventureMode.h"
 gargantuarzombie::gargantuarzombie()
 {
     hp = 3000.0; 
-    atk = 1500.0 * (33333.0 / (double)fpsIndex) / 1000000.0; 
+    atk = 1500.0 / (30 * (double)fpsIndex);
     speed = 4.2 * (33333.0 / (double)fpsIndex) / 1000000.0;
-    setMovie(":/new/prefix1/newZombies/gargantuar/walk_noimp.gif"); 
+    if (adventureGameMode::level < 16 && adventureGameMode::level>10)
+    {
+        setMovie("./images/newZombies/gargantuar2/walk.gif");
+
+    }
+    else
+    {
+        setMovie(":/new/prefix1/newZombies/gargantuar/walk_noimp.gif");
+    } 
 }
 
 void gargantuarzombie::advance(int phase)
@@ -19,7 +28,16 @@ void gargantuarzombie::advance(int phase)
         if (state < 2) // 如果基础僵尸的状态小于2，表示处于死亡状态
         {
             state = 2; // 将状态设置为2（死亡）
-            setMovie(":/new/prefix1/newZombies/gargantuar/death_noimp.gif");
+            if (adventureGameMode::level < 16 && adventureGameMode::level>10)
+            {
+                setMovie("./images/newZombies/gargantuar2/death.gif");
+
+            }
+            else
+            {
+                setMovie(":/new/prefix1/newZombies/gargantuar/death_noimp.gif");
+            }
+            
         }
         else if (mQMovie->currentFrameNumber() == mQMovie->frameCount() - 1)
             delete this; 
@@ -34,14 +52,30 @@ void gargantuarzombie::advance(int phase)
         if (state != 1) // 如果基础僵尸的状态不为1（攻击状态）
         {
             state = 1; // 将状态设置为1（攻击）
-            setMovie(":/new/prefix1/newZombies/gargantuar/smash_noimp.gif"); // 设置基础僵尸的攻击动画
+            if (adventureGameMode::level < 16 && adventureGameMode::level>10)
+            {
+                setMovie("./images/newZombies/gargantuar2/eat.gif");
+
+            }
+            else
+            {
+                setMovie(":/new/prefix1/newZombies/gargantuar/smash_noimp.gif");
+            }
         }
         return;
     }
     if (state) // 如果基础僵尸的状态不为0（行走状态）
     {
         state = 0; // 将状态设置为0（行走）
-        setMovie(":/new/prefix1/newZombies/gargantuar/walk_noimp.gif"); // 设置基础僵尸的行走动画
+        if (adventureGameMode::level < 16 && adventureGameMode::level>10)
+        {
+            setMovie("./images/newZombies/gargantuar2/walk.gif");
+
+        }
+        else
+        {
+            setMovie(":/new/prefix1/newZombies/gargantuar/walk_noimp.gif");
+        }
     }
     setX(x() - speed); // 更新基础僵尸的位置，让其向左移动
 }

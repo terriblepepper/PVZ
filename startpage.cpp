@@ -198,7 +198,6 @@ void startpage::initCardInformation()
     {
         for (const auto& key : card::cardSelectedMap.keys()) {
             card::cardSelectedMap[key].cool = card::baseCardMap[key].cool * fpsIndex;
-            //qInfo() << fpsIndex << card::cardSelectedMap[key].cool;
         }
         
     } 

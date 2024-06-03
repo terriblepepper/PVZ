@@ -1,0 +1,20 @@
+{
+    "round1":[
+        { 
+            "small":2,
+            "basic": 2,
+            "flag": 1,
+            "cone": 3,
+            "pyramid":2          
+        }
+    ],
+    "round2":[
+        {
+            "small":3,
+            "flag": 2,
+            "basic": 3,
+            "cone": 3,
+            "pyramid":3   
+        }
+    ]
+}

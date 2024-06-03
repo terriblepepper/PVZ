@@ -1,12 +1,22 @@
 #include "smallzombie.h"
 #include"gameIndex.h"
 #include<QDebug>
+#include"adventureMode.h"
 smallzombie::smallzombie()
 {
     hp = 270.0; 
-    atk = 125.0 * (33333.0 / (double)fpsIndex) / 1000000.0; 
+    atk = 125.0 / (30 * (double)fpsIndex);
     speed = 7.0 * (33333.0 / (double)fpsIndex) / 1000000.0; 
-    setMovie(":/new/prefix1/newZombies/small/walk.gif");
+    if (adventureGameMode::level < 16 && adventureGameMode::level>10)
+    {
+        setMovie(":/new/prefix2/images/newZombies/small2/walk.gif");
+
+    }
+    else
+    {
+        setMovie(":/new/prefix1/newZombies/small/walk.gif");
+    }
+    
     setScale(0.7);
 }
 
@@ -20,7 +30,16 @@ void smallzombie::advance(int phase)
         if (state < 2) 
         {
             state = 2; // 将状态设置为2（死亡）
-            setMovie(":/new/prefix1/newZombies/small/death.gif"); 
+            if (adventureGameMode::level < 16 && adventureGameMode::level>10)
+            {
+                setMovie(":/new/prefix2/images/newZombies/small2/death.gif");
+
+            }
+            else
+            {
+                setMovie(":/new/prefix1/newZombies/small/death.gif");
+            }
+             
         }
         else if (mQMovie->currentFrameNumber() == mQMovie->frameCount() - 1)
             delete this; 
@@ -35,14 +54,30 @@ void smallzombie::advance(int phase)
         if (state != 1) 
         {
             state = 1; // 将状态设置为1（攻击）
-            setMovie(":/new/prefix1/newZombies/small/eat.gif"); 
+            if (adventureGameMode::level < 16 && adventureGameMode::level>10)
+            {
+                setMovie(":/new/prefix2/images/newZombies/small2/eat.gif");
+
+            }
+            else
+            {
+                setMovie(":/new/prefix1/newZombies/small/eat.gif");
+            }
         }
         return;
     }
     if (state) 
     {
         state = 0; // 将状态设置为0（行走）
-        setMovie(":/new/prefix1/newZombies/small/walk.gif"); 
+        if (adventureGameMode::level < 16 && adventureGameMode::level>10)
+        {
+            setMovie(":/new/prefix2/images/newZombies/small2/walk.gif");
+
+        }
+        else
+        {
+            setMovie(":/new/prefix1/newZombies/small/walk.gif");
+        }
     }
     setX(x() - speed); 
 }

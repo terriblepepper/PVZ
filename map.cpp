@@ -43,7 +43,6 @@ void Map::dropEvent(QGraphicsSceneDragDropEvent *event)
     {
         QString s=event->mimeData()->text().toUtf8();
         QPointF pos=mapToScene(event->pos());
-        //QPointF pos=event->pos();
         pos.setX((int(pos.x())-245)/85 * 85 +290);
         pos.setY((int(pos.y())-80)/95 * 95 +120);
         if(s=="shovel")
