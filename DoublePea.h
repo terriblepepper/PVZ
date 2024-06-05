@@ -5,8 +5,9 @@
 #include "zombie.h"
 #include "peashot.h"
 
-class DoublePea : public plant
+class DoublePea :public QObject, public plant
 {
+    Q_OBJECT
 public:
     DoublePea();
     void advance(int phase) override;

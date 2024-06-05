@@ -9,7 +9,7 @@ FumeShroom::FumeShroom()
     atk = 25.0; 
     time = int(1.4 * 1000000. / (33333. / (double)fpsIndex)); 
     setMovie(":/new/prefix1/newPlants/FumeShroom/idle.gif"); 
-    setScale(2);
+    setScale(1.2);
 }
 
 void FumeShroom::advance(int phase)
@@ -19,25 +19,70 @@ void FumeShroom::advance(int phase)
     update();
     if ((int)hp <= 0)
         delete this;
-    else if (++counter >= time) // Ã¿¹ıÒ»¸ö¹¥»÷¼ä¸ôµÄÖ¡Êı
+    else if (++counter >= time) // æ¯è¿‡ä¸€ä¸ªæ”»å‡»é—´éš”çš„å¸§æ•°
     {
-        counter = 0; // ÖØÖÃ¼ÆÊıÆ÷
+        counter = 0; // é‡ç½®è®¡æ•°å™¨
         QList<QGraphicsItem*> items = collidingItems();
-        //Èç¹ûÓĞ½©Ê¬½øÈë¹¥»÷·¶Î§
+        //å¦‚æœæœ‰åƒµå°¸è¿›å…¥æ”»å‡»èŒƒå›´
         if (!items.isEmpty())
         {
             setMovie(":/new/prefix1/newPlants/FumeShroom/shooting.gif");
             foreach(QGraphicsItem * item, items)
             {
-                // ÔÚ´óÅç¹½ÓÒ²à30ÏñËØ´¦Éú³ÉÅİÅİ¶¯»­
+                // åœ¨å¤§å–·è‡å³ä¾§30åƒç´ å¤„ç”Ÿæˆæ³¡æ³¡åŠ¨ç”»
                 QGraphicsPixmapItem* bubble = new QGraphicsPixmapItem();
                 bubble->setPixmap(QPixmap(":/new/prefix1/Bubbles.gif"));
-                bubble->setPos(pos().x() + 75, pos().y()-24);
+                bubble->setPos(pos().x() + 75, pos().y() - 24);
                 bubble->setScale(2);
                 scene()->addItem(bubble);
-
-                // ÉèÖÃÒ»¸ö¶¨Ê±Æ÷£¬ÅİÅİÏÔÊ¾Ò»¶ÎÊ±¼äºóÉ¾³ı
-                QTimer::singleShot(1000, [bubble]() { if(startpage::closeWinTellItem)delete bubble; });
+                QGraphicsScene* catchScene = scene();
+                mapScenes[catchScene].count++;
+                QTimer::singleShot(800, [bubble, catchScene]() {
+                    if (mapScenes[catchScene].isValid != false)
+                    {
+                        delete bubble;
+                        mapScenes[catchScene].count--;
+                    }
+                    else
+                    {
+                        if (mapScenes[catchScene].count)
+                        {
+                            mapScenes[catchScene].count--;
+                        }
+                        if (mapScenes[catchScene].count == 0)
+                        {
+                            mapScenes.erase(catchScene);
+                        }
+                    }
+                    });
+                if (mapScenes[catchScene].soundsCount < maxSounds)
+                {
+                    mapScenes[catchScene].count++;
+                    mapScenes[catchScene].soundsCount++;
+                    QMediaPlayer* soundbubble = new QMediaPlayer(scene());
+                    soundbubble->setMedia(QUrl::fromLocalFile("./sound/fume.mp3"));
+                    soundbubble->setVolume(itemVolume);
+                    soundbubble->play();
+                    // è®¾ç½®æ³¡æ³¡éŸ³é¢‘åˆ é™¤è¿æ¥
+                    connect(soundbubble, &QMediaPlayer::stateChanged, [soundbubble, catchScene](QMediaPlayer::State state) {
+                        if (state == QMediaPlayer::StoppedState) {
+                            if (mapScenes[catchScene].isValid != false) {
+                                delete soundbubble;
+                                mapScenes[catchScene].count--;
+                                mapScenes[catchScene].soundsCount--;
+                                return;
+                            }
+                            else {
+                                if (mapScenes[catchScene].count) {
+                                    mapScenes[catchScene].count--;
+                                }
+                                if (mapScenes[catchScene].count == 0) {
+                                    mapScenes.erase(catchScene);
+                                }
+                            }
+                        }
+                        });
+                } 
                 zombie* zom = qgraphicsitem_cast<zombie*>(item);
                 zom->hp -= atk;
             }

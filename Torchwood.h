@@ -1,8 +1,9 @@
 #pragma once
 #include "plant.h"
 
-class Torchwood : public plant
+class Torchwood : public QObject, public plant
 {
+    Q_OBJECT
 public:
     Torchwood();
     void advance(int phase) override;

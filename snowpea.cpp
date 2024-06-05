@@ -2,6 +2,7 @@
 #include "peashot.h"
 #include "zombie.h"
 #include"gameIndex.h"
+#include<QMediaPlayer>
 snowpea::snowpea()
 {
     atk = 25.0;
@@ -25,6 +26,34 @@ void snowpea::advance(int phase)
             pe->setX(x() + 30);
             pe->setY(y());
             scene()->addItem(pe);
+            if (mapScenes[scene()].soundsCount < maxSounds)
+            {
+                QMediaPlayer* soundpea = new QMediaPlayer(scene());
+                soundpea->setMedia(QUrl::fromLocalFile("./sound/kernelpult.mp3"));
+                soundpea->setVolume(itemVolume);
+                soundpea->play();
+                QGraphicsScene* catchScene = scene();
+                mapScenes[catchScene].count++;
+                mapScenes[catchScene].soundsCount++;
+                connect(soundpea, &QMediaPlayer::stateChanged, [soundpea, catchScene](QMediaPlayer::State state) {
+                    if (state == QMediaPlayer::StoppedState) {
+                        if (mapScenes[catchScene].isValid != false) {
+                            delete soundpea;
+                            mapScenes[catchScene].count--;
+                            mapScenes[catchScene].soundsCount--;
+                            return;
+                        }
+                        else {
+                            if (mapScenes[catchScene].count) {
+                                mapScenes[catchScene].count--;
+                            }
+                            if (mapScenes[catchScene].count == 0) {
+                                mapScenes.erase(catchScene);
+                            }
+                        }
+                    }
+                    });
+            }
             return;
         }
     }

@@ -21,5 +21,5 @@ public slots:
 
 private:
 	Ui::HelpWidgetClass *ui;
-	startpage* mainMenu;//Ö÷²Ëµ¥Ö¸Õë
+	startpage* mainMenu;//ä¸»èœå•æŒ‡é’ˆ
 };

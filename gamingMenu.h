@@ -1,6 +1,4 @@
-#if defined(_MSC_VER) && (_MSC_VER >= 1600)    
-# pragma execution_character_set("utf-8")    
-#endif
+//utf8
 #pragma once
 #include <QDialog>
 #include <QSlider>
@@ -10,6 +8,7 @@
 #include"survivalMode.h"
 #include"adventureMode.h"
 #include"smallgameMode.h"
+#include"puzzleMode.h"
 #include"gameIndex.h"
 #include"card.h"
 #include"gameIndex.h"
@@ -19,6 +18,7 @@ class startpage;
 class survivalGameMode;
 class adventureGameMode;
 class smallGameMode;
+class puzzleMode;
 class gamingMenuDialog : public QDialog
 {
     Q_OBJECT
@@ -29,18 +29,21 @@ public:
     void getGameWindow(survivalGameMode* m1);
     void getGameWindow(adventureGameMode* m2);
     void getGameWindow(smallGameMode* m3);
+    void getGameWindow(puzzleMode* m4);
     void getCurrentGameMode(QWidget* current);
     startpage* mainMenuPage;
-    QWidget* currentGameMode = nullptr; // ±£´æµ±Ç°ÓÎÏ·Ä£Ê½µÄÖ¸Õë
-    survivalGameMode* survivalGaming;
-    adventureGameMode* adventureGaming;
-    smallGameMode* smallGaming;
+    QWidget* currentGameMode = nullptr; // ä¿å­˜å½“å‰æ¸¸æˆæ¨¡å¼çš„æŒ‡é’ˆ
+    survivalGameMode* survivalGaming = nullptr;
+    adventureGameMode* adventureGaming = nullptr;
+    smallGameMode* smallGaming = nullptr;
+    puzzleMode* puzzleGaming = nullptr;
 signals:
     void restartGame(survivalGameMode* t1);
     void restartGame(adventureGameMode* t2);
     void restartGame(smallGameMode* t3);
+    void restartGame(puzzleMode* t4);
     void gameToMainMenu();
-    void changeVolume();//¸æËßÖ÷²Ëµ¥¸üĞÂÒôÁ¿
+    void changeVolume();//å‘Šè¯‰ä¸»èœå•æ›´æ–°éŸ³é‡
 private slots:
     void onVolumeChanged(int volume);
     void onRestartClicked();
@@ -50,6 +53,8 @@ private slots:
 private:
     QLabel* volumeLabel;
     QSlider* volumeSlider;
+    QLabel* itemVolumeLabel;
+    QSlider* itemVolumeSlider;
     QPushButton* restartButton;
     QPushButton* mainMenuButton;
     QPushButton* resumeButton;

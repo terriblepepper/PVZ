@@ -1,6 +1,4 @@
-#if defined(_MSC_VER) && (_MSC_VER >= 1600)    
-# pragma execution_character_set("utf-8")    
-#endif
+//utf8
 #ifndef SHOP_H
 #define SHOP_H
 #include "other.h"
@@ -29,15 +27,16 @@
 #include"smallgameMode.h"
 #include"BowlingNut.h"
 
-class shop : public other
+class shop :public QObject, public other
 {
+    Q_OBJECT
 public:
-    int sunnum;//µ±Ç°Ñô¹âÊı
+    int sunnum;//å½“å‰é˜³å…‰æ•°
     shop();
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void advance(int phase) override;
-    void addPlant(QString s, QPointF pos);//Ìí¼ÓÖ²Îï
+    void addPlant(QString s, QPointF pos);//æ·»åŠ æ¤ç‰©
     bool judgeAdd(QString s, QPointF &pos, plant* p);
 private:
     int counter;

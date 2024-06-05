@@ -14,8 +14,8 @@ class loading : public QWidget
     Q_OBJECT
 public:
     QPainter* mpainter_1;
-    startpage* mstartpage;//¿ªÊ¼²Ëµ¥
-    HelpWidget* helpPage;//°ïÖú²Ëµ¥
+    startpage* mstartpage;//å¼€å§‹èœå•
+    HelpWidget* helpPage;//å¸®åŠ©èœå•
     void paintEvent(QPaintEvent *event);
     explicit loading(QWidget *parent = nullptr);
 public slots:

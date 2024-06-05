@@ -1,6 +1,4 @@
-#if defined(_MSC_VER) && (_MSC_VER >= 1600)    
-# pragma execution_character_set("utf-8")    
-#endif
+//utf8
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QMainWindow>

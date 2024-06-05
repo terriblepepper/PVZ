@@ -1,6 +1,4 @@
-#if defined(_MSC_VER) && (_MSC_VER >= 1600)    
-# pragma execution_character_set("utf-8")    
-#endif
+//utf8
 #pragma once
 #include<QFile>
 #include <QMap>
@@ -50,11 +48,11 @@ public:
     explicit smallGameMode(QWidget* parent = nullptr);
     ~smallGameMode();
     void getGamingMenu(gamingMenuDialog* gM);
-    HighPrecisionTimer* mQTimer;
+    TimerThread* mQTimer;
     QGraphicsScene* scene;
     QMediaPlayer* gamingBGM = nullptr;
     QMediaPlaylist* gamingBGM_List = nullptr;
-    static int level;//关卡
+    static int level;//鍏冲崱
     void startGame();
 public slots:
     void checkGameState();
@@ -73,7 +71,6 @@ private:
     void failScene();
     void winScene();
     void goToGamingMenu();
-    bool loadLevelConfig(const QString& filePath, QQueue<QMap<QString, int>>& waves);
     QStackedWidget* Widget;
     QGraphicsView* view;
     gamingMenuDialog* gamingMenu;
@@ -85,8 +82,8 @@ private:
     QMap<int, QPushButton*> btn_levelMap;
     int low;
     int high;
-    int maxtime;//初始最大出僵尸间隔时间
+    int maxtime;//鍒濆鏈�澶у嚭鍍靛案闂撮殧鏃堕棿
     int time;
     int counter;
-    int timeCounter = 0;//记录游戏时长
+    int timeCounter = 0;//璁板綍娓告垙鏃堕暱
 };

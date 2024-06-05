@@ -14,7 +14,7 @@
     <ProjectGuid>{16CD3935-CB4E-3602-B717-69728F18425A}</ProjectGuid>
     <RootNamespace>pvz</RootNamespace>
     <Keyword>QtVS_v304</Keyword>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion>10.0.19041.0</WindowsTargetPlatformMinVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
@@ -32,7 +32,7 @@
     <PlatformToolset>v142</PlatformToolset>
     <OutputDirectory>debug\</OutputDirectory>
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
     <ConfigurationType>Application</ConfigurationType>
     <IntermediateDirectory>debug\</IntermediateDirectory>
     <PrimaryOutput>pvz</PrimaryOutput>
@@ -139,7 +139,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;debug;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 /utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -209,6 +209,7 @@
     <ClCompile Include="gargantuarzombie.cpp" />
     <ClCompile Include="GatlingPea.cpp" />
     <ClCompile Include="GloomShroom.cpp" />
+    <ClCompile Include="hammer.cpp" />
     <ClCompile Include="HelpWidget.cpp" />
     <ClCompile Include="icetrackerzombie.cpp" />
     <ClCompile Include="Jalapeno.cpp" />
@@ -235,8 +236,9 @@
     <ClCompile Include="plant.cpp" />
     <ClCompile Include="pot.cpp" />
     <ClCompile Include="potato.cpp" />
-    <ClCompile Include="DoublePea.h.cpp" />
+    <ClCompile Include="DoublePea.cpp" />
     <ClCompile Include="PuffShroom.cpp" />
+    <ClCompile Include="puzzleMode.cpp" />
     <ClCompile Include="pyramidzombie.cpp" />
     <ClCompile Include="screenzombie.cpp" />
     <ClCompile Include="shop.cpp" />
@@ -264,51 +266,53 @@
     <ClInclude Include="basiczombie.h" />
     <ClInclude Include="BowlingNut.h" />
     <ClInclude Include="bucketzombie.h" />
-    <ClInclude Include="CaiWen.h" />
+    <QtMoc Include="CaiWen.h" />
     <ClInclude Include="card.h" />
     <QtMoc Include="CardSelectionDialog.h" />
-    <ClInclude Include="cherry.h" />
+    <QtMoc Include="cherry.h" />
     <ClInclude Include="cleopatrazombie.h" />
     <ClInclude Include="conezombie.h" />
     <QtMoc Include="CustomButton.h" />
     <ClInclude Include="flagzombie.h" />
     <ClInclude Include="footballzombie.h" />
-    <ClInclude Include="FumeShroom.h" />
+    <QtMoc Include="FumeShroom.h" />
     <ClInclude Include="gameIndex.h" />
     <QtMoc Include="gameSettings.h" />
     <QtMoc Include="gamingMenu.h" />
     <QtMoc Include="highprecesionQtimer.h" />
     <QtMoc Include="loading.h" />
     <ClInclude Include="gargantuarzombie.h" />
-    <ClInclude Include="GatlingPea.h" />
-    <ClInclude Include="GloomShroom.h" />
+    <QtMoc Include="GatlingPea.h" />
+    <QtMoc Include="GloomShroom.h" />
+    <ClInclude Include="hammer.h" />
     <ClInclude Include="icetrackerzombie.h" />
-    <ClInclude Include="Jalapeno.h" />
+    <QtMoc Include="Jalapeno.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="mower.h" />
     <ClInclude Include="other.h" />
-    <ClInclude Include="pea.h" />
-    <ClInclude Include="peashot.h" />
+    <QtMoc Include="pea.h" />
+    <QtMoc Include="peashot.h" />
     <ClInclude Include="pharaohzombie.h" />
     <ClInclude Include="plant.h" />
     <ClInclude Include="pot.h" />
-    <ClInclude Include="potato.h" />
-    <ClInclude Include="DoublePea.h" />
-    <ClInclude Include="PuffShroom.h" />
+    <QtMoc Include="potato.h" />
+    <QtMoc Include="DoublePea.h" />
+    <QtMoc Include="PuffShroom.h" />
+    <QtMoc Include="puzzleMode.h" />
     <ClInclude Include="pyramidzombie.h" />
     <ClInclude Include="screenzombie.h" />
-    <ClInclude Include="shop.h" />
-    <ClInclude Include="shovel.h" />
+    <QtMoc Include="shop.h" />
+    <QtMoc Include="shovel.h" />
     <ClInclude Include="smallBubble.h" />
     <QtMoc Include="smallgameMode.h" />
     <ClInclude Include="smallzombie.h" />
-    <ClInclude Include="snowpea.h" />
+    <QtMoc Include="snowpea.h" />
     <QtMoc Include="startpage.h" />
-    <ClInclude Include="sun.h" />
+    <QtMoc Include="sun.h" />
     <ClInclude Include="sunflower.h" />
     <QtMoc Include="survivalMode.h" />
-    <ClInclude Include="SunShroom.h" />
-    <ClInclude Include="Torchwood.h" />
+    <QtMoc Include="SunShroom.h" />
+    <QtMoc Include="Torchwood.h" />
     <ClInclude Include="TwinSunflower.h" />
     <ClInclude Include="wallnut.h" />
     <ClInclude Include="yetizombie.h" />

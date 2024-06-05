@@ -3,8 +3,9 @@
 
 #include "plant.h"
 
-class cherry : public plant
+class cherry : public QObject,public plant
 {
+    Q_OBJECT
 public:
     cherry();
     QRectF boundingRect() const override;

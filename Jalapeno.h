@@ -1,8 +1,9 @@
 #pragma once
 #include "plant.h"
 
-class Jalapeno : public plant
+class Jalapeno : public QObject, public plant
 {
+    Q_OBJECT
 public:
     Jalapeno();
     QRectF boundingRect() const override;

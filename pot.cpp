@@ -5,7 +5,7 @@ Pot::Pot()
     hp = 300.0;
     isPot = true;
     setMovie("./images/newPlants/Pot/idle.gif");
-    setScale(2.5);
+    setScale(1.2);
 }
 void Pot::advance(int phase)
 {
@@ -23,8 +23,8 @@ QRectF Pot::boundingRect() const
 
 QPainterPath Pot::shape() const
 {
-    // ¶¨ÒåÅö×²ĞÎ×´£¬²»ËæËõ·Å±ä»¯
+    // å®šä¹‰ç¢°æ’å½¢çŠ¶ï¼Œä¸éšç¼©æ”¾å˜åŒ–
     QPainterPath path;
-    path.addRect(-17.5, -17.5, 35, 35);  // Åö×²ĞÎ×´¾ØĞÎ
+    path.addRect(-14.5, -14.5, 35, 35);  // ç¢°æ’å½¢çŠ¶çŸ©å½¢
     return path;
 }

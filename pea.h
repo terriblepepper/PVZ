@@ -3,8 +3,9 @@
 
 #include "plant.h"
 
-class pea : public plant
+class pea : public QObject, public plant
 {
+    Q_OBJECT
 public:
     pea();
     void advance(int phase) override;

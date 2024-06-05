@@ -1,8 +1,9 @@
 #pragma once
 #include "plant.h"
 
-class FumeShroom : public plant
+class FumeShroom : public QObject , public plant
 {
+    Q_OBJECT
 public:
     FumeShroom();
     void advance(int phase) override;

@@ -3,8 +3,9 @@
 
 #include "other.h"
 
-class shovel : public other
+class shovel : public QObject,public other
 {
+    Q_OBJECT
 public:
     shovel();
     QRectF boundingRect() const override;

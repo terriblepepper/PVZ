@@ -56,7 +56,7 @@
     },
     {
         "name": "GloomShroom",
-        "cool": 750,
+        "cool": 450,
         "cost": 150
     },
     {
@@ -81,7 +81,7 @@
     },
     {
         "name":"Pot",
-        "cool":1,
+        "cool":150,
         "cost":25
     }
 ]

@@ -1,24 +1,23 @@
-#if defined(_MSC_VER) && (_MSC_VER >= 1600)    
-# pragma execution_character_set("utf-8")    
-#endif
+//utf8
 #ifndef PEASHOT_H
 #define PEASHOT_H
 #include "other.h"
-class peashot : public other
+class peashot : public QObject,public other
 {
+    Q_OBJECT
 public:
-    peashot(int attack = 0, bool flag = false); // ¹¹Ôìº¯Êı£¬´´½¨Ò»¸öÍã¶¹¶ÔÏó£¬attack±íÊ¾¹¥»÷Á¦£¬flag±íÊ¾ÊÇ·ñ´øÓĞ±ù¶³Ğ§¹û£¬Ä¬ÈÏÎª0ºÍfalse
-    QRectF boundingRect() const override; // ·µ»ØÍã¶¹µÄ±ß½ç¾ØĞÎ£¬ÓÃÓÚÅö×²¼ì²â
-    bool collidesWithItem(const QGraphicsItem* other, Qt::ItemSelectionMode mode) const override; // ÅĞ¶ÏÍã¶¹ÊÇ·ñÓëÆäËûÍ¼ĞÎÏî·¢ÉúÅö×²
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override; // »æÖÆÍã¶¹ÉäÊÖµÄÍâ¹Û
-    void advance(int phase) override; // ¿ØÖÆÍã¶¹µÄÒÆ¶¯ºÍ¹¥»÷Âß¼­
+    peashot(int attack = 0, bool flag = false); // æ„é€ å‡½æ•°ï¼Œåˆ›å»ºä¸€ä¸ªè±Œè±†å¯¹è±¡ï¼Œattackè¡¨ç¤ºæ”»å‡»åŠ›ï¼Œflagè¡¨ç¤ºæ˜¯å¦å¸¦æœ‰å†°å†»æ•ˆæœï¼Œé»˜è®¤ä¸º0å’Œfalse
+    QRectF boundingRect() const override; // è¿”å›è±Œè±†çš„è¾¹ç•ŒçŸ©å½¢ï¼Œç”¨äºç¢°æ’æ£€æµ‹
+    bool collidesWithItem(const QGraphicsItem* other, Qt::ItemSelectionMode mode) const override; // åˆ¤æ–­è±Œè±†æ˜¯å¦ä¸å…¶ä»–å›¾å½¢é¡¹å‘ç”Ÿç¢°æ’
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override; // ç»˜åˆ¶è±Œè±†å°„æ‰‹çš„å¤–è§‚
+    void advance(int phase) override; // æ§åˆ¶è±Œè±†çš„ç§»åŠ¨å’Œæ”»å‡»é€»è¾‘
     void addAtk(double att);
     void peashot::setImage(const QString& filePath);
 private:
-    bool snow; // ±êÖ¾ÊÇ·ñ´øÓĞ±ù¶³Ğ§¹ûµÄÍã¶¹
-    int atk; // Íã¶¹µÄ¹¥»÷Á¦
-    qreal speed; // Íã¶¹µÄËÙ¶È£¨Ã¿ÃëÒÆ¶¯µÄÏñËØÊı£©
-    QPixmap currentPixmap; // µ±Ç°Í¼Æ¬
+    bool snow; // æ ‡å¿—æ˜¯å¦å¸¦æœ‰å†°å†»æ•ˆæœçš„è±Œè±†
+    int atk; // è±Œè±†çš„æ”»å‡»åŠ›
+    qreal speed; // è±Œè±†çš„é€Ÿåº¦ï¼ˆæ¯ç§’ç§»åŠ¨çš„åƒç´ æ•°ï¼‰
+    QPixmap currentPixmap; // å½“å‰å›¾ç‰‡
 };
 
 #endif // PEASHOT_H
