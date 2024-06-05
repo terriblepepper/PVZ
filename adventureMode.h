@@ -1,6 +1,4 @@
-#if defined(_MSC_VER) && (_MSC_VER >= 1600)    
-# pragma execution_character_set("utf-8")    
-#endif
+//utf8
 #pragma once
 #include <QFile>
 #include <QJsonDocument>
@@ -55,11 +53,11 @@ public:
     explicit adventureGameMode(QWidget* parent = nullptr);
     ~adventureGameMode();
     void getGamingMenu(gamingMenuDialog* gM);
-    HighPrecisionTimer* mQTimer;
+    TimerThread* mQTimer;
     QGraphicsScene* scene;
     QMediaPlayer* gamingBGM = nullptr;
-    QMediaPlaylist* gamingBGM_List =nullptr;
-    static int level ;//¹Ø¿¨
+    QMediaPlaylist* gamingBGM_List = nullptr;
+    static int level;//å…³å¡
     void startGame();
 public slots:
     void checkGameState();
@@ -90,8 +88,9 @@ private:
     QPushButton* gameOverButton = nullptr;
     QPushButton* gameWinButton = nullptr;
     QMap<int, QPushButton*> btn_levelMap;
-    int duration = 0;//Ã¿²¨Íê³ÉºóÏÂÒ»²¨¼ä¸ôÊ±¼ä
-    int time = 0;//¶¨Ê±Æ÷
+    int duration = 0;//æ¯æ³¢å®Œæˆåä¸‹ä¸€æ³¢é—´éš”æ—¶é—´
+    int time = 0;//å®šæ—¶å™¨
     bool isRoundDone = true;
-    QQueue<QMap<QString, int>> rounds;//¼ÇÂ¼Ã¿²¨½©Ê¬µÄÊıÁ¿
+    bool isFirstRound = true;
+    QQueue<QMap<QString, int>> rounds;//è®°å½•æ¯æ³¢åƒµå°¸çš„æ•°é‡
 };

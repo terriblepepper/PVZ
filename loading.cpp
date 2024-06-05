@@ -5,45 +5,45 @@ loading::loading(QWidget *parent)
 {
     this->setFixedSize(900,600);
     this->setWindowTitle("PlantsVsZombies");
-    this->setWindowIcon(QIcon(":/new/prefix1/WallNut.png")); // ÉèÖÃ´°¿ÚÍ¼±ê
+    this->setWindowIcon(QIcon(":/new/prefix1/WallNut.png")); // è®¾ç½®çª—å£å›¾æ ‡
     this->setStyleSheet("font-family: MiSans;");
-    mpainter_1 = new QPainter; // ´´½¨ QPainter ¶ÔÏó
-    QPixmap img(":/new/prefix1/floor.png"); // ¼ÓÔØÍ¼Æ¬×ÊÔ´
-    QPushButton *btn = new QPushButton(this); // ´´½¨ QPushButton ¶ÔÏó
-    btn->setGeometry(237, 433, 450, 115); // ÉèÖÃ°´Å¥Î»ÖÃºÍ´óĞ¡
+    mpainter_1 = new QPainter; // åˆ›å»º QPainter å¯¹è±¡
+    QPixmap img(":/new/prefix1/floor.png"); // åŠ è½½å›¾ç‰‡èµ„æº
+    QPushButton *btn = new QPushButton(this); // åˆ›å»º QPushButton å¯¹è±¡
+    btn->setGeometry(237, 433, 450, 115); // è®¾ç½®æŒ‰é’®ä½ç½®å’Œå¤§å°
     btn->setStyleSheet("QPushButton {"
-                       "border-image: url(:/new/prefix1/floor.png) center center no-repeat;" // ÉèÖÃ°´Å¥ÑùÊ½£¬°üÀ¨±³¾°Í¼Æ¬
-                       "font-size: 32px;" // ÉèÖÃ×ÖÌå´óĞ¡
-                       "color: white;" // ÉèÖÃ×ÖÌåÑÕÉ«
-                       "padding-top: 40px;" // ÉèÖÃÎÄ×Ö¾àÀë°´Å¥¶¥²¿µÄ¾àÀë
+                       "border-image: url(:/new/prefix1/floor.png) center center no-repeat;" // è®¾ç½®æŒ‰é’®æ ·å¼ï¼ŒåŒ…æ‹¬èƒŒæ™¯å›¾ç‰‡
+                       "font-size: 32px;" // è®¾ç½®å­—ä½“å¤§å°
+                       "color: white;" // è®¾ç½®å­—ä½“é¢œè‰²
+                       "padding-top: 40px;" // è®¾ç½®æ–‡å­—è·ç¦»æŒ‰é’®é¡¶éƒ¨çš„è·ç¦»
                        "font-weight: bold"
                        "}"
-                       "QPushButton:hover {" // Êó±êĞüÍ£ÑùÊ½
-                       "color: yellow;" // ÉèÖÃÊó±êĞüÍ£Ê±µÄ×ÖÌåÑÕÉ«
+                       "QPushButton:hover {" // é¼ æ ‡æ‚¬åœæ ·å¼
+                       "color: yellow;" // è®¾ç½®é¼ æ ‡æ‚¬åœæ—¶çš„å­—ä½“é¢œè‰²
                        "}"
-                       "QPushButton:pressed {" // °´Å¥°´ÏÂÑùÊ½
-                       "color: purple;" // ÉèÖÃ°´Å¥°´ÏÂÊ±µÄ×ÖÌåÑÕÉ«
+                       "QPushButton:pressed {" // æŒ‰é’®æŒ‰ä¸‹æ ·å¼
+                       "color: purple;" // è®¾ç½®æŒ‰é’®æŒ‰ä¸‹æ—¶çš„å­—ä½“é¢œè‰²
                        "}");
-    btn->setText(QString("¿ªÊ¼ÓÎÏ·£¡")); // ÉèÖÃ°´Å¥ÎÄ±¾
+    btn->setText(QString("å¼€å§‹æ¸¸æˆï¼")); // è®¾ç½®æŒ‰é’®æ–‡æœ¬
     connect(btn, &QPushButton::clicked,this,&loading::startGame);
 }
 
 void loading::startGame()
 {
     mstartpage = new(startpage);
-    helpPage = new(HelpWidget);//´´½¨¿ªÊ¼²Ëµ¥ºÍ°ïÖú²Ëµ¥
+    helpPage = new(HelpWidget);//åˆ›å»ºå¼€å§‹èœå•å’Œå¸®åŠ©èœå•
     mstartpage->setWidget(helpPage);
     helpPage->setWidget(mstartpage);
-    this->close();//¹Ø±Õ¼ÓÔØ´°¿Ú
+    this->close();//å…³é—­åŠ è½½çª—å£
     this->deleteLater();
     mstartpage->show();
 }
 void loading::paintEvent(QPaintEvent *event)
 {
-    mpainter_1->begin(this); // ¿ªÊ¼»æÖÆ
-    QImage img(":/new/prefix1/StartScreen.jpg"); // ¼ÓÔØÍ¼Æ¬×ÊÔ´
-    mpainter_1->drawImage(QRect(0, 0, 900, 600), img); // ÔÚÖ÷´°¿Ú»æÖÆÍ¼Æ¬
-    mpainter_1->drawImage(QRect(123, 20, 555, 115), QImage(":/new/prefix1/LogoWord.jpg"), QRect(0, 0, 555, 115)); // »æÖÆÍ¼Æ¬£¬Ö¸¶¨Î»ÖÃºÍ´óĞ¡
-    mpainter_1->end(); // ½áÊø»æÖÆ
+    mpainter_1->begin(this); // å¼€å§‹ç»˜åˆ¶
+    QImage img(":/new/prefix1/StartScreen.jpg"); // åŠ è½½å›¾ç‰‡èµ„æº
+    mpainter_1->drawImage(QRect(0, 0, 900, 600), img); // åœ¨ä¸»çª—å£ç»˜åˆ¶å›¾ç‰‡
+    mpainter_1->drawImage(QRect(123, 20, 555, 115), QImage(":/new/prefix1/LogoWord.jpg"), QRect(0, 0, 555, 115)); // ç»˜åˆ¶å›¾ç‰‡ï¼ŒæŒ‡å®šä½ç½®å’Œå¤§å°
+    mpainter_1->end(); // ç»“æŸç»˜åˆ¶
 }
 

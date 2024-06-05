@@ -5,6 +5,9 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QPainter>
+#include<QTimer>
+#include<QMediaPlaylist>
+#include<QMediaPlayer>
 #include <QMovie>
 
 class zombie : public QGraphicsItem
@@ -17,6 +20,8 @@ public:
     qreal speed;
     QMovie* mQMovie;
     QMovie* mhead;
+    QMediaPlayer* zmSound;
+    QMediaPlaylist* zmSoundList;
     bool isSnow;
     zombie();
     ~zombie();

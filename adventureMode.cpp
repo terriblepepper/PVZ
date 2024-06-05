@@ -5,11 +5,36 @@ adventureGameMode::adventureGameMode(QWidget* parent) : QWidget(parent) {
     setupUi();
     setFixedSize(910, 610);
     setWindowTitle("PlantsVsZombies");
-    setWindowIcon(QIcon(":/new/prefix1/WallNut.png")); // ÉèÖÃ´°¿ÚÍ¼±ê
+    setWindowIcon(QIcon(":/new/prefix1/WallNut.png")); // è®¾ç½®çª—å£å›¾æ ‡
 }
 
 void adventureGameMode::goToGamingMenu()
 {
+    QMediaPlayer* sound = new QMediaPlayer(this);
+    sound->setMedia(QUrl::fromLocalFile("./sound/pause.mp3"));
+    sound->setVolume(itemVolume);
+    sound->play();
+    QGraphicsScene* catchScene = scene;
+    mapScenes[catchScene].count++;
+    QTimer::singleShot(250, [sound, catchScene]()
+        {
+            if (mapScenes[catchScene].isValid != false)
+            {
+                delete sound;
+                mapScenes[catchScene].count--;
+            }
+            else
+            {
+                if (mapScenes[catchScene].count)
+                {
+                    mapScenes[catchScene].count--;
+                }
+                if (mapScenes[catchScene].count == 0)
+                {
+                    mapScenes.erase(catchScene);
+                }
+            }
+        });
     mQTimer->pause();
     gamingBGM->pause();
     gamingMenu->show();
@@ -17,8 +42,8 @@ void adventureGameMode::goToGamingMenu()
 
 void adventureGameMode::initIndex()
 {
-    duration = 30 * fpsIndex * 10;
-    //¼ÓÔØ¹Ø¿¨ĞÅÏ¢
+    duration = 30 * fpsIndex * 15;
+    //åŠ è½½å…³å¡ä¿¡æ¯
     loadLevelConfig("./configs/levels/Level" + QString::number(adventureGameMode::level) + ".json", rounds);
 }
 
@@ -54,67 +79,69 @@ bool adventureGameMode::loadLevelConfig(const QString& filePath, QQueue<QMap<QSt
 }
 
 void adventureGameMode::setupUi() {
-    adventureGameMode::level = 0;//ÖØÖÃ¹Ø¿¨
-    card::cardSelectedMap.clear();//Çå¿ÕÒÑÑ¡Ôñ¿¨Æ¬ÒÔ·ÀÖØ¸´Ñ¡Ôñ
-     QVBoxLayout* mainLayout = new QVBoxLayout(this);
-     back = new QPushButton("·µ»Ø");
-     back->setFixedSize(120, 40);
-     back->move(790, back->y());
-     back->setStyleSheet("QPushButton {"
-         "border-image: url(:/new/prefix1/levelbutton.png) center no-repeat;" // ÉèÖÃ°´Å¥ÑùÊ½£¬°üÀ¨±³¾°Í¼Æ¬
-         "font-size: 30px;" // ÉèÖÃ×ÖÌå´óĞ¡
-         "font-weight: bold"
-         "}"
-         "QPushButton:hover {" // Êó±êĞüÍ£ÑùÊ½
-         "color: green;" // ÉèÖÃÊó±êĞüÍ£Ê±µÄ×ÖÌåÑÕÉ«
-         "border-image: url(:/new/prefix1/levelbutton1.png) center no-repeat;"
-         "}");
-     connect(this->back, &QPushButton::clicked, this, &adventureGameMode::onBackClicked);
-     mainLayout->addWidget(back);
+    adventureGameMode::level = 0;//é‡ç½®å…³å¡
+    card::cardSelectedMap.clear();//æ¸…ç©ºå·²é€‰æ‹©å¡ç‰‡ä»¥é˜²é‡å¤é€‰æ‹©
+    QVBoxLayout* mainLayout = new QVBoxLayout(this);
+    back = new QPushButton("è¿”å›");
+    back->setFixedSize(120, 40);
+    back->move(790, back->y());
+    back->setStyleSheet("QPushButton {"
+        "border-image: url(:/new/prefix1/levelbutton.png) center no-repeat;" // è®¾ç½®æŒ‰é’®æ ·å¼ï¼ŒåŒ…æ‹¬èƒŒæ™¯å›¾ç‰‡
+        "font-size: 30px;" // è®¾ç½®å­—ä½“å¤§å°
+        "font-weight: bold"
+        "}"
+        "QPushButton:hover {" // é¼ æ ‡æ‚¬åœæ ·å¼
+        "color: green;" // è®¾ç½®é¼ æ ‡æ‚¬åœæ—¶çš„å­—ä½“é¢œè‰²
+        "border-image: url(:/new/prefix1/levelbutton1.png) center no-repeat;"
+        "}");
+    connect(this->back, &QPushButton::clicked, this, &adventureGameMode::onBackClicked);
+    mainLayout->addWidget(back);
 
-    // ´´½¨¶ÑÕ»Ê½´°¿Ú
+    // åˆ›å»ºå †æ ˆå¼çª—å£
     Widget = new QStackedWidget(this);
-    // ´´½¨¹Ø¿¨Ñ¡ÔñÒ³Ãæ
+    // åˆ›å»ºå…³å¡é€‰æ‹©é¡µé¢
     QWidget* levelWidget = new QWidget();
     QVBoxLayout* levelLayout = new QVBoxLayout(levelWidget);
     QPixmap backgroundPixmap(":/new/prefix1/levelSelectBackground.jpg");
     backgroundPixmap = backgroundPixmap.scaled(this->size(), Qt::IgnoreAspectRatio);
     levelWidget->setStyleSheet("background-image: url(:/new/prefix1/levelSelectBackground.jpg);");
 
-    // Ìí¼Ó¹Ø¿¨Ñ¡Ôñ°´Å¥£¬ÕâÀïÓĞ20¸ö¹Ø¿¨
+    // æ·»åŠ å…³å¡é€‰æ‹©æŒ‰é’®ï¼Œè¿™é‡Œæœ‰20ä¸ªå…³å¡
     for (int i = 1; i <= 20; ++i) {
         QPushButton* levelButton = new QPushButton;
         if (i > 0 && i < 6)
-            levelButton->setText("°×Ìì£º"+QString("¹Ø¿¨%1").arg(i));
-        else if(i>5&&i<11)
-            levelButton->setText("ºÚÒ¹£º" + QString("¹Ø¿¨%1").arg(i));
+            levelButton->setText("ç™½å¤©ï¼š" + QString("å…³å¡%1").arg(i));
+        else if (i > 5 && i < 11)
+            levelButton->setText("é»‘å¤œï¼š" + QString("å…³å¡%1").arg(i));
         else if (i > 10 && i < 16)
-            levelButton->setText("ÂêÑÅ£º" + QString("¹Ø¿¨%1").arg(i));
+            levelButton->setText("ç›é›…ï¼š" + QString("å…³å¡%1").arg(i));
         else if (i > 15 && i < 21)
-            levelButton->setText("Îİ¶¥£º" + QString("¹Ø¿¨%1").arg(i));
-        //ÉèÖÃbuttonµÄ¹¤³ÌÃû×Ö
+            levelButton->setText("å±‹é¡¶ï¼š" + QString("å…³å¡%1").arg(i));
+        //è®¾ç½®buttonçš„å·¥ç¨‹åå­—
         levelButton->setObjectName(QString("level_%1").arg(i));
         levelButton->setFixedHeight(80);
         levelButton->setStyleSheet("QPushButton {"
-            "border-image: url(:/new/prefix1/levelbutton.png) center no-repeat;" // ÉèÖÃ°´Å¥ÑùÊ½£¬°üÀ¨±³¾°Í¼Æ¬
-            "font-size: 30px;" // ÉèÖÃ×ÖÌå´óĞ¡
+            "border-image: url(:/new/prefix1/levelbutton.png) center no-repeat;" // è®¾ç½®æŒ‰é’®æ ·å¼ï¼ŒåŒ…æ‹¬èƒŒæ™¯å›¾ç‰‡
+            "font-size: 30px;" // è®¾ç½®å­—ä½“å¤§å°
             "font-weight: bold"
             "}"
-            "QPushButton:hover {" // Êó±êĞüÍ£ÑùÊ½
-            "color: green;" // ÉèÖÃÊó±êĞüÍ£Ê±µÄ×ÖÌåÑÕÉ«
+            "QPushButton:hover {" // é¼ æ ‡æ‚¬åœæ ·å¼
+            "color: green;" // è®¾ç½®é¼ æ ‡æ‚¬åœæ—¶çš„å­—ä½“é¢œè‰²
             "border-image: url(:/new/prefix1/levelbutton1.png) center no-repeat;"
             "}");
         connect(levelButton, &QPushButton::clicked, [this, levelButton]() {
+            this->hide();
             QString temp = levelButton->objectName();
-            adventureGameMode::level = temp.remove("level_").toInt();//°´ÏÂ¹Ø¿¨°´Å¥¾ÍÁ¢ÂíÉèÖÃ¹Ø¿¨
+            adventureGameMode::level = temp.remove("level_").toInt();//æŒ‰ä¸‹å…³å¡æŒ‰é’®å°±ç«‹é©¬è®¾ç½®å…³å¡
             emit stopLoadingBGM();
             adSelecting = new (CardSelectionDialog);
             adSelecting->setWindowFlags(adSelecting->windowFlags() | Qt::WindowStaysOnTopHint);
             adSelecting->isAdvMode = true;
             adSelecting->show();
-            //½ÓÊÕ»Ö¸´BGMĞÅºÅ
+            //æ¥æ”¶æ¢å¤BGMä¿¡å·
             connect(adSelecting, &CardSelectionDialog::resumeLevel_BGM, this, &adventureGameMode::backFromSelect);
-            connect(adSelecting, &CardSelectionDialog::cardIsSelected, [this, levelButton]()  {
+            connect(adSelecting, &CardSelectionDialog::cardIsSelected, [this, levelButton]() {
+                this->show();
                 startGame();
                 });
             });
@@ -126,14 +153,14 @@ void adventureGameMode::setupUi() {
     levelSelectArea->setWidgetResizable(true);
     levelSelectArea->setWidget(levelWidget);
     Widget->addWidget(levelSelectArea);
-    // ´´½¨ÓÎÏ·ÊÓÍ¼
+    // åˆ›å»ºæ¸¸æˆè§†å›¾
 
     view = new QGraphicsView(this);
     view->setAlignment(Qt::AlignCenter);
-    view->hide();  // ³õÊ¼Ê±Òş²ØÊÓÍ¼
+    view->hide();  // åˆå§‹æ—¶éšè—è§†å›¾
 
     mainLayout->addWidget(Widget);
-    setLayout(mainLayout); // ÉèÖÃ²¼¾Öµ½adventureGameMode´°¿Ú
+    setLayout(mainLayout); // è®¾ç½®å¸ƒå±€åˆ°adventureGameModeçª—å£
 }
 
 void adventureGameMode::initCardCool()
@@ -144,23 +171,23 @@ void adventureGameMode::initCardCool()
 }
 
 void adventureGameMode::startGame() {
-    setWindowTitle("PlantsVsZombies | Level"+QString::number(adventureGameMode::level));
-    //³õÊ¼»¯²ÎÊı
+    setWindowTitle("PlantsVsZombies | Level" + QString::number(adventureGameMode::level));
+    //åˆå§‹åŒ–å‚æ•°
     initIndex();
-    initCardCool();//ÉèÖÃ¿¨Æ¬ÀäÈ´Ê±¼ä
+    initCardCool();//è®¾ç½®å¡ç‰‡å†·å´æ—¶é—´
 
-    //²¥·ÅBGM
-    bgmPlay();
+    // ä½¿ç”¨é«˜ç²¾åº¦å®šæ—¶å™¨
+    mQTimer = new TimerThread(this);
 
-    // Ê¹ÓÃ¸ß¾«¶È¶¨Ê±Æ÷
-    mQTimer = new HighPrecisionTimer(this);
-
-    // ´´½¨ÓÎÏ·³¡¾°²¢ÉèÖÃÆä·Ö±æÂÊ
+    // åˆ›å»ºæ¸¸æˆåœºæ™¯å¹¶è®¾ç½®å…¶åˆ†è¾¨ç‡
     scene = new QGraphicsScene(this);
-    scene->setSceneRect(150, 0, 900, 600); // ¿ØÖÆimgĞèÒª½ØÈ¡²¿·Ö
+    scene->setSceneRect(150, 0, 900, 600); // æ§åˆ¶imgéœ€è¦æˆªå–éƒ¨åˆ†
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-
-    // ³õÊ¼»¯ÆäËû×é¼ş
+    sceneCast Cast;
+    Cast.isValid = true;
+    Cast.count = 0;
+    mapScenes.emplace(scene,Cast);
+    // åˆå§‹åŒ–å…¶ä»–ç»„ä»¶
     shop* cardBar = new shop;
     cardBar->setPos(520, 45);
     scene->addItem(cardBar);
@@ -173,46 +200,49 @@ void adventureGameMode::startGame() {
     baseCardMap->setPos(618, 326);
     scene->addItem(baseCardMap);
 
-    // ÉèÖÃÊÓÍ¼ÊôĞÔ²¢½«³¡¾°Ìí¼Óµ½ÊÓÍ¼ÖĞ
+    // è®¾ç½®è§†å›¾å±æ€§å¹¶å°†åœºæ™¯æ·»åŠ åˆ°è§†å›¾ä¸­
     view->setScene(scene);
     view->setRenderHint(QPainter::Antialiasing);
-    if(adventureGameMode::level<6)
-        view->setBackgroundBrush(QPixmap(":/new/prefix1/Background.jpg")); // ÉèÖÃ±³¾°Í¼Æ¬
-    else if(adventureGameMode::level > 5 && adventureGameMode::level < 11)
-        view->setBackgroundBrush(QPixmap(":/new/prefix1/Background2.jpg")); // ÉèÖÃ±³¾°Í¼Æ¬
+    if (adventureGameMode::level < 6)
+        view->setBackgroundBrush(QPixmap(":/new/prefix1/Background.jpg")); // è®¾ç½®èƒŒæ™¯å›¾ç‰‡
+    else if (adventureGameMode::level > 5 && adventureGameMode::level < 11)
+        view->setBackgroundBrush(QPixmap(":/new/prefix1/Background2.jpg")); // è®¾ç½®èƒŒæ™¯å›¾ç‰‡
     else if (adventureGameMode::level > 10 && adventureGameMode::level < 16)
-        view->setBackgroundBrush(QPixmap(":/new/prefix1/Background3.jpg")); // ÉèÖÃ±³¾°Í¼Æ¬
+        view->setBackgroundBrush(QPixmap(":/new/prefix1/Background3.jpg")); // è®¾ç½®èƒŒæ™¯å›¾ç‰‡
     else if (adventureGameMode::level > 15 && adventureGameMode::level <= 20)
         view->setBackgroundBrush(QPixmap(":/new/prefix1/Background4.jpg"));
     view->setCacheMode(QGraphicsView::CacheBackground);
 
     view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-    //Ìí¼Ó³ı²İ»ú
+    //æ·»åŠ é™¤è‰æœº
     for (int i = 0; i < 5; ++i) {
-        Mower* mower = new Mower; 
+        Mower* mower = new Mower;
         mower->setPos(215, 120 + 95 * i);
         scene->addItem(mower);
     }
-    // ÉèÖÃÊÓÍ¼´óĞ¡²¢ÏÔÊ¾
-    view->resize(905, 605); // È·±£ÊÓÍ¼´óĞ¡Óë³¡¾°´óĞ¡Æ¥Åä
-    view->move(0, 0); // È·±£ÊÓÍ¼ÔÚ´°¿ÚÖĞµÄÎ»ÖÃÕıÈ·
-    // Á¬½Ó¸ß¾«¶È¶¨Ê±Æ÷µÄtimeoutĞÅºÅµ½³¡¾°µÄadvance²Û£¬ÊµÏÖ³¡¾°ÖĞÎïÌåµÄ¶¯»­Ğ§¹û
-    connect(mQTimer, &HighPrecisionTimer::timeout, scene, &QGraphicsScene::advance);
-    // Á¬½Ó¸ß¾«¶È¶¨Ê±Æ÷µÄtimeoutĞÅºÅµ½ÓÎÏ·µÄaddZombie²Û£¬Ìí¼Ó½©Ê¬
-    connect(mQTimer, &HighPrecisionTimer::timeout, this, &adventureGameMode::addZombie);
-    // Á¬½Ó¸ß¾«¶È¶¨Ê±Æ÷µÄtimeoutĞÅºÅµ½ÓÎÏ·µÄcheck²Û£¬¼ì²éÓÎÏ·ÊÇ·ñ½áÊø
-    connect(mQTimer, &HighPrecisionTimer::timeout, this, &adventureGameMode::checkGameState);
-    mQTimer->start(33333 / fpsIndex); // Æô¶¯¸ß¾«¶È¶¨Ê±Æ÷£¬ÒÔÎ¢ÃëÎªµ¥Î»
-    view->show();
-    //Ìí¼Ó²Ëµ¥°´Å¥
+    // è®¾ç½®è§†å›¾å¤§å°å¹¶æ˜¾ç¤º
+    view->resize(905, 605); // ç¡®ä¿è§†å›¾å¤§å°ä¸åœºæ™¯å¤§å°åŒ¹é…
+    view->move(0, 0); // ç¡®ä¿è§†å›¾åœ¨çª—å£ä¸­çš„ä½ç½®æ­£ç¡®
+    // è¿æ¥é«˜ç²¾åº¦å®šæ—¶å™¨çš„timeoutä¿¡å·åˆ°åœºæ™¯çš„advanceæ§½ï¼Œå®ç°åœºæ™¯ä¸­ç‰©ä½“çš„åŠ¨ç”»æ•ˆæœ
+    connect(mQTimer, &TimerThread::timeout, scene, &QGraphicsScene::advance);
+    // è¿æ¥é«˜ç²¾åº¦å®šæ—¶å™¨çš„timeoutä¿¡å·åˆ°æ¸¸æˆçš„addZombieæ§½ï¼Œæ·»åŠ åƒµå°¸
+    connect(mQTimer, &TimerThread::timeout, this, &adventureGameMode::addZombie);
+    // è¿æ¥é«˜ç²¾åº¦å®šæ—¶å™¨çš„timeoutä¿¡å·åˆ°æ¸¸æˆçš„checkæ§½ï¼Œæ£€æŸ¥æ¸¸æˆæ˜¯å¦ç»“æŸ
+    connect(mQTimer, &TimerThread::timeout, this, &adventureGameMode::checkGameState);
+    //æ·»åŠ èœå•æŒ‰é’®
     createMenuButton();
-    //Á¬½Óµ½²Ëµ¥°´Å¥
+    //è¿æ¥åˆ°èœå•æŒ‰é’®
     connect(menuButton, &QPushButton::clicked, this, &adventureGameMode::goToGamingMenu);
+    view->show();
+    //æ’­æ”¾BGM
+    bgmPlay();
+    mQTimer->start();
+    
 }
 
 void adventureGameMode::checkGameState()
 {
-    //¼ì²éÓÎÏ·ÊÇ·ñ½áÊø£¬ÊÇ·ñÓĞ½©Ê¬µ½´ïÆÁÄ»×î×ó±ß
+    //æ£€æŸ¥æ¸¸æˆæ˜¯å¦ç»“æŸï¼Œæ˜¯å¦æœ‰åƒµå°¸åˆ°è¾¾å±å¹•æœ€å·¦è¾¹
     const QList<QGraphicsItem*> items = scene->items();
     int zombieCount = 0;
     foreach(QGraphicsItem * item, items)
@@ -243,28 +273,60 @@ void adventureGameMode::addZombie()
             zombieCount++;
         }
     }
-    //ÅĞ¶Ï»ØºÏÊÇ·ñÍê³É(½©Ê¬Ã»ÓĞ²¢ÇÒ²»ÊÇµÚÒ»»ØºÏºÍ×îºóÒ»»ØºÏ)
-    if (!isRoundDone && !rounds.isEmpty()&& zombieCount <=0 )
+    //åˆ¤æ–­å›åˆæ˜¯å¦å®Œæˆ(åƒµå°¸æ²¡æœ‰å¹¶ä¸”ä¸æ˜¯ç¬¬ä¸€å›åˆå’Œæœ€åä¸€å›åˆ)
+    if (!isRoundDone && !rounds.isEmpty() && zombieCount <= 0)
     {
         isRoundDone = true;
-        time = 0;//ÖØÖÃ¼ÆÊ±Æ÷
+        time = 0;//é‡ç½®è®¡æ—¶å™¨
     }
-    //ÅĞ¶Ï»ØºÏÊÇ·ñÍê³É
-    if (isRoundDone) 
+    //æ’­æ”¾åƒµå°¸æ¥è¢­éŸ³ä¹
+    if (isFirstRound && time+1 >= duration * 3/4)
+    {
+        QMediaPlayer* sound = new QMediaPlayer(this);
+        sound->setMedia(QUrl::fromLocalFile("./sound/awooga.mp3"));
+        sound->setVolume(musicVolume);
+        sound->play();
+        QGraphicsScene* catchScene = scene;
+        mapScenes[catchScene].count++;
+        QTimer::singleShot(4000, [sound, catchScene]()
+            {
+                if (mapScenes[catchScene].isValid != false)
+                {
+                    delete sound;
+                    mapScenes[catchScene].count--;
+                }
+                else
+                {
+                    if (mapScenes[catchScene].count)
+                    {
+                        mapScenes[catchScene].count--;
+                    }
+                    if (mapScenes[catchScene].count == 0)
+                    {
+                        mapScenes.erase(catchScene);
+                    }
+                }
+            });
+        isFirstRound = false;
+    }
+
+    //åˆ¤æ–­å›åˆæ˜¯å¦å®Œæˆ
+    if (isRoundDone)
     {
         ++time;
-        if (time >= duration) //Ò»²¨Íê³Éºó£¬¼ä¸ôdurationµÄÊ±¼ä¿ªÊ¼ÏÂÒ»²¨
+        if (time >= duration) //ä¸€æ³¢å®Œæˆåï¼Œé—´éš”durationçš„æ—¶é—´å¼€å§‹ä¸‹ä¸€æ³¢
         {
-            QMap<QString, int> round = rounds.dequeue();//»ñÈ¡¶ÓÍ·µØÍ¼ÔªËØ£¬²¢½«¶ÓÍ·³ö¶ÓÁĞ
+            QMap<QString, int> round = rounds.dequeue();//è·å–é˜Ÿå¤´åœ°å›¾å…ƒç´ ï¼Œå¹¶å°†é˜Ÿå¤´å‡ºé˜Ÿåˆ—
             for (auto& key : round.keys())
             {
-                int num = round[key];//»ñÈ¡±¾ÂÖ¼üÖµ½©Ê¬µÄ¸öÊı
+                int num = round[key] * difficultyIndex(Difficulty);//è·å–æœ¬è½®é”®å€¼åƒµå°¸çš„ä¸ªæ•°
+                qInfo() << "num:" << num<<"Dif"<<Difficulty;
                 while (num)
                 {
-                    //·Å½©Ê¬
+                    //æ”¾åƒµå°¸
                     int offsetX = qrand() % 80;
                     int randRoad = qrand() % 5;
-                    zombie* zombie;
+                    zombie* zombie = nullptr;
                     if (key == "basic")
                     {
                         zombie = new basiczombie;
@@ -321,44 +383,117 @@ void adventureGameMode::addZombie()
                     {
                         zombie = new pyramidzombie;
                     }
-                    zombie->setPos(988 + offsetX, 120 + 95 * randRoad);
+
+                    if(zombie)zombie->setPos(988 + offsetX, 120 + 95 * randRoad);
                     scene->addItem(zombie);
                     num--;
                 }
                 isRoundDone = false;
             }
         }
-    }   
+    }
 }
 
 void adventureGameMode::backFromSelect()
 {
+    this->show();
     emit resumeLoadingBGM();
 }
 
 void adventureGameMode::bgmPlay()
 {
+    //å¼€åœºç‰¹æ•ˆ
+    QGraphicsScene* catchScene = scene;
+    QPushButton* menu = menuButton;
+    QLabel* gameReady = new QLabel();
+    gameReady->setStyleSheet("background: transparent;"
+                             "background-image: url(./images/StartReady.png);"
+        " background-position: center;"
+                             "background-repeat: no-repeat;"
+                            );
+    QTimer::singleShot(2000 / 3, [gameReady]() 
+        {
+            gameReady->setStyleSheet("background: transparent;"
+                "background-image: url(./images/StartSet.png);"
+                " background-position: center;"
+                "background-repeat: no-repeat;"
+            );
+        });
+    QTimer::singleShot(4000 / 3, [gameReady, catchScene,menu]()
+        {
+            gameReady->setStyleSheet("background: transparent;"
+                "background-image: url(./images/StartPlant.png);"
+                " background-position: center;"
+                "background-repeat: no-repeat;"
+            );
+            QTimer::singleShot(800,[gameReady, catchScene,menu]()
+                {
+                    if (mapScenes[catchScene].isValid != false)
+                    {
+                        menu->setEnabled(true);
+                        delete gameReady;
+                        mapScenes[catchScene].count--;
+                    }
+                    else
+                    {
+                        if (mapScenes[catchScene].count)
+                        {
+                            mapScenes[catchScene].count--;
+                        }
+                        if (mapScenes[catchScene].count == 0)
+                        {
+                            mapScenes.erase(catchScene);
+                        }
+                    }
+                });
+        });
+    gameReady->setGeometry(0, 0, scene->width(), scene->height());
+    scene->addWidget(gameReady);
+    QMediaPlayer* soundBegin = new QMediaPlayer(this);
+    soundBegin->setMedia(QUrl::fromLocalFile("./sound/readysetplant.mp3"));
+    soundBegin->setVolume(musicVolume);
+    soundBegin->play();
+    mapScenes[catchScene].count++;
+    QTimer::singleShot(5000, [soundBegin, catchScene]()
+        {
+            if (mapScenes[catchScene].isValid != false)
+            {
+                delete soundBegin;
+                mapScenes[catchScene].count--;
+            }
+            else
+            {
+                if (mapScenes[catchScene].count)
+                {
+                    mapScenes[catchScene].count--;
+                }
+                if (mapScenes[catchScene].count == 0)
+                {
+                    mapScenes.erase(catchScene);
+                }
+            }
+        });
+    //èƒŒæ™¯éŸ³ä¹
     gamingBGM = new(QMediaPlayer);
     gamingBGM_List = new(QMediaPlaylist);
-    // Ìí¼ÓMP3ÎÄ¼şµ½²¥·ÅÁĞ±í
+    // æ·»åŠ MP3æ–‡ä»¶åˆ°æ’­æ”¾åˆ—è¡¨
     gamingBGM_List->addMedia(QUrl::fromLocalFile("./sound/04Grasswalk.mp3"));
-    // ÉèÖÃ²¥·ÅÄ£Ê½ÎªÑ­»·²¥·Å
+    // è®¾ç½®æ’­æ”¾æ¨¡å¼ä¸ºå¾ªç¯æ’­æ”¾
     gamingBGM_List->setPlaybackMode(QMediaPlaylist::Loop);
-    // ½«²¥·ÅÁĞ±íÉèÖÃ¸ø²¥·ÅÆ÷
+    // å°†æ’­æ”¾åˆ—è¡¨è®¾ç½®ç»™æ’­æ”¾å™¨
     gamingBGM->setPlaylist(gamingBGM_List);
-    //ÉèÖÃÒôÁ¿
+    //è®¾ç½®éŸ³é‡
     gamingBGM->setVolume(musicVolume);
-    // ¿ªÊ¼²¥·ÅÒôÀÖ
-    gamingBGM->play();
-
+    // å¼€åœºéŸ³æ•ˆå®Œæ¯•åå¼€å§‹æ’­æ”¾éŸ³ä¹
+    QTimer::singleShot(6000,gamingBGM,&QMediaPlayer::play);
 }
 
 void adventureGameMode::createMenuButton()
 {
-    menuButton = new QPushButton; // ´´½¨²Ëµ¥°´Å¥
-    menuButton->setFixedSize(136, 36); // ÉèÖÃ°´Å¥´óĞ¡
+    menuButton = new QPushButton; // åˆ›å»ºèœå•æŒ‰é’®
+    menuButton->setFixedSize(136, 36); // è®¾ç½®æŒ‰é’®å¤§å°
 
-    // ÉèÖÃ°´Å¥µÄÑùÊ½±í£¬°üÀ¨ÆÕÍ¨×´Ì¬ºÍĞüÍ£×´Ì¬ÏÂµÄ±³¾°Í¼Æ¬
+    // è®¾ç½®æŒ‰é’®çš„æ ·å¼è¡¨ï¼ŒåŒ…æ‹¬æ™®é€šçŠ¶æ€å’Œæ‚¬åœçŠ¶æ€ä¸‹çš„èƒŒæ™¯å›¾ç‰‡
     menuButton->setStyleSheet("QPushButton {"
         "    border-image: url(:/new/prefix1/gamingMenu.png);"
         "}"
@@ -366,32 +501,33 @@ void adventureGameMode::createMenuButton()
         "    border-image: url(:/new/prefix1/gamingMenu1.png);"
         "}");
 
-    // ½«²Ëµ¥°´Å¥Ç¶Èëµ½ QGraphicsProxyWidget
+    // å°†èœå•æŒ‰é’®åµŒå…¥åˆ° QGraphicsProxyWidget
     gamingWidgetsProxy = scene->addWidget(menuButton);
-    gamingWidgetsProxy->setPos(894, 0); // ÉèÖÃ°´Å¥ÔÚ³¡¾°ÖĞµÄÎ»ÖÃ
-    // ½«²Ëµ¥°´Å¥Ìí¼Óµ½³¡¾°
+    gamingWidgetsProxy->setPos(894, 0); // è®¾ç½®æŒ‰é’®åœ¨åœºæ™¯ä¸­çš„ä½ç½®
+    menuButton->setEnabled(false);
+    // å°†èœå•æŒ‰é’®æ·»åŠ åˆ°åœºæ™¯
     scene->addItem(gamingWidgetsProxy);
 }
 
 void adventureGameMode::failScene()
 {
-    // ½áÊø¼ÆÊ±Æ÷Í£Ö¹ÓÎÏ·
+    // ç»“æŸè®¡æ—¶å™¨åœæ­¢æ¸¸æˆ
     mQTimer->stop();
 
-    // Ìí¼ÓÓÎÏ·Ê§°ÜµÄ½áÊøÍ¼Æ¬
+    // æ·»åŠ æ¸¸æˆå¤±è´¥çš„ç»“æŸå›¾ç‰‡
     scene->addPixmap(QPixmap(":/new/prefix1/ZombiesWon.png"))->setPos(336, 92);
     gamingBGM->stop();
     gamingBGM->setMedia(QUrl::fromLocalFile("./sound/losemusic.mp3"));
     gamingBGM->play();
     scene->advance();
 
-    // ´´½¨Ò»¸öÍ¸Ã÷µÄ QPushButton ¸²¸ÇÕû¸ö´°¿Ú
+    // åˆ›å»ºä¸€ä¸ªé€æ˜çš„ QPushButton è¦†ç›–æ•´ä¸ªçª—å£
     gameOverButton = new QPushButton();
     gameOverButton->setStyleSheet("background: transparent;");
     gameOverButton->setFlat(true);
     gameOverButton->setGeometry(0, 0, scene->width(), scene->height());
 
-    // ½« QPushButton Ìí¼Óµ½³¡¾°ÖĞ
+    // å°† QPushButton æ·»åŠ åˆ°åœºæ™¯ä¸­
     gamingWidgetsProxy = scene->addWidget(gameOverButton);
     gamingWidgetsProxy->setPos(0, 0);
     connect(gameOverButton, &QPushButton::clicked, this, &adventureGameMode::gameFinish);
@@ -399,23 +535,23 @@ void adventureGameMode::failScene()
 
 void adventureGameMode::winScene()
 {
-    // ½áÊø¼ÆÊ±Æ÷Í£Ö¹ÓÎÏ·
+    // ç»“æŸè®¡æ—¶å™¨åœæ­¢æ¸¸æˆ
     mQTimer->stop();
 
-    // Ìí¼ÓÓÎÏ·Ê¤ÀûµÄ½áÊøÍ¼Æ¬
+    // æ·»åŠ æ¸¸æˆèƒœåˆ©çš„ç»“æŸå›¾ç‰‡
     scene->addPixmap(QPixmap(":/new/prefix1/gameWin.png"))->setPos(336, 92);
     gamingBGM->stop();
     gamingBGM->setMedia(QUrl::fromLocalFile("./sound/winmusic.mp3"));
     gamingBGM->play();
     scene->advance();
 
-    // ´´½¨Ò»¸öÍ¸Ã÷µÄ QPushButton ¸²¸ÇÕû¸ö´°¿Ú
+    // åˆ›å»ºä¸€ä¸ªé€æ˜çš„ QPushButton è¦†ç›–æ•´ä¸ªçª—å£
     gameWinButton = new QPushButton();
     gameWinButton->setStyleSheet("background: transparent;");
     gameWinButton->setFlat(true);
     gameWinButton->setGeometry(0, 0, scene->width(), scene->height());
 
-    // ½« QPushButton Ìí¼Óµ½³¡¾°ÖĞ
+    // å°† QPushButton æ·»åŠ åˆ°åœºæ™¯ä¸­
     gamingWidgetsProxy = scene->addWidget(gameWinButton);
     gamingWidgetsProxy->setPos(0, 0);
     connect(gameWinButton, &QPushButton::clicked, this, &adventureGameMode::gameFinish);
@@ -423,12 +559,14 @@ void adventureGameMode::winScene()
 
 adventureGameMode::~adventureGameMode()
 {
-    if (gamingBGM) 
+    if (gamingBGM)
     {
+        mQTimer->stop();
         delete back;
         delete gamingBGM;
         delete gamingBGM_List;
         delete mQTimer;
+        mapScenes[scene].isValid = false;
         delete scene;
     }
     delete view;

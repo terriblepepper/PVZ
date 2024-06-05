@@ -3,45 +3,70 @@
 #include "zombie.h"
 #include "peashot.h"
 #include"gameIndex.h"
-
+#include<QMediaPlayer>
 GatlingPea::GatlingPea()
 {
-    hp = 350.0; // ÉèÖÃÍã¶¹ÉäÊÖµÄÉúÃüÖµÎª200
-    atk = 25.0; // ÉèÖÃÍã¶¹ÉäÊÖµÄ¹¥»÷Á¦Îª25
-    time = int(1.4 * 1000000 / (33333 / fpsIndex)); // ¼ÆËãÍã¶¹ÉäÊÖ¹¥»÷¼ä¸ôµÄÖ¡Êı£¬1.4Ãë¶ÔÓ¦µÄÖ¡Êı£¨33333/fpsIndexÎªÖ¡¼ä¸ô£©
-    setMovie(":/new/prefix1/newPlants/GatlingPea/idle.gif"); // ÉèÖÃÍã¶¹ÉäÊÖµÄ¶¯»­
-    setScale(2);
+    hp = 350.0; // è®¾ç½®è±Œè±†å°„æ‰‹çš„ç”Ÿå‘½å€¼ä¸º200
+    atk = 25.0; // è®¾ç½®è±Œè±†å°„æ‰‹çš„æ”»å‡»åŠ›ä¸º25
+    time = int(1.4 * 1000000 / (33333 / fpsIndex)); // è®¡ç®—è±Œè±†å°„æ‰‹æ”»å‡»é—´éš”çš„å¸§æ•°ï¼Œ1.4ç§’å¯¹åº”çš„å¸§æ•°ï¼ˆ33333/fpsIndexä¸ºå¸§é—´éš”ï¼‰
+    setMovie(":/new/prefix1/newPlants/GatlingPea/idle.gif"); // è®¾ç½®è±Œè±†å°„æ‰‹çš„åŠ¨ç”»
+    setScale(1.1);
 }
 
 void GatlingPea::advance(int phase)
 {
     if (!phase)
         return;
-    update(); // ¸üĞÂÍã¶¹ÉäÊÖµÄ»æÖÆ
+    update(); // æ›´æ–°è±Œè±†å°„æ‰‹çš„ç»˜åˆ¶
     if ((int)hp <= 0)
-        delete this; // Èç¹ûÍã¶¹ÉäÊÖµÄÉúÃüÖµĞ¡ÓÚµÈÓÚ0£¬É¾³ıÍã¶¹ÉäÊÖ¶ÔÏó
-    else if (++counter >= time) // Ã¿¹ıÒ»¸ö¹¥»÷¼ä¸ôµÄÖ¡Êı
+        delete this; // å¦‚æœè±Œè±†å°„æ‰‹çš„ç”Ÿå‘½å€¼å°äºç­‰äº0ï¼Œåˆ é™¤è±Œè±†å°„æ‰‹å¯¹è±¡
+    else if (++counter >= time) // æ¯è¿‡ä¸€ä¸ªæ”»å‡»é—´éš”çš„å¸§æ•°
     {
-        counter = 0; // ÖØÖÃ¼ÆÊıÆ÷
-        // Èç¹ûÍã¶¹ÉäÊÖÓëÆäËûÍ¼ĞÎÏî·¢ÉúÅö×²£¨¼´½©Ê¬ÔÚÍã¶¹ÉäÊÖµÄ¹¥»÷·¶Î§ÄÚ£©
+        counter = 0; // é‡ç½®è®¡æ•°å™¨
+        // å¦‚æœè±Œè±†å°„æ‰‹ä¸å…¶ä»–å›¾å½¢é¡¹å‘ç”Ÿç¢°æ’ï¼ˆå³åƒµå°¸åœ¨è±Œè±†å°„æ‰‹çš„æ”»å‡»èŒƒå›´å†…ï¼‰
         if (!collidingItems().isEmpty())
         {
             peashot* pe = new peashot(atk);
             pe->setX(x() + 20);
-            pe->setY(y()+18);
+            pe->setY(y()+ 5);
             scene()->addItem(pe);
             pe = new peashot(atk);
             pe->setX(x() + 40);
-            pe->setY(y()+18);
+            pe->setY(y() + 5);
             scene()->addItem(pe);
             pe = new peashot(atk);
             pe->setX(x() + 60);
-            pe->setY(y()+18);
+            pe->setY(y() + 5);
             scene()->addItem(pe);
             pe = new peashot(atk);
             pe->setX(x() + 80);
-            pe->setY(y()+18);
+            pe->setY(y() + 5);
             scene()->addItem(pe);
+            QMediaPlayer* soundpea = new QMediaPlayer(scene());
+            soundpea->setMedia(QUrl::fromLocalFile("./sound/kernelpult.mp3"));
+            soundpea->setVolume(itemVolume);
+            soundpea->play();
+            QGraphicsScene* catchScene = scene();
+            mapScenes[catchScene].count++;
+            QTimer::singleShot(250, [soundpea, catchScene]()
+                {
+                    if (mapScenes[catchScene].isValid != false)
+                    {
+                        delete soundpea;
+                        mapScenes[catchScene].count--;
+                    }
+                    else
+                    {
+                        if (mapScenes[catchScene].count)
+                        {
+                            mapScenes[catchScene].count--;
+                        }
+                        if (mapScenes[catchScene].count == 0)
+                        {
+                            mapScenes.erase(catchScene);
+                        }
+                    }
+                });
             return;
         }
     }

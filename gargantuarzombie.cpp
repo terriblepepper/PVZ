@@ -22,12 +22,12 @@ void gargantuarzombie::advance(int phase)
 {
     if (!phase)
         return;
-    update(); // ¸üĞÂ»ù´¡½©Ê¬µÄ»æÖÆ
-    if (hp <= 0) // Èç¹û»ù´¡½©Ê¬µÄÉúÃüÖµĞ¡ÓÚµÈÓÚ0£¬±íÊ¾ÒÑ¾­±»»÷°Ü
+    update(); // æ›´æ–°åŸºç¡€åƒµå°¸çš„ç»˜åˆ¶
+    if (hp <= 0) // å¦‚æœåŸºç¡€åƒµå°¸çš„ç”Ÿå‘½å€¼å°äºç­‰äº0ï¼Œè¡¨ç¤ºå·²ç»è¢«å‡»è´¥
     {
-        if (state < 2) // Èç¹û»ù´¡½©Ê¬µÄ×´Ì¬Ğ¡ÓÚ2£¬±íÊ¾´¦ÓÚËÀÍö×´Ì¬
+        if (state < 2) // å¦‚æœåŸºç¡€åƒµå°¸çš„çŠ¶æ€å°äº2ï¼Œè¡¨ç¤ºå¤„äºæ­»äº¡çŠ¶æ€
         {
-            state = 2; // ½«×´Ì¬ÉèÖÃÎª2£¨ËÀÍö£©
+            state = 2; // å°†çŠ¶æ€è®¾ç½®ä¸º2ï¼ˆæ­»äº¡ï¼‰
             if (adventureGameMode::level < 16 && adventureGameMode::level>10)
             {
                 setMovie("./images/newZombies/gargantuar2/death.gif");
@@ -44,14 +44,14 @@ void gargantuarzombie::advance(int phase)
         return;
     }
     QList<QGraphicsItem*> items = collidingItems();
-    if (!items.isEmpty()) // Èç¹û»ù´¡½©Ê¬ÓëÆäËûÍ¼ĞÎÏî·¢ÉúÅö×²
+    if (!items.isEmpty()) // å¦‚æœåŸºç¡€åƒµå°¸ä¸å…¶ä»–å›¾å½¢é¡¹å‘ç”Ÿç¢°æ’
     {
         plant* pl = qgraphicsitem_cast<plant*>(items[0]);
-        pl->hp -= atk; // ¼õÉÙÖ²ÎïµÄÉúÃüÖµ£¬ÊÜµ½»ù´¡½©Ê¬µÄ¹¥»÷
+        pl->hp -= atk; // å‡å°‘æ¤ç‰©çš„ç”Ÿå‘½å€¼ï¼Œå—åˆ°åŸºç¡€åƒµå°¸çš„æ”»å‡»
         qInfo() << "basicAtk" << atk;
-        if (state != 1) // Èç¹û»ù´¡½©Ê¬µÄ×´Ì¬²»Îª1£¨¹¥»÷×´Ì¬£©
+        if (state != 1) // å¦‚æœåŸºç¡€åƒµå°¸çš„çŠ¶æ€ä¸ä¸º1ï¼ˆæ”»å‡»çŠ¶æ€ï¼‰
         {
-            state = 1; // ½«×´Ì¬ÉèÖÃÎª1£¨¹¥»÷£©
+            state = 1; // å°†çŠ¶æ€è®¾ç½®ä¸º1ï¼ˆæ”»å‡»ï¼‰
             if (adventureGameMode::level < 16 && adventureGameMode::level>10)
             {
                 setMovie("./images/newZombies/gargantuar2/eat.gif");
@@ -64,9 +64,9 @@ void gargantuarzombie::advance(int phase)
         }
         return;
     }
-    if (state) // Èç¹û»ù´¡½©Ê¬µÄ×´Ì¬²»Îª0£¨ĞĞ×ß×´Ì¬£©
+    if (state) // å¦‚æœåŸºç¡€åƒµå°¸çš„çŠ¶æ€ä¸ä¸º0ï¼ˆè¡Œèµ°çŠ¶æ€ï¼‰
     {
-        state = 0; // ½«×´Ì¬ÉèÖÃÎª0£¨ĞĞ×ß£©
+        state = 0; // å°†çŠ¶æ€è®¾ç½®ä¸º0ï¼ˆè¡Œèµ°ï¼‰
         if (adventureGameMode::level < 16 && adventureGameMode::level>10)
         {
             setMovie("./images/newZombies/gargantuar2/walk.gif");
@@ -77,7 +77,7 @@ void gargantuarzombie::advance(int phase)
             setMovie(":/new/prefix1/newZombies/gargantuar/walk_noimp.gif");
         }
     }
-    setX(x() - speed); // ¸üĞÂ»ù´¡½©Ê¬µÄÎ»ÖÃ£¬ÈÃÆäÏò×óÒÆ¶¯
+    setX(x() - speed); // æ›´æ–°åŸºç¡€åƒµå°¸çš„ä½ç½®ï¼Œè®©å…¶å‘å·¦ç§»åŠ¨
 }
 
 void gargantuarzombie::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -85,12 +85,12 @@ void gargantuarzombie::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    QImage image = mQMovie->currentImage(); // »ñÈ¡µ±Ç°Ö¡µÄÍ¼Æ¬
+    QImage image = mQMovie->currentImage(); // è·å–å½“å‰å¸§çš„å›¾ç‰‡
 
     if (isSnow && state != 3)
     {
-        // ÉèÖÃÖ¡Í¼Æ¬µÄ²¿·ÖÏñËØµÄÑÕÉ«Îª»ÒÉ«£¬ÓÃÓÚ±íÊ¾½©Ê¬±»¼õËÙ×´Ì¬
-        if (state != 2) // Èç¹û×´Ì¬²»Îª2£¨½©Ê¬ÆÕÍ¨×´Ì¬£©£¬ÉèÖÃÖ¡²¥·ÅËÙ¶ÈÎª50
+        // è®¾ç½®å¸§å›¾ç‰‡çš„éƒ¨åˆ†åƒç´ çš„é¢œè‰²ä¸ºç°è‰²ï¼Œç”¨äºè¡¨ç¤ºåƒµå°¸è¢«å‡é€ŸçŠ¶æ€
+        if (state != 2) // å¦‚æœçŠ¶æ€ä¸ä¸º2ï¼ˆåƒµå°¸æ™®é€šçŠ¶æ€ï¼‰ï¼Œè®¾ç½®å¸§æ’­æ”¾é€Ÿåº¦ä¸º50
             mQMovie->setSpeed(50);
         int w = image.width();
         int h = image.height();
@@ -98,17 +98,17 @@ void gargantuarzombie::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
         {
             uchar* line = image.scanLine(i);
             for (int j = 5; j < w - 5; ++j)
-                line[j << 2] = 200; // ½«Ö¡Í¼Æ¬µÄÏñËØµÄºìÉ«Í¨µÀÉèÖÃÎª200£¬¼´±äÎª»ÒÉ«
+                line[j << 2] = 200; // å°†å¸§å›¾ç‰‡çš„åƒç´ çš„çº¢è‰²é€šé“è®¾ç½®ä¸º200ï¼Œå³å˜ä¸ºç°è‰²
         }
     }
 
-    // ÔÚ»­²¼ÉÏ»æÖÆ½©Ê¬µÄÖ¡Í¼Æ¬
+    // åœ¨ç”»å¸ƒä¸Šç»˜åˆ¶åƒµå°¸çš„å¸§å›¾ç‰‡
     painter->drawImage(QRectF(-140, -200, 280, 280), image); 
 }
 
 QRectF gargantuarzombie::boundingRect() const
 {
-    // ÉèÖÃ½©Ê¬µÄ±ß½ç¾ØĞÎ
+    // è®¾ç½®åƒµå°¸çš„è¾¹ç•ŒçŸ©å½¢
     return QRectF(-160, -200, 400, 280);
 }
 

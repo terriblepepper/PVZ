@@ -1,20 +1,20 @@
 #include "survivalMode.h"
 
 survivalGameMode::survivalGameMode(QWidget* parent)
-    : QWidget{ parent }, mQTimer(new HighPrecisionTimer(this)), view(nullptr), scene(nullptr), gamingMenu(nullptr),
+    : QWidget{ parent }, mQTimer(nullptr), view(nullptr), scene(nullptr), gamingMenu(nullptr),
 gamingBGM(nullptr), gamingBGM_List(nullptr) 
 {   
     initIndex();
-    /* ´´½¨´°¿Ú */
+    /* åˆ›å»ºçª—å£ */
     this->setFixedSize(910, 610);
-
-    // Ê¹ÓÃ¸ß¾«¶È¶¨Ê±Æ÷
-    mQTimer = new HighPrecisionTimer(this);
     scene = new QGraphicsScene(this);
-    scene->setSceneRect(150, 0, 900, 600); // ¿ØÖÆimgĞèÒª½ØÈ¡²¿·Ö
+    scene->setSceneRect(150, 0, 900, 600); // æ§åˆ¶imgéœ€è¦æˆªå–éƒ¨åˆ†
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-
-    // ³õÊ¼»¯ÆäËû×é¼ş£¨±£³Ö²»±ä£©
+    sceneCast Cast;
+    Cast.isValid = true;
+    Cast.count = 0;
+    mapScenes.emplace(scene, Cast);
+    // åˆå§‹åŒ–å…¶ä»–ç»„ä»¶ï¼ˆä¿æŒä¸å˜ï¼‰
     shop* cardBar = new shop;
     cardBar->setPos(520, 45);
     scene->addItem(cardBar);
@@ -25,41 +25,33 @@ gamingBGM(nullptr), gamingBGM_List(nullptr)
     baseCardMap->setPos(618, 326);
     scene->addItem(baseCardMap);
     for (int i = 0; i < 5; ++i) {
-        Mower* mower = new Mower; // ·ÅÖÃÍÆÍÁ»ú
+        Mower* mower = new Mower; // æ”¾ç½®æ¨åœŸæœº
         mower->setPos(215, 120 + 95 * i);
         scene->addItem(mower);
     }
-    // bgm²¥·Å
-    bgmPlay();
-    // ´´½¨ÊÓÍ¼¶ÔÏó²¢ÉèÖÃÊôĞÔ
+    // åˆ›å»ºè§†å›¾å¯¹è±¡å¹¶è®¾ç½®å±æ€§
     view = new QGraphicsView(scene, this);
-    view->resize(905, 605); // ÉèÖÃ»æÖÆ´°¿Ú´óĞ¡
+    view->resize(905, 605); // è®¾ç½®ç»˜åˆ¶çª—å£å¤§å°
     view->setRenderHint(QPainter::Antialiasing);
-    view->setBackgroundBrush(QPixmap(":/new/prefix1/Background.jpg")); // ÉèÖÃ±³¾°Í¼Æ¬
+    view->setBackgroundBrush(QPixmap(":/new/prefix1/Background.jpg")); // è®¾ç½®èƒŒæ™¯å›¾ç‰‡
     view->setCacheMode(QGraphicsView::CacheBackground);
     view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-
-    // ´´½¨°´Å¥µÈ¿Ø¼şäÖÈ¾
+    // åˆ›å»ºæŒ‰é’®ç­‰æ§ä»¶æ¸²æŸ“
     createMenuButton();
-    // Á¬½Ó²Ëµ¥°´Å¥
-    connect(menuButton, &QPushButton::clicked, this, &survivalGameMode::goToGamingMenu);
-    // Á¬½Ó¸ß¾«¶È¶¨Ê±Æ÷µÄtimeoutĞÅºÅµ½³¡¾°µÄadvance²Û£¬ÊµÏÖ³¡¾°ÖĞÎïÌåµÄ¶¯»­Ğ§¹û
-    connect(mQTimer, &HighPrecisionTimer::timeout, scene, &QGraphicsScene::advance);
-    // Á¬½Ó¸ß¾«¶È¶¨Ê±Æ÷µÄtimeoutĞÅºÅµ½ÓÎÏ·µÄaddZombie²Û£¬Ìí¼Ó½©Ê¬
-    connect(mQTimer, &HighPrecisionTimer::timeout, this, &survivalGameMode::addZombie);
-    // Á¬½Ó¸ß¾«¶È¶¨Ê±Æ÷µÄtimeoutĞÅºÅµ½ÓÎÏ·µÄcheck²Û£¬¼ì²éÓÎÏ·ÊÇ·ñ½áÊø
-    connect(mQTimer, &HighPrecisionTimer::timeout, this, &survivalGameMode::checkGameState);
-    mQTimer->start(33333 / fpsIndex); // Æô¶¯¸ß¾«¶È¶¨Ê±Æ÷£¬ÒÔÎ¢ÃëÎªµ¥Î»
-    qInfo() << "High precision timer started with interval:" << 33333 / fpsIndex << " microseconds";
-    view->show(); // ÏÔÊ¾ÊÓÍ¼
+    view->show(); // æ˜¾ç¤ºè§†å›¾
+    //æ’­æ”¾BGM
+    bgmPlay();
+
 }
 
 survivalGameMode::~survivalGameMode() {
+    mQTimer->stop();
     delete gamingBGM;
     delete gamingBGM_List;
     delete mQTimer;
-    delete view;
+    mapScenes[scene].isValid = false;
     delete scene;
+    delete view;
 }
 
 
@@ -70,58 +62,131 @@ void survivalGameMode::getGamingMenu(gamingMenuDialog* menuG)
 
 void survivalGameMode::addZombie()
 {
-    if (++counter >= time)
+    if (++counter>= time)
     {
         low++;
         if (low > high)
         {
             maxtime /= 1.3;
             high *= 2.2;
-        }//Ëæ×ÅÓÎÏ·Ê±¼äÔö¼ÓÌá¸ß½©Ê¬³öÏÖÆµÂÊ
+        }//éšç€æ¸¸æˆæ—¶é—´å¢åŠ æé«˜åƒµå°¸å‡ºç°é¢‘ç‡
         counter = 0;
         time = qrand() % (2 * maxtime / 3) + maxtime / 3;
-        int type = qrand() % 152;
-        int i = qrand() % 5;
-        zombie* zombie;
-        if (type < 40)
-            zombie = new basiczombie;
-        else if (type < 70)
-            zombie = new ConeZombie;
-        else if (type < 80)
-            zombie = new BucketZombie;
-        else if (type < 90)
-            zombie = new ScreenZombie;
-        else if (type < 100)
-            zombie = new FootballZombie;
-        else if (type < 105)
-            zombie = new gargantuarzombie;
-        else if (type < 115)
-            zombie = new flagzombie;
-        else if (type < 125)
-            zombie = new smallzombie;
-        else if (type < 128)
-            zombie = new yetizombie;
-        else if (type < 130)
-            zombie = new icetrackerzombie;
-        else if (type < 135)
-            zombie = new apolozombie;
-        else if (type < 140)
-            zombie = new cleopatrazombie;
-        else if (type < 142)
-            zombie = new pharaohzombie;
-        else if (type < 152)
-            zombie = new pyramidzombie;
-        zombie->setPos(1028, 120 + 95 * i);
-        scene->addItem(zombie);
+        for (int k = 0; k < difficultyIndex(Difficulty); k++)
+        {
+            int type = qrand() % 152;
+            int i = qrand() % 5;
+            zombie* zombie;
+            if (type < 40)
+                zombie = new basiczombie;
+            else if (type < 70)
+                zombie = new ConeZombie;
+            else if (type < 80)
+                zombie = new BucketZombie;
+            else if (type < 90)
+                zombie = new ScreenZombie;
+            else if (type < 100)
+                zombie = new FootballZombie;
+            else if (type < 105)
+                zombie = new gargantuarzombie;
+            else if (type < 115)
+                zombie = new flagzombie;
+            else if (type < 125)
+                zombie = new smallzombie;
+            else if (type < 128)
+                zombie = new yetizombie;
+            else if (type < 130)
+                zombie = new icetrackerzombie;
+            else if (type < 135)
+                zombie = new apolozombie;
+            else if (type < 140)
+                zombie = new cleopatrazombie;
+            else if (type < 142)
+                zombie = new pharaohzombie;
+            else if (type < 152)
+                zombie = new pyramidzombie;
+            zombie->setPos(1028, 120 + 95 * i);
+            scene->addItem(zombie);
+        }
     }
 }
 
 void survivalGameMode::bgmPlay()
 {
-
+    //å¼€åœºç‰¹æ•ˆ
+    QGraphicsScene* catchScene = scene;
+    QPushButton* menu = menuButton;
+    QLabel* gameReady = new QLabel();
+    gameReady->setStyleSheet("background: transparent;"
+        "background-image: url(./images/StartReady.png);"
+        " background-position: center;"
+        "background-repeat: no-repeat;"
+    );
+    QTimer::singleShot(2000 / 3, [gameReady]()
+        {
+            gameReady->setStyleSheet("background: transparent;"
+                "background-image: url(./images/StartSet.png);"
+                " background-position: center;"
+                "background-repeat: no-repeat;"
+            );
+        });
+    QTimer::singleShot(4000 / 3, [gameReady, catchScene, menu]()
+        {
+            gameReady->setStyleSheet("background: transparent;"
+                "background-image: url(./images/StartPlant.png);"
+                " background-position: center;"
+                "background-repeat: no-repeat;"
+            );
+            QTimer::singleShot(800, [gameReady, catchScene, menu]()
+                {
+                    if (mapScenes[catchScene].isValid != false)
+                    {
+                        menu->setEnabled(true);
+                        delete gameReady;
+                        mapScenes[catchScene].count--;
+                    }
+                    else
+                    {
+                        if (mapScenes[catchScene].count)
+                        {
+                            mapScenes[catchScene].count--;
+                        }
+                        if (mapScenes[catchScene].count == 0)
+                        {
+                            mapScenes.erase(catchScene);
+                        }
+                    }
+                });
+        });
+    gameReady->setGeometry(0, 0, scene->width(), scene->height());
+    scene->addWidget(gameReady);
+    QMediaPlayer* soundBegin = new QMediaPlayer(this);
+    soundBegin->setMedia(QUrl::fromLocalFile("./sound/readysetplant.mp3"));
+    soundBegin->setVolume(musicVolume);
+    soundBegin->play();
+    mapScenes[catchScene].count++;
+    QTimer::singleShot(5000, [soundBegin, catchScene]()
+        {
+            if (mapScenes[catchScene].isValid != false)
+            {
+                delete soundBegin;
+                mapScenes[catchScene].count--;
+            }
+            else
+            {
+                if (mapScenes[catchScene].count)
+                {
+                    mapScenes[catchScene].count--;
+                }
+                if (mapScenes[catchScene].count == 0)
+                {
+                    mapScenes.erase(catchScene);
+                }
+            }
+        });
     gamingBGM = new(QMediaPlayer);
     gamingBGM_List = new(QMediaPlaylist);
-    // Ìí¼Ó¶à¸öMP3ÎÄ¼şµ½²¥·ÅÁĞ±í
+    // æ·»åŠ å¤šä¸ªMP3æ–‡ä»¶åˆ°æ’­æ”¾åˆ—è¡¨
     gamingBGM_List->addMedia(QUrl::fromLocalFile("./sound/04Grasswalk.mp3"));
     gamingBGM_List->addMedia(QUrl::fromLocalFile("./sound/05LoonBoon.mp3"));
     gamingBGM_List->addMedia(QUrl::fromLocalFile("./sound/06Moongrains.mp3"));
@@ -129,24 +194,49 @@ void survivalGameMode::bgmPlay()
     gamingBGM_List->addMedia(QUrl::fromLocalFile("./sound/11RigorMormist.mp3"));
     gamingBGM_List->addMedia(QUrl::fromLocalFile("./sound/12cerebrawl.mp3"));
     gamingBGM_List->addMedia(QUrl::fromLocalFile("./sound/14BrainiacManiac.mp3"));
-    // ÉèÖÃ²¥·ÅÄ£Ê½ÎªÑ­»·²¥·Å
+    // è®¾ç½®æ’­æ”¾æ¨¡å¼ä¸ºå¾ªç¯æ’­æ”¾
     gamingBGM_List->setPlaybackMode(QMediaPlaylist::Loop);
-    // ½«²¥·ÅÁĞ±íÉèÖÃ¸ø²¥·ÅÆ÷
+    // å°†æ’­æ”¾åˆ—è¡¨è®¾ç½®ç»™æ’­æ”¾å™¨
     gamingBGM->setPlaylist(gamingBGM_List);
 
-    // ÉèÖÃËæ»úÖÖ×Ó
+    // è®¾ç½®éšæœºç§å­
     qsrand(static_cast<uint>(QTime::currentTime().msec()));
-    // Ëæ»úÑ¡È¡Ò»¸öÒôÀÖ½øĞĞ²¥·Å
-    int index = qrand() % gamingBGM_List->mediaCount(); // Ëæ»úÉú³ÉÒôÀÖË÷Òı
-    gamingBGM_List->setCurrentIndex(index); // ÉèÖÃµ±Ç°²¥·ÅÒôÀÖ
+    // éšæœºé€‰å–ä¸€ä¸ªéŸ³ä¹è¿›è¡Œæ’­æ”¾
+    int index = qrand() % gamingBGM_List->mediaCount(); // éšæœºç”ŸæˆéŸ³ä¹ç´¢å¼•
+    gamingBGM_List->setCurrentIndex(index); // è®¾ç½®å½“å‰æ’­æ”¾éŸ³ä¹
     gamingBGM->setVolume(musicVolume);
-    // ¿ªÊ¼²¥·ÅÒôÀÖ
-    gamingBGM->play();
+    // å¼€åœºéŸ³æ•ˆå®Œæ¯•åå¼€å§‹æ’­æ”¾éŸ³ä¹
+    QTimer::singleShot(6000, gamingBGM, &QMediaPlayer::play);
 
 }
 
 void survivalGameMode::goToGamingMenu()
 {
+    QMediaPlayer* sound = new QMediaPlayer(this);
+    sound->setMedia(QUrl::fromLocalFile("./sound/pause.mp3"));
+    sound->setVolume(itemVolume);
+    sound->play();
+    QGraphicsScene* catchScene = scene;
+    mapScenes[catchScene].count++;
+    QTimer::singleShot(250, [sound, catchScene]()
+        {
+            if (mapScenes[catchScene].isValid != false)
+            {
+                delete sound;
+                mapScenes[catchScene].count--;
+            }
+            else
+            {
+                if (mapScenes[catchScene].count)
+                {
+                    mapScenes[catchScene].count--;
+                }
+                if (mapScenes[catchScene].count == 0)
+                {
+                    mapScenes.erase(catchScene);
+                }
+            }
+        });
     mQTimer->pause();
     gamingBGM->pause();
     gamingMenu->show();
@@ -161,17 +251,17 @@ void survivalGameMode::initIndex()
 {
     low = 4 * fpsIndex;
     high = 9 * fpsIndex;
-    maxtime = 20 * fpsIndex * 1000000 / 33333;//³õÊ¼×î´ó³ö½©Ê¬¼ä¸ôÊ±¼ä
+    maxtime = 20. * (double)fpsIndex * 1000000. / 33333.;//åˆå§‹æœ€å¤§å‡ºåƒµå°¸é—´éš”æ—¶é—´
     time = maxtime / 2;
     counter = 0;
 }
 
 void survivalGameMode::createMenuButton()
 {
-    menuButton = new QPushButton; // ´´½¨²Ëµ¥°´Å¥
-    menuButton->setFixedSize(136, 36); // ÉèÖÃ°´Å¥´óĞ¡
+    menuButton = new QPushButton; // åˆ›å»ºèœå•æŒ‰é’®
+    menuButton->setFixedSize(136, 36); // è®¾ç½®æŒ‰é’®å¤§å°
 
-    // ÉèÖÃ°´Å¥µÄÑùÊ½±í£¬°üÀ¨ÆÕÍ¨×´Ì¬ºÍĞüÍ£×´Ì¬ÏÂµÄ±³¾°Í¼Æ¬
+    // è®¾ç½®æŒ‰é’®çš„æ ·å¼è¡¨ï¼ŒåŒ…æ‹¬æ™®é€šçŠ¶æ€å’Œæ‚¬åœçŠ¶æ€ä¸‹çš„èƒŒæ™¯å›¾ç‰‡
     menuButton->setStyleSheet("QPushButton {"
         "    border-image: url(:/new/prefix1/gamingMenu.png);"
         "}"
@@ -179,37 +269,51 @@ void survivalGameMode::createMenuButton()
         "    border-image: url(:/new/prefix1/gamingMenu1.png);"
         "}");
 
-    // ½«²Ëµ¥°´Å¥Ç¶Èëµ½ QGraphicsProxyWidget
+    // å°†èœå•æŒ‰é’®åµŒå…¥åˆ° QGraphicsProxyWidget
     gamingWidgetsProxy = scene->addWidget(menuButton);
-    gamingWidgetsProxy->setPos(894, 0); // ÉèÖÃ°´Å¥ÔÚ³¡¾°ÖĞµÄÎ»ÖÃ
-    // ½«²Ëµ¥°´Å¥Ìí¼Óµ½³¡¾°
+    gamingWidgetsProxy->setPos(894, 0); // è®¾ç½®æŒ‰é’®åœ¨åœºæ™¯ä¸­çš„ä½ç½®
+    menuButton->setEnabled(false);
+    // å°†èœå•æŒ‰é’®æ·»åŠ åˆ°åœºæ™¯
     scene->addItem(gamingWidgetsProxy);
+}
+
+void survivalGameMode::initTimer()
+{
+    mQTimer = new TimerThread(this);
+    // è¿æ¥èœå•æŒ‰é’®
+    connect(menuButton, &QPushButton::clicked, this, &survivalGameMode::goToGamingMenu);
+    // è¿æ¥é«˜ç²¾åº¦å®šæ—¶å™¨çš„timeoutä¿¡å·åˆ°åœºæ™¯çš„advanceæ§½ï¼Œå®ç°åœºæ™¯ä¸­ç‰©ä½“çš„åŠ¨ç”»æ•ˆæœ
+    connect(mQTimer, &TimerThread::timeout, scene, &QGraphicsScene::advance);
+    // è¿æ¥é«˜ç²¾åº¦å®šæ—¶å™¨çš„timeoutä¿¡å·åˆ°æ¸¸æˆçš„addZombieæ§½ï¼Œæ·»åŠ åƒµå°¸
+    connect(mQTimer, &TimerThread::timeout, this, &survivalGameMode::addZombie);
+    // è¿æ¥é«˜ç²¾åº¦å®šæ—¶å™¨çš„timeoutä¿¡å·åˆ°æ¸¸æˆçš„checkæ§½ï¼Œæ£€æŸ¥æ¸¸æˆæ˜¯å¦ç»“æŸ
+    connect(mQTimer, &TimerThread::timeout, this, &survivalGameMode::checkGameState);
+    mQTimer->start(); 
 }
 
 void survivalGameMode::checkGameState()
 {
-    //¼ì²éÓÎÏ·ÊÇ·ñ½áÊø£¬ÊÇ·ñÓĞ½©Ê¬µ½´ïÆÁÄ»×î×ó±ß
+    //æ£€æŸ¥æ¸¸æˆæ˜¯å¦ç»“æŸï¼Œæ˜¯å¦æœ‰åƒµå°¸åˆ°è¾¾å±å¹•æœ€å·¦è¾¹
     const QList<QGraphicsItem*> items = scene->items();
     foreach(QGraphicsItem * item, items)
     {
         if (item->type() == zombie::Type && item->x() < 150)
         {
-            // ½áÊø¼ÆÊ±Æ÷Í£Ö¹ÓÎÏ·
+            // ç»“æŸè®¡æ—¶å™¨åœæ­¢æ¸¸æˆ
             mQTimer->stop();
-
-            // Ìí¼ÓÓÎÏ·½áÊøÍ¼Æ¬
+            // æ·»åŠ æ¸¸æˆç»“æŸå›¾ç‰‡
             scene->addPixmap(QPixmap(":/new/prefix1/ZombiesWon.png"))->setPos(336, 92);
             gamingBGM->stop();
             gamingBGM->setMedia(QUrl::fromLocalFile("./sound/losemusic.mp3"));
             gamingBGM->play();
             scene->advance();
-            // ´´½¨Ò»¸öÍ¸Ã÷µÄ QPushButton ¸²¸ÇÕû¸ö´°¿Ú
+            // åˆ›å»ºä¸€ä¸ªé€æ˜çš„ QPushButton è¦†ç›–æ•´ä¸ªçª—å£
             gameOverButton = new QPushButton();
             gameOverButton->setStyleSheet("background: transparent;");
             gameOverButton->setFlat(true);
             gameOverButton->setGeometry(0, 0, scene->width(), scene->height());
 
-            // ½« QPushButton Ìí¼Óµ½³¡¾°ÖĞ
+            // å°† QPushButton æ·»åŠ åˆ°åœºæ™¯ä¸­
             gamingWidgetsProxy = scene->addWidget(gameOverButton);
             gamingWidgetsProxy->setPos(0, 0);
             connect(gameOverButton, &QPushButton::clicked,this,&survivalGameMode::gameOver );

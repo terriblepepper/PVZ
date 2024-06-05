@@ -7,17 +7,21 @@ zombie::zombie()
     state = 0;
     speed=0.0;
     mQMovie=mhead=nullptr;
+    zmSound = nullptr;
+    zmSoundList = nullptr;
     isSnow = false;
 }
 zombie::~zombie()
 {
     delete mQMovie;
     delete mhead;
+    delete zmSound;
+    delete zmSoundList;
 }
 QRectF zombie::boundingRect() const
 {
-    // ÉèÖÃ½©Ê¬µÄ±ß½ç¾ØĞÎ
-    return QRectF(-80, -100, 200, 140); // ¾ØĞÎµÄ×óÉÏ½Ç×ø±êÎª(-80, -100)£¬¿í¶ÈÎª200£¬¸ß¶ÈÎª140
+    // è®¾ç½®åƒµå°¸çš„è¾¹ç•ŒçŸ©å½¢
+    return QRectF(-80, -100, 200, 140); // çŸ©å½¢çš„å·¦ä¸Šè§’åæ ‡ä¸º(-80, -100)ï¼Œå®½åº¦ä¸º200ï¼Œé«˜åº¦ä¸º140
 }
 
 void zombie::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -25,13 +29,13 @@ void zombie::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    QImage image = mQMovie->currentImage(); // »ñÈ¡µ±Ç°Ö¡µÄÍ¼Æ¬
+    QImage image = mQMovie->currentImage(); // è·å–å½“å‰å¸§çš„å›¾ç‰‡
 
-    // Èç¹û½©Ê¬µÄËÙ¶ÈĞ¡ÓÚ5.0 * (33333 / fpsIndex) / 1000000 ÇÒ×´Ì¬²»Îª3£¨±íÊ¾½©Ê¬±»¼õËÙ£©
+    // å¦‚æœåƒµå°¸çš„é€Ÿåº¦å°äº5.0 * (33333 / fpsIndex) / 1000000 ä¸”çŠ¶æ€ä¸ä¸º3ï¼ˆè¡¨ç¤ºåƒµå°¸è¢«å‡é€Ÿï¼‰
     if (isSnow && state != 3)
     {
-        // ÉèÖÃÖ¡Í¼Æ¬µÄ²¿·ÖÏñËØµÄÑÕÉ«Îª»ÒÉ«£¬ÓÃÓÚ±íÊ¾½©Ê¬±»¼õËÙ×´Ì¬
-        if (state != 2) // Èç¹û×´Ì¬²»Îª2£¨½©Ê¬ÆÕÍ¨×´Ì¬£©£¬ÉèÖÃÖ¡²¥·ÅËÙ¶ÈÎª50
+        // è®¾ç½®å¸§å›¾ç‰‡çš„éƒ¨åˆ†åƒç´ çš„é¢œè‰²ä¸ºç°è‰²ï¼Œç”¨äºè¡¨ç¤ºåƒµå°¸è¢«å‡é€ŸçŠ¶æ€
+        if (state != 2) // å¦‚æœçŠ¶æ€ä¸ä¸º2ï¼ˆåƒµå°¸æ™®é€šçŠ¶æ€ï¼‰ï¼Œè®¾ç½®å¸§æ’­æ”¾é€Ÿåº¦ä¸º50
             mQMovie->setSpeed(50);
         int w = image.width();
         int h = image.height();
@@ -39,17 +43,17 @@ void zombie::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
         {
             uchar *line = image.scanLine(i);
             for (int j = 5; j < w - 5; ++j)
-                line[j << 2] = 200; // ½«Ö¡Í¼Æ¬µÄÏñËØµÄºìÉ«Í¨µÀÉèÖÃÎª200£¬¼´±äÎª»ÒÉ«
+                line[j << 2] = 200; // å°†å¸§å›¾ç‰‡çš„åƒç´ çš„çº¢è‰²é€šé“è®¾ç½®ä¸º200ï¼Œå³å˜ä¸ºç°è‰²
         }
     }
 
-    // ÔÚ»­²¼ÉÏ»æÖÆ½©Ê¬µÄÖ¡Í¼Æ¬
-    painter->drawImage(QRectF(-70, -100, 140, 140), image); // »æÖÆÎ»ÖÃÎª(-70, -100)£¬¿í¶ÈÎª140£¬¸ß¶ÈÎª140
-    // Èç¹û´æÔÚ½©Ê¬µÄÍ·²¿¶¯»­
+    // åœ¨ç”»å¸ƒä¸Šç»˜åˆ¶åƒµå°¸çš„å¸§å›¾ç‰‡
+    painter->drawImage(QRectF(-70, -100, 140, 140), image); // ç»˜åˆ¶ä½ç½®ä¸º(-70, -100)ï¼Œå®½åº¦ä¸º140ï¼Œé«˜åº¦ä¸º140
+    // å¦‚æœå­˜åœ¨åƒµå°¸çš„å¤´éƒ¨åŠ¨ç”»
     if (mhead)
     {
-        image = mhead->currentImage(); // »ñÈ¡Í·²¿¶¯»­µÄµ±Ç°Ö¡Í¼Æ¬
-        // Èç¹û½©Ê¬µÄËÙ¶ÈĞ¡ÓÚ5.0 * (33333 / fpsIndex) / 1000000£¬±íÊ¾½©Ê¬±»¼õËÙ
+        image = mhead->currentImage(); // è·å–å¤´éƒ¨åŠ¨ç”»çš„å½“å‰å¸§å›¾ç‰‡
+        // å¦‚æœåƒµå°¸çš„é€Ÿåº¦å°äº5.0 * (33333 / fpsIndex) / 1000000ï¼Œè¡¨ç¤ºåƒµå°¸è¢«å‡é€Ÿ
         if (isSnow)
         {
             int w = image.width();
@@ -59,11 +63,11 @@ void zombie::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
             {
                 uchar *line = image.scanLine(i);
                 for (int j = 5; j < w - 5; ++j)
-                    line[j << 2] = 200; // ÉèÖÃÖ¡Í¼Æ¬µÄÏñËØµÄºìÉ«Í¨µÀÎª200£¬¼´±äÎª»ÒÉ«
+                    line[j << 2] = 200; // è®¾ç½®å¸§å›¾ç‰‡çš„åƒç´ çš„çº¢è‰²é€šé“ä¸º200ï¼Œå³å˜ä¸ºç°è‰²
             }
         }
-        // ÔÚ»­²¼ÉÏ»æÖÆ½©Ê¬µÄÍ·²¿Ö¡Í¼Æ¬
-        painter->drawImage(QRectF(0, -100, 140, 140), image); // »æÖÆÎ»ÖÃÎª(0, -100)£¬¿í¶ÈÎª140£¬¸ß¶ÈÎª140
+        // åœ¨ç”»å¸ƒä¸Šç»˜åˆ¶åƒµå°¸çš„å¤´éƒ¨å¸§å›¾ç‰‡
+        painter->drawImage(QRectF(0, -100, 140, 140), image); // ç»˜åˆ¶ä½ç½®ä¸º(0, -100)ï¼Œå®½åº¦ä¸º140ï¼Œé«˜åº¦ä¸º140
     }
 }
 
@@ -71,29 +75,29 @@ bool zombie::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode 
 {
     Q_UNUSED(mode)
 
-    // µ±½©Ê¬ºÍÖ²ÎïÅö×²Ê±£¬·µ»Øtrue
-    return other->type() == plant::Type && qFuzzyCompare(other->y(), y()) && qAbs(other->x() - x()) < 30;
+    // å½“åƒµå°¸å’Œæ¤ç‰©ç¢°æ’æ—¶ï¼Œè¿”å›true
+    return other->type() == plant::Type && qAbs(other->y() - y())<21 && qAbs(other->x() - x()) < 30;
 }
 
 void zombie::setMovie(QString path)
 {
     if (mQMovie)
-        delete mQMovie; // É¾³ıÔ­ÓĞµÄ¶¯»­¶ÔÏó
+        delete mQMovie; // åˆ é™¤åŸæœ‰çš„åŠ¨ç”»å¯¹è±¡
 
-    mQMovie = new QMovie(path); // ´´½¨ĞÂµÄ¶¯»­¶ÔÏó
-    mQMovie->start(); // Æô¶¯¶¯»­
+    mQMovie = new QMovie(path); // åˆ›å»ºæ–°çš„åŠ¨ç”»å¯¹è±¡
+    mQMovie->start(); // å¯åŠ¨åŠ¨ç”»
 }
 
 void zombie::setHead(QString path)
 {
     if (mhead)
-        delete mhead; // É¾³ıÔ­ÓĞµÄÍ·²¿¶¯»­¶ÔÏó
+        delete mhead; // åˆ é™¤åŸæœ‰çš„å¤´éƒ¨åŠ¨ç”»å¯¹è±¡
 
-    mhead = new QMovie(path); // ´´½¨ĞÂµÄÍ·²¿¶¯»­¶ÔÏó
-    mhead->start(); // Æô¶¯Í·²¿¶¯»­
+    mhead = new QMovie(path); // åˆ›å»ºæ–°çš„å¤´éƒ¨åŠ¨ç”»å¯¹è±¡
+    mhead->start(); // å¯åŠ¨å¤´éƒ¨åŠ¨ç”»
 }
 
 int zombie::type() const
 {
-    return Type; // ·µ»Ø½©Ê¬µÄÀàĞÍ
+    return Type; // è¿”å›åƒµå°¸çš„ç±»å‹
 }

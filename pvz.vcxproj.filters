@@ -218,6 +218,12 @@
     <ClCompile Include="BowlingNut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="puzzleMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hammer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="HelpWidget.h">
@@ -289,9 +295,6 @@
     <ClInclude Include="shop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="shovel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="snowpea.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -320,6 +323,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="smallgameMode.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="puzzleMode.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -674,6 +680,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shovel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hammer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

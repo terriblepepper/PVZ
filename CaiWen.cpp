@@ -19,14 +19,39 @@ void CaiWen::advance(int phase)
     update();
     if ((int)hp <= 0)
         delete this;
-    else if (++counter >= time) // Ã¿¹ıÒ»¸ö¹¥»÷¼ä¸ôµÄÖ¡Êı
+    else if (++counter >= time) // æ¯è¿‡ä¸€ä¸ªæ”»å‡»é—´éš”çš„å¸§æ•°
     {
-        counter = 0; // ÖØÖÃ¼ÆÊıÆ÷
+        counter = 0; // é‡ç½®è®¡æ•°å™¨
         QList<QGraphicsItem*> items = collidingItems();
-        //Èç¹ûÓĞ½©Ê¬½øÈë¹¥»÷·¶Î§
+        //å¦‚æœæœ‰åƒµå°¸è¿›å…¥æ”»å‡»èŒƒå›´
         if (!items.isEmpty())
         {
             setMovie(":/new/prefix1/newPlants/CaiWen/shooting.gif");
+            QMediaPlayer* sound = new QMediaPlayer(scene());
+            sound->setMedia(QUrl::fromLocalFile("./sound/bonk.mp3"));
+            sound->setVolume(itemVolume);
+            sound->play();
+            QGraphicsScene* catchScene = scene();
+            mapScenes[catchScene].count++;
+            QTimer::singleShot(350, [sound, catchScene]()
+                {
+                    if (mapScenes[catchScene].isValid != false)
+                    {
+                        delete sound;
+                        mapScenes[catchScene].count--;
+                    }
+                    else
+                    {
+                        if (mapScenes[catchScene].count)
+                        {
+                            mapScenes[catchScene].count--;
+                        }
+                        if (mapScenes[catchScene].count == 0)
+                        {
+                            mapScenes.erase(catchScene);
+                        }
+                    }
+                });
             foreach(QGraphicsItem * item, items)
             {
                 zombie* zom = qgraphicsitem_cast<zombie*>(item);

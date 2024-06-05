@@ -1,42 +1,63 @@
-#include "highprecesionQtimer.h"
+#include"highprecesionQtimer.h"
+#include <QDebug>
 
-HighPrecisionTimer::HighPrecisionTimer(QObject* parent) : QObject(parent), interval(0), running(false) {}
-
-void HighPrecisionTimer::start(int msec) {
-    interval = msec;
-    running = true;
-    timer.start();
-    nextTrigger = timer.nsecsElapsed() / 1000 + interval;
-    this->startTimer(0);
+TimerThread::TimerThread(QObject* parent)
+    : QThread(parent), mRunning(false), mPaused(false), mIntervalUs(33333 / fpsIndex)
+{
 }
 
-void HighPrecisionTimer::stop() {
-    running = false;
-    this->killTimer(timerId);
+TimerThread::~TimerThread()
+{
+    stop();
+    wait();  // ç¡®ä¿çº¿ç¨‹å·²é€€å‡º
 }
 
-void HighPrecisionTimer::pause() {
-    running = false;
-    pausedTime = timer.nsecsElapsed(); // ±£´æÔİÍ£Ê±µÄÊ±¼äµã
-}
+void TimerThread::run()
+{
+    mRunning = true;
+    mTimer.start();
+    qint64 nextWakeup = mTimer.nsecsElapsed() + mIntervalUs * 1000;
 
-void HighPrecisionTimer::resume() {
-    if (!running) {
-        running = true;
-        qint64 elapsed = timer.nsecsElapsed() - pausedTime;
-        nextTrigger += elapsed / 1000; // ¸ù¾İÔİÍ£µÄÊ±¼äµ÷ÕûÏÂÒ»´Î´¥·¢µÄÊ±¼ä
-        this->startTimer(0);
-    }
-}
-
-void HighPrecisionTimer::timerEvent(QTimerEvent* event) {
-    Q_UNUSED(event);
-    if (!running) {
-        return;
-    }
-    qint64 currentTime = timer.nsecsElapsed() / 1000;
-    if (currentTime >= nextTrigger) {
+    while (mRunning) 
+    {
+        {
+            QMutexLocker locker(&mMutex);
+            if (mPaused) {
+                mCondition.wait(&mMutex);  // ç­‰å¾…æ¢å¤
+            }
+        }
         emit timeout();
-        nextTrigger += interval;
+        qint64 sleepTime = nextWakeup - mTimer.nsecsElapsed();
+        if (sleepTime > 0) {
+            QThread::usleep(sleepTime / 1000);
+        }
+        nextWakeup += mIntervalUs * 1000;
     }
+}
+
+void TimerThread::pause()
+{
+    QMutexLocker locker(&mMutex);
+    mPaused = true;
+}
+
+void TimerThread::resume()
+{
+    {
+        QMutexLocker locker(&mMutex);
+        mPaused = false;
+    }
+    mCondition.wakeAll();  // å”¤é†’æš‚åœçš„çº¿ç¨‹
+}
+
+void TimerThread::stop()
+{
+    mRunning = false;
+    {
+        QMutexLocker locker(&mMutex);
+        mPaused = false;
+    }
+    mCondition.wakeAll();  // ç¡®ä¿çº¿ç¨‹ä¸ä¼šåœ¨æš‚åœçŠ¶æ€å¡ä½
+    quit();  // é€€å‡ºäº‹ä»¶å¾ªç¯
+    wait();
 }

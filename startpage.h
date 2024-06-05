@@ -1,6 +1,4 @@
-#if defined(_MSC_VER) && (_MSC_VER >= 1600)    
-# pragma execution_character_set("utf-8")    
-#endif
+//utf8
 #ifndef STARTPAGE_H
 #define STARTPAGE_H
 #include <QWidget>
@@ -14,11 +12,14 @@
 #include"adventureMode.h"
 #include "survivalMode.h"
 #include"smallgameMode.h"
+#include"puzzleMode.h"
 #include"gameIndex.h"
 #include"Mainwindow.h"//bgm
 #include "HelpWidget.h"
 #include"card.h"
 #include"CardSelectionDialog.h"
+#include"highprecesionQtimer.h"
+
 
 struct Cards {
     QString name;
@@ -30,6 +31,7 @@ class HelpWidget;
 class adventureGameMode;
 class survivalGameMode;
 class smallGameMode;
+class puzzleMode;
 class gamingMenuDialog;
 class CardSelectionDialog;
 class startpage : public QWidget
@@ -42,28 +44,31 @@ public:
     void setWidget(HelpWidget* help);
     void initCardInformation();
     static bool isSurvivalSelect;
-    bool static closeWinTellItem;
 public slots:
-    void goToHelp();//×ªµ½°ïÖú²Ëµ¥
-    void openSettingsDialog();//´ò¿ªÉèÖÃ²Ëµ¥
-    void updateSettings(int volume, const QString& difficulty, int fps);//¸üĞÂÉèÖÃÑ¡Ïî
+    void goToHelp();//è½¬åˆ°å¸®åŠ©èœå•
+    void openSettingsDialog();//æ‰“å¼€è®¾ç½®èœå•
+    void updateSettings(int volumeBGM,int volumeItem, const QString& difficulty, int fps);//æ›´æ–°è®¾ç½®é€‰é¡¹
     void updateVolume();
     void handleGameToMainMenu();
-    void handleRestartGame(survivalGameMode* g);
-    void handleRestartGame(adventureGameMode* g);
-    void handleRestartGame(smallGameMode* g);
+    void handleRestartGame(survivalGameMode* g1);
+    void handleRestartGame(adventureGameMode* g2);
+    void handleRestartGame(smallGameMode* g3);
+    void handleRestartGame(puzzleMode* g4);
+signals:
+    void startSurvivalGame();
 private:
-    HelpWidget* Help;//°ïÖú²Ëµ¥Ö¸Õë
-    QWidget* currentGameMode = nullptr; // ±£´æµ±Ç°ÓÎÏ·Ä£Ê½µÄÖ¸Õë
+    HelpWidget* Help;//å¸®åŠ©èœå•æŒ‡é’ˆ
+    QWidget* currentGameMode = nullptr; // ä¿å­˜å½“å‰æ¸¸æˆæ¨¡å¼çš„æŒ‡é’ˆ
     survivalGameMode* survivalGaming = nullptr;
     adventureGameMode* adventureGaming = nullptr;
     smallGameMode* smallGaming = nullptr;
+    puzzleMode* puzzleGaming = nullptr;
     gamingMenuDialog* gamingMenu = nullptr;
     CardSelectionDialog* selectingCardsWidget = nullptr;
-    QVector<Cards> cards;//¶ÁÈ¡³öµÄ¿¨Æ¬jsonÎÄ¼şĞÅÏ¢
+    QVector<Cards> cards;//è¯»å–å‡ºçš„å¡ç‰‡jsonæ–‡ä»¶ä¿¡æ¯
     bool isLoadCards = false;
     void loadCards(const QString& filename);
-    void writeSettingsToFile(const QString& filePath);//Ğ´»ØÅäÖÃÎÄ¼ş(ĞŞ¸Ä±»Ó¦ÓÃÊ±£©
+    void writeSettingsToFile(const QString& filePath);//å†™å›é…ç½®æ–‡ä»¶(ä¿®æ”¹è¢«åº”ç”¨æ—¶ï¼‰
 };
 
 #endif // STARTPAGE_H
