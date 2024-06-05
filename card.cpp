@@ -16,7 +16,7 @@ QRectF card::boundingRect() const
     return QRectF(-50, -30, 100, 60);
 }
 
-void card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)//ÔÚÓÎÏ·ÖĞ»æÖÆ¿¨Æ¬
+void card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)//åœ¨æ¸¸æˆä¸­ç»˜åˆ¶å¡ç‰‡
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
@@ -27,7 +27,15 @@ void card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     font.setPointSizeF(15);
     painter->setFont(font);
     painter->drawText(-30, 60, QString("%1").arg(cardSelectedMap[text].cost, 3, 10, QChar(' ')));
-    if (counter < cardSelectedMap[text].cool)
+    
+    shop* sh = qgraphicsitem_cast<shop*>(parentItem());
+    if (sh->sunnum < cardSelectedMap[text].cost)
+    {
+        QBrush brush(QColor(0, 0, 0, 200));
+        painter->setBrush(brush);
+        painter->drawRect(QRectF(-48, -68, 98, 132));
+    }
+    else if (counter < cardSelectedMap[text].cool)
     {
         QBrush brush(QColor(0, 0, 0, 200));
         painter->setBrush(brush);
@@ -37,7 +45,6 @@ void card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 
 void card::advance(int phase)
 {
-    //qInfo() << "card:" << fpsIndex;
     if (!phase)
         return;
     update();
@@ -49,33 +56,82 @@ void card::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     Q_UNUSED(event)
 
-        // Èç¹û¿¨Æ¬ÀäÈ´ÖĞ£¬¾Ü¾øÊó±êÊÂ¼ş
+        // å¦‚æœå¡ç‰‡å†·å´ä¸­ï¼Œæ‹’ç»é¼ æ ‡äº‹ä»¶
         if (counter < cardSelectedMap[text].cool) {
-            qDebug() << "Card is cooling down";
             event->setAccepted(false);
+            QMediaPlayer* sound = new QMediaPlayer();
+            sound->setMedia(QUrl::fromLocalFile("./sound/pause.mp3"));
+            sound->setVolume(itemVolume);
+            sound->play();
+            QGraphicsScene* catchScene = scene();
+            mapScenes[catchScene].count++;
+            QTimer::singleShot(300, [sound, catchScene]()
+                {
+                    if (mapScenes[catchScene].isValid != false)
+                    {
+                        delete sound;
+                        mapScenes[catchScene].count--;
+                    }
+                    else
+                    {
+                        if (mapScenes[catchScene].count)
+                        {
+                            mapScenes[catchScene].count--;
+                        }
+                        if (mapScenes[catchScene].count == 0)
+                        {
+                            mapScenes.erase(catchScene);
+                        }
+                    }
+                });
             return; 
         }
 
-    // »ñÈ¡¿¨Æ¬¸¸¶ÔÏó£¨shop Àà£©£¬¼ì²éÑô¹âÊıÊÇ·ñ×ã¹»¹ºÂò¿¨Æ¬
-    shop* sh = qgraphicsitem_cast<shop*>(parentItem());
-    if (cardSelectedMap[text].cost > sh->sunnum) {
+        // è·å–å¡ç‰‡çˆ¶å¯¹è±¡ï¼ˆshop ç±»ï¼‰ï¼Œæ£€æŸ¥é˜³å…‰æ•°æ˜¯å¦è¶³å¤Ÿè´­ä¹°å¡ç‰‡
+        shop* sh = qgraphicsitem_cast<shop*>(parentItem());
+        if (cardSelectedMap[text].cost > sh->sunnum) {
         event->setAccepted(false);
+        QMediaPlayer* sound = new QMediaPlayer();
+        sound->setMedia(QUrl::fromLocalFile("./sound/pause.mp3"));
+        sound->setVolume(itemVolume);
+        sound->play();
+        QGraphicsScene* catchScene = scene();
+        mapScenes[catchScene].count++;
+        QTimer::singleShot(300, [sound, catchScene]()
+            {
+                if (mapScenes[catchScene].isValid != false)
+                {
+                    delete sound;
+                    mapScenes[catchScene].count--;
+                }
+                else
+                {
+                    if (mapScenes[catchScene].count)
+                    {
+                        mapScenes[catchScene].count--;
+                    }
+                    if (mapScenes[catchScene].count == 0)
+                    {
+                        mapScenes.erase(catchScene);
+                    }
+                }
+            });
         return; 
-    }
+        }
 
-    // ÉèÖÃÊó±êÖ¸ÕëÎªÄ¬ÈÏ¼ıÍ·ĞÎ×´
+    // è®¾ç½®é¼ æ ‡æŒ‡é’ˆä¸ºé»˜è®¤ç®­å¤´å½¢çŠ¶
     setCursor(Qt::ArrowCursor);
 }
 
 void card::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
 
-    // ¼ì²éÊÇ·ñÂú×ãÍÏ×§µÄÌõ¼ş
+    // æ£€æŸ¥æ˜¯å¦æ»¡è¶³æ‹–æ‹½çš„æ¡ä»¶
     if (QLineF(event->screenPos(), event->buttonDownScreenPos(Qt::LeftButton)).length()
         < QApplication::startDragDistance())
         return;
 
-    // ´´½¨ÍÏ×§¶ÔÏó
+    // åˆ›å»ºæ‹–æ‹½å¯¹è±¡
     QDrag* drag = new QDrag(event->widget());
     QMimeData* mime = new QMimeData;
     QImage image("./images/" + text + ".png");
@@ -84,9 +140,9 @@ void card::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     drag->setMimeData(mime);
     drag->setPixmap(QPixmap::fromImage(image));
     drag->setHotSpot(QPoint(35, 35));
-    drag->exec();
+    drag->exec(Qt::MoveAction);
 
-    // ÉèÖÃÊó±êÖ¸ÕëÎªÄ¬ÈÏ¼ıÍ·ĞÎ×´
+    // è®¾ç½®é¼ æ ‡æŒ‡é’ˆä¸ºé»˜è®¤ç®­å¤´å½¢çŠ¶
     setCursor(Qt::ArrowCursor);
 }
 
@@ -94,6 +150,6 @@ void card::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
     Q_UNUSED(event)
 
-        // ÉèÖÃÊó±êÖ¸ÕëÎªÄ¬ÈÏ¼ıÍ·ĞÎ×´
+        // è®¾ç½®é¼ æ ‡æŒ‡é’ˆä¸ºé»˜è®¤ç®­å¤´å½¢çŠ¶
         setCursor(Qt::ArrowCursor);
 }

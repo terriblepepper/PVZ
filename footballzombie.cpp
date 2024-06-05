@@ -5,6 +5,11 @@ FootballZombie::FootballZombie()
     hp = 1670.0;
     atk = 100.0 / (30 * (double)fpsIndex);
     speed = 60.0 * (33333.0 / (double)fpsIndex) / 1000000.0 / 2.5;
+    zmSound = new QMediaPlayer;
+    zmSoundList = new QMediaPlaylist;
+    zmSoundList->addMedia(QUrl::fromLocalFile("./sound/Eat.wav"));
+    zmSoundList->setPlaybackMode(QMediaPlaylist::Loop);
+    zmSound->setMedia(zmSoundList);
     setMovie(":/new/prefix1/FootballZombieWalk.gif");
 }
 
@@ -18,6 +23,7 @@ void FootballZombie::advance(int phase)
         if (state < 2)
         {
             state = 2;
+            zmSound->stop();
             setMovie(":/new/prefix1/FootballZombieDie.gif");
             setHead(":/new/prefix1/ZombieHead.gif");
 
@@ -34,6 +40,7 @@ void FootballZombie::advance(int phase)
         if (state != 1)
         {
             state = 1;
+            zmSound->play();
             setMovie(":/new/prefix1/FootballZombieAttack.gif");
         }
         return;
@@ -41,6 +48,7 @@ void FootballZombie::advance(int phase)
     if (state)
     {
         state = 0;
+        zmSound->stop();
         setMovie(":/new/prefix1/FootballZombieWalk.gif");
     }
     setX(x() - speed);

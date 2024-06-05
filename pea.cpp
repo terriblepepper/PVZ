@@ -2,32 +2,61 @@
 #include "zombie.h"
 #include "peashot.h"
 #include"gameIndex.h"
+#include<QMediaPlayer>
 pea::pea()
 {
-    hp = 200.0; // ÉèÖÃÍã¶¹ÉäÊÖµÄÉúÃüÖµÎª200
-    atk = 25.0; // ÉèÖÃÍã¶¹ÉäÊÖµÄ¹¥»÷Á¦Îª25
-    time = int(1.4 * 1000000. / (33333. / (double)fpsIndex)); // ¼ÆËãÍã¶¹ÉäÊÖ¹¥»÷¼ä¸ôµÄÖ¡Êı£¬1.4Ãë¶ÔÓ¦µÄÖ¡Êı£¨33333/fpsIndexÎªÖ¡¼ä¸ô£©
-    setMovie(":/new/prefix1/Peashooter.gif"); // ÉèÖÃÍã¶¹ÉäÊÖµÄ¶¯»­
+    hp = 200.0; // è®¾ç½®è±Œè±†å°„æ‰‹çš„ç”Ÿå‘½å€¼ä¸º200
+    atk = 25.0; // è®¾ç½®è±Œè±†å°„æ‰‹çš„æ”»å‡»åŠ›ä¸º25
+    time = int(1.4 * 1000000. / (33333. / (double)fpsIndex)); // è®¡ç®—è±Œè±†å°„æ‰‹æ”»å‡»é—´éš”çš„å¸§æ•°ï¼Œ1.4ç§’å¯¹åº”çš„å¸§æ•°ï¼ˆ33333/fpsIndexä¸ºå¸§é—´éš”ï¼‰
+    setMovie(":/new/prefix1/Peashooter.gif"); // è®¾ç½®è±Œè±†å°„æ‰‹çš„åŠ¨ç”»
 }
 
 void pea::advance(int phase)
 {
     if (!phase)
         return;
-    update(); // ¸üĞÂÍã¶¹ÉäÊÖµÄ»æÖÆ
+    update(); // æ›´æ–°è±Œè±†å°„æ‰‹çš„ç»˜åˆ¶
     if ((int)hp <= 0)
-        delete this; // Èç¹ûÍã¶¹ÉäÊÖµÄÉúÃüÖµĞ¡ÓÚµÈÓÚ0£¬É¾³ıÍã¶¹ÉäÊÖ¶ÔÏó
-    else if (++counter >= time) // Ã¿¹ıÒ»¸ö¹¥»÷¼ä¸ôµÄÖ¡Êı
+        delete this; // å¦‚æœè±Œè±†å°„æ‰‹çš„ç”Ÿå‘½å€¼å°äºç­‰äº0ï¼Œåˆ é™¤è±Œè±†å°„æ‰‹å¯¹è±¡
+    else if (++counter >= time) // æ¯è¿‡ä¸€ä¸ªæ”»å‡»é—´éš”çš„å¸§æ•°
     {
-        counter = 0; // ÖØÖÃ¼ÆÊıÆ÷
-        // Èç¹ûÍã¶¹ÉäÊÖÓëÆäËûÍ¼ĞÎÏî·¢ÉúÅö×²£¨¼´½©Ê¬ÔÚÍã¶¹ÉäÊÖµÄ¹¥»÷·¶Î§ÄÚ£©
+        counter = 0; // é‡ç½®è®¡æ•°å™¨
+        // å¦‚æœè±Œè±†å°„æ‰‹ä¸å…¶ä»–å›¾å½¢é¡¹å‘ç”Ÿç¢°æ’ï¼ˆå³åƒµå°¸åœ¨è±Œè±†å°„æ‰‹çš„æ”»å‡»èŒƒå›´å†…ï¼‰
         if (!collidingItems().isEmpty())
         {
-            peashot *newshot = new peashot(atk); // ´´½¨Ò»¸öÍã¶¹ÉäÊÖµÄ×Óµ¯¶ÔÏó
-            newshot->setX(x() + 30); // ÉèÖÃ×Óµ¯µÄ³õÊ¼Î»ÖÃÔÚÍã¶¹ÉäÊÖµÄÓÒ²à30ÏñËØ´¦
-            newshot->setY(y()); // ÉèÖÃ×Óµ¯µÄ¸ß¶ÈÓëÍã¶¹ÉäÊÖÏàÍ¬
-            scene()->addItem(newshot); // ½«×Óµ¯Ìí¼Óµ½³¡¾°ÖĞ
-            return; // ·µ»Ø£¬²»½øĞĞÒÆ¶¯
+            peashot *newshot = new peashot(atk); // åˆ›å»ºä¸€ä¸ªè±Œè±†å°„æ‰‹çš„å­å¼¹å¯¹è±¡
+            newshot->setX(x() + 30); // è®¾ç½®å­å¼¹çš„åˆå§‹ä½ç½®åœ¨è±Œè±†å°„æ‰‹çš„å³ä¾§30åƒç´ å¤„
+            newshot->setY(y()); // è®¾ç½®å­å¼¹çš„é«˜åº¦ä¸è±Œè±†å°„æ‰‹ç›¸åŒ
+            if (mapScenes[scene()].soundsCount < maxSounds)
+            {
+                QMediaPlayer* soundpea = new QMediaPlayer(scene());
+                soundpea->setMedia(QUrl::fromLocalFile("./sound/kernelpult.mp3"));
+                soundpea->setVolume(itemVolume);
+                soundpea->play();
+                QGraphicsScene* catchScene = scene();
+                mapScenes[catchScene].count++;
+                mapScenes[catchScene].soundsCount++;
+                connect(soundpea, &QMediaPlayer::stateChanged, [soundpea, catchScene](QMediaPlayer::State state) {
+                    if (state == QMediaPlayer::StoppedState) {
+                        if (mapScenes[catchScene].isValid != false) {
+                            delete soundpea;
+                            mapScenes[catchScene].count--;
+                            mapScenes[catchScene].soundsCount--;
+                            return;
+                        }
+                        else {
+                            if (mapScenes[catchScene].count) {
+                                mapScenes[catchScene].count--;
+                            }
+                            if (mapScenes[catchScene].count == 0) {
+                                mapScenes.erase(catchScene);
+                            }
+                        }
+                    }
+                    });
+            }
+            scene()->addItem(newshot); // å°†å­å¼¹æ·»åŠ åˆ°åœºæ™¯ä¸­
+            return; // è¿”å›ï¼Œä¸è¿›è¡Œç§»åŠ¨
         }
     }
 }

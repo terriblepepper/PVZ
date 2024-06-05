@@ -1,6 +1,4 @@
-#if defined(_MSC_VER) && (_MSC_VER >= 1600)    
-# pragma execution_character_set("utf-8")    
-#endif
+//utf8
 #pragma once
 #include<QPushButton>
 #include <QPainter>
@@ -28,11 +26,11 @@ class CardSelectionDialog : public QWidget
 public:
 	CardSelectionDialog(QWidget *parent = nullptr);
 	~CardSelectionDialog();
-	void moveCard(const QString& contactName);//ÒÆ¶¯¿¨Æ¬
-	bool isAdvMode = false;//ÅĞ¶ÏÊÇ·ñÔÚÃ°ÏÕÄ£Ê½Ñ¡¿¨Æ¬
+	void moveCard(const QString& contactName);//ç§»åŠ¨å¡ç‰‡
+	bool isAdvMode = false;//åˆ¤æ–­æ˜¯å¦åœ¨å†’é™©æ¨¡å¼é€‰å¡ç‰‡
 public slots:
-	void onCloseClicked();//È¡Ïû°´Å¥
-	void onApplyClicked();//Ó¦ÓÃ°´Å¥
+	void onCloseClicked();//å–æ¶ˆæŒ‰é’®
+	void onApplyClicked();//åº”ç”¨æŒ‰é’®
 signals:
 	void cardIsSelected();
 	void cancelGame();
@@ -42,14 +40,14 @@ private:
 	//BGM
 	QMediaPlayer* selectingBGM;
 	QMediaPlaylist* selectingBGM_List;
-	//×ÜµÄ¿¨Æ¬µØÍ¼
+	//æ€»çš„å¡ç‰‡åœ°å›¾
 	QMap<QString, CustomButton*> buttonTotalMap;
-	//ÒÑÑ¡ÔñµÄ¿¨Æ¬µØÍ¼
+	//å·²é€‰æ‹©çš„å¡ç‰‡åœ°å›¾
 	QMap<QString, CustomButton*> buttonSelectedMap;
-	//¼ÇÂ¼¿¨Æ¬µÄÔ­Ê¼×ø±ê
+	//è®°å½•å¡ç‰‡çš„åŸå§‹åæ ‡
 	QMap<QString, QPoint> buttonOrignPos;
 	void createCardBtn();
 	int cardTotal;
-	int offset = 38;//Ñ¡ÔñÖ²ÎïÀ¸Í¼Æ¬´óĞ¡²¹³¥
+	int offset = 38;//é€‰æ‹©æ¤ç‰©æ å›¾ç‰‡å¤§å°è¡¥å¿
 	void bgmPlay();
 };

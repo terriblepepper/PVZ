@@ -7,6 +7,11 @@ pyramidzombie::pyramidzombie()
     hp = 880.0;
     atk = 100.0 / (30 * (double)fpsIndex);
     speed = 7.0 * (33333.0 / (double)fpsIndex) / 1000000.0;
+    zmSound = new QMediaPlayer;
+    zmSoundList = new QMediaPlaylist;
+    zmSoundList->addMedia(QUrl::fromLocalFile("./sound/Eat.wav"));
+    zmSoundList->setPlaybackMode(QMediaPlaylist::Loop);
+    zmSound->setMedia(zmSoundList);
     setMovie("./images/newZombies/pyramid/walk.gif");
     //setScale(1.27);
 }
@@ -20,8 +25,8 @@ void pyramidzombie::advance(int phase)
     {
         if (state < 2)
         {
-            state = 2; // ½«×´Ì¬ÉèÖÃÎª2£¨ËÀÍö£©
-
+            state = 2; // å°†çŠ¶æ€è®¾ç½®ä¸º2ï¼ˆæ­»äº¡ï¼‰
+            zmSound->stop();
             setMovie(":/new/prefix1/ZombieDie.gif"); 
             setHead(":/new/prefix1/ZombieHead.gif"); 
         }
@@ -36,14 +41,16 @@ void pyramidzombie::advance(int phase)
         pl->hp -= atk;
         if (state != 1)
         {
-            state = 1; // ½«×´Ì¬ÉèÖÃÎª1£¨¹¥»÷£©
+            state = 1; // å°†çŠ¶æ€è®¾ç½®ä¸º1ï¼ˆæ”»å‡»ï¼‰
+            zmSound->play();
             setMovie("./images/newZombies/pyramid/eat.gif");
         }
         return;
     }
     if (state)
     {
-        state = 0; // ½«×´Ì¬ÉèÖÃÎª0£¨ÐÐ×ß£©
+        state = 0; // å°†çŠ¶æ€è®¾ç½®ä¸º0ï¼ˆè¡Œèµ°ï¼‰
+        zmSound->stop();
         setMovie("./images/newZombies/pyramid/walk.gif");
     }
     setX(x() - speed);

@@ -4,31 +4,36 @@ SettingsDialog::SettingsDialog(QWidget* parent) : QDialog(parent)
 {
     Qt::WindowFlags flags = windowFlags();
     setWindowFlags(flags & ~Qt::WindowCloseButtonHint);
-    QVBoxLayout* mainLayout = new QVBoxLayout(this);
-    this->setFixedSize(300, 300);
     setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
-    // ÒôÀÖÒôÁ¿ÉèÖÃ
-    volumeLabel = new QLabel("ÒôÁ¿:"+QString::number(musicVolume)+"%", this);
+    QVBoxLayout* mainLayout = new QVBoxLayout(this);
+    this->setFixedSize(300, 400);
+    // éŸ³ä¹éŸ³é‡è®¾ç½®
+    volumeLabel = new QLabel("éŸ³ä¹:"+QString::number(musicVolume)+"%", this);
     volumeSlider = new QSlider(Qt::Horizontal, this);
     volumeSlider->setRange(0, 100);
-    volumeSlider->setValue(musicVolume); // Ä¬ÈÏÖµ
-
+    volumeSlider->setValue(musicVolume); // é»˜è®¤å€¼
     mainLayout->addWidget(volumeLabel);
     mainLayout->addWidget(volumeSlider);
-
-    // ÄÑ¶ÈÉèÖÃ
-    QLabel* difficultyLabel = new QLabel("ÄÑ¶È", this);
+    //æ¸¸æˆéŸ³æ•ˆè®¾ç½®
+    itemVolumeLabel = new QLabel("éŸ³æ•ˆ:" + QString::number(itemVolume) + "%", this);
+    itemVolumeSlider = new QSlider(Qt::Horizontal, this);
+    itemVolumeSlider->setRange(0, 100);
+    itemVolumeSlider->setValue(itemVolume); // é»˜è®¤å€¼
+    mainLayout->addWidget(itemVolumeLabel);
+    mainLayout->addWidget(itemVolumeSlider);
+    // éš¾åº¦è®¾ç½®
+    QLabel* difficultyLabel = new QLabel("éš¾åº¦", this);
     difficultyComboBox = new QComboBox(this);
-    difficultyComboBox->addItem("¼òµ¥");
-    difficultyComboBox->addItem("ÖÐµÈ");
-    difficultyComboBox->addItem("À§ÄÑ");
-    difficultyComboBox->addItem("±äÌ¬");
+    difficultyComboBox->addItem("ç®€å•");
+    difficultyComboBox->addItem("ä¸­ç­‰");
+    difficultyComboBox->addItem("å›°éš¾");
+    difficultyComboBox->addItem("å˜æ€");
     difficultyComboBox->setCurrentText(Difficulty);
 
     mainLayout->addWidget(difficultyLabel);
     mainLayout->addWidget(difficultyComboBox);
 
-    // Ö¡ÊýÉèÖÃ
+    // å¸§æ•°è®¾ç½®
     QLabel* fpsLabel = new QLabel("FPS", this);
     fpsComboBox = new QComboBox(this);
     fpsComboBox->addItem("30");
@@ -40,32 +45,38 @@ SettingsDialog::SettingsDialog(QWidget* parent) : QDialog(parent)
     mainLayout->addWidget(fpsLabel);
     mainLayout->addWidget(fpsComboBox);
 
-    // °´Å¥²¼¾Ö
+    // æŒ‰é’®å¸ƒå±€
     QHBoxLayout* buttonLayout = new QHBoxLayout();
-    applyButton = new QPushButton("Ó¦ÓÃ", this);
-    cancelButton = new QPushButton("È¡Ïû", this);
+    applyButton = new QPushButton("åº”ç”¨", this);
+    cancelButton = new QPushButton("å–æ¶ˆ", this);
     buttonLayout->addWidget(applyButton);
     buttonLayout->addWidget(cancelButton);
 
     mainLayout->addLayout(buttonLayout);
 
-    // Á¬½ÓÐÅºÅºÍ²Û
+    // è¿žæŽ¥ä¿¡å·å’Œæ§½
     connect(applyButton, &QPushButton::clicked, this, &SettingsDialog::applySettings);
     connect(cancelButton, &QPushButton::clicked, this, &QDialog::reject);
     connect(volumeSlider, &QSlider::valueChanged, this, &SettingsDialog::updateVolumeLabel);
+    connect(itemVolumeSlider, &QSlider::valueChanged, this, &SettingsDialog::updateVolumeLabel);
 }
 
 void SettingsDialog::applySettings()
 {
     int volume = volumeSlider->value();
+    int volume2 = itemVolumeSlider->value();
     QString difficulty = difficultyComboBox->currentText();
     int fps = fpsComboBox->currentText().toInt();
 
-    emit settingsChanged(volume, difficulty, fps);
+    emit settingsChanged(volume,volume2, difficulty, fps);
     accept();
 }
 
 void SettingsDialog::updateVolumeLabel()
 {
-    volumeLabel->setText("ÒôÁ¿:" + QString::number(volumeSlider->value()) + "%");
+    QSlider* senderSlider = qobject_cast<QSlider*>(sender());
+    if(senderSlider == volumeSlider)
+        volumeLabel->setText("éŸ³é‡:" + QString::number(volumeSlider->value()) + "%");
+    else
+        itemVolumeLabel->setText("éŸ³æ•ˆ:" + QString::number(itemVolumeSlider->value()) + "%");
 }

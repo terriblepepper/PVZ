@@ -4,8 +4,8 @@
 #include<QObject>
 #include "Mainwindow.h"
 #include"gameIndex.h"
-
-//¶ÁÅäÖÃÎÄ¼ş
+#include"highprecesionQtimer.h"
+//è¯»é…ç½®æ–‡ä»¶
 void readSettingsFromFile(const QString& filePath) {
     QSettings settings(filePath, QSettings::IniFormat);
     settings.beginGroup("FPS");
@@ -14,38 +14,26 @@ void readSettingsFromFile(const QString& filePath) {
 
     settings.beginGroup("Audio");
     musicVolume = settings.value("musicVolume", 80).toInt();
+    itemVolume = settings.value("itemVolume", 80).toInt();
     settings.endGroup();
 
     settings.beginGroup("Game");
     QString difficultyStr = settings.value("Difficulty", "Medium").toString();
     if (difficultyStr == "Easy")
-        Difficulty = "¼òµ¥";
+        Difficulty = "ç®€å•";
     else if (difficultyStr == "Medium")
-        Difficulty = "ÖĞµÈ";
+        Difficulty = "ä¸­ç­‰";
     else if (difficultyStr == "Hard")
-        Difficulty = "À§ÄÑ";
+        Difficulty = "å›°éš¾";
     else if (difficultyStr == "Insane")
-        Difficulty = "±äÌ¬";
+        Difficulty = "å˜æ€";
     settings.endGroup();
 }
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    //ÉèÖÃÖĞÎÄ±àÂë
-#if (QT_VERSION <= QT_VERSION_CHECK(5,0,0))
-#if _MSC_VER
-    QTextCodec* codec = QTextCodec::codecForName("GBK");
-#else
-    QTextCodec* codec = QTextCodec::codecForName("UTF-8");
-#endif
-    QTextCodec::setCodecForLocale(codec);
-    QTextCodec::setCodecForCStrings(codec);
-    QTextCodec::setCodecForTr(codec);
-#else
-    QTextCodec* codec = QTextCodec::codecForName("UTF-8");
-    QTextCodec::setCodecForLocale(codec);
-#endif
-    //¶ÁÅäÖÃÎÄ¼ş
+  
+    //è¯»é…ç½®æ–‡ä»¶
     readSettingsFromFile("./configs/settings.ini");
     MainWindow w;
     w.show();

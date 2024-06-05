@@ -1,9 +1,11 @@
 #include "shovel.h"
 #include "plant.h"
-
+#include"gameIndex.h"
+#include<QMediaPlayer>
+#include<QTimer>
 shovel::shovel()
 {
-    setZValue(9999);
+    setZValue(999);
 }
 QRectF shovel::boundingRect() const
 {
@@ -24,7 +26,32 @@ void shovel::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void shovel::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QDrag* drag=new QDrag(event->widget());
-    //ÎªÁËÈ·±£ÍÏ¶¯²Ù×÷ÔÚÕýÈ·µÄ·¶Î§ÄÚÓÐÐ§£¬²¢ÇÒÓëÓ¦ÓÃ³ÌÐòµÄÆäËû²¿·Ö½øÐÐÊÊµ±µÄ½»»¥¡£
+    QMediaPlayer* sound = new QMediaPlayer();
+    sound->setMedia(QUrl::fromLocalFile("./sound/shovel.mp3"));
+    sound->setVolume(itemVolume);
+    sound->play();
+    QGraphicsScene* catchScene = scene();
+    mapScenes[catchScene].count++;
+    mapScenes[catchScene].soundsCount++;
+    connect(sound, &QMediaPlayer::stateChanged, [sound, catchScene](QMediaPlayer::State state) {
+        if (state == QMediaPlayer::StoppedState) {
+            if (mapScenes[catchScene].isValid != false) {
+                delete sound;
+                mapScenes[catchScene].count--;
+                mapScenes[catchScene].soundsCount--;
+                return;
+            }
+            else {
+                if (mapScenes[catchScene].count) {
+                    mapScenes[catchScene].count--;
+                }
+                if (mapScenes[catchScene].count == 0) {
+                    mapScenes.erase(catchScene);
+                }
+            }
+        }
+        });
+    //ä¸ºäº†ç¡®ä¿æ‹–åŠ¨æ“ä½œåœ¨æ­£ç¡®çš„èŒƒå›´å†…æœ‰æ•ˆï¼Œå¹¶ä¸”ä¸Žåº”ç”¨ç¨‹åºçš„å…¶ä»–éƒ¨åˆ†è¿›è¡Œé€‚å½“çš„äº¤äº’ã€‚
     QMimeData* data=new QMimeData;
     data->setText("shovel");
     data->setImageData(":/new/prefix1/Shovel.png");
@@ -39,18 +66,42 @@ void shovel::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     Q_UNUSED(event);
     setCursor(Qt::ArrowCursor);
 }
+
 void shovel::removePlant(QPointF pos)
 {
-    if (!scene()->items(pos).isEmpty())
+    QList<QGraphicsItem*> items = scene()->items(QRectF(pos.x() - 32.5 / 2, pos.y() - 37.5 / 2, 32.5, 37.5));
+    foreach(QGraphicsItem* item,items)
     {
-        QList<QGraphicsItem*> items = scene()->items(pos);
-        foreach(QGraphicsItem * item, items)
+        if(item->type()==plant::Type)
         {
-            if (item->type() == plant::Type)
-            {
-                delete item;
-                return;
-            }
+            QMediaPlayer* sound = new QMediaPlayer();
+            sound->setMedia(QUrl::fromLocalFile("./sound/plant2.mp3"));
+            sound->setVolume(itemVolume);
+            sound->play();
+            QGraphicsScene* catchScene = scene();
+            mapScenes[catchScene].count++;
+            mapScenes[catchScene].soundsCount++;
+            connect(sound, &QMediaPlayer::stateChanged, [sound, catchScene](QMediaPlayer::State state) {
+                if (state == QMediaPlayer::StoppedState) {
+                    if (mapScenes[catchScene].isValid != false) {
+                        delete sound;
+                        mapScenes[catchScene].count--;
+                        mapScenes[catchScene].soundsCount--;
+                        return;
+                    }
+                    else {
+                        if (mapScenes[catchScene].count) {
+                            mapScenes[catchScene].count--;
+                        }
+                        if (mapScenes[catchScene].count == 0) {
+                            mapScenes.erase(catchScene);
+                        }
+                    }
+                }
+                });
+            delete item;
+            return;
         }
     }
+
 }

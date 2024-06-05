@@ -14,7 +14,7 @@ void sunflower::advance(int phase)
         delete this;
     else 
     {
-        time = (int)((qrand() % 15 + 8) * 1000000. / (33333. / (double)fpsIndex));//将生产阳光时间随机化
+        time = (int)((qrand() % 15 + 8) * 1000000. / (33333. / (double)fpsIndex));//灏嗙敓浜ч槼鍏夋椂闂撮殢鏈哄寲
         if (++counter >= time) 
         {
             counter = 0;

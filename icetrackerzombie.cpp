@@ -49,6 +49,6 @@ bool icetrackerzombie::collidesWithItem(const QGraphicsItem* other, Qt::ItemSele
 {
     Q_UNUSED(mode)
 
-        // µ±½©Ê¬ºÍÖ²ÎïÅö×²Ê±£¬·µ»Øtrue
+        // å½“åƒµå°¸å’Œæ¤ç‰©ç¢°æ’žæ—¶ï¼Œè¿”å›žtrue
         return other->type() == plant::Type && qFuzzyCompare(other->y(), y()) && qAbs(other->x() - x()) < 125;
 }

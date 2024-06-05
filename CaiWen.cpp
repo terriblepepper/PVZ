@@ -9,7 +9,7 @@ CaiWen::CaiWen()
     atk = 25.0;
     time = int(0.5 * 1000000. / (33333. / (double)fpsIndex));
     setMovie(":/new/prefix1/newPlants/CaiWen/idle.gif");
-    setScale(2);
+    setScale(1.5);
 }
 
 void CaiWen::advance(int phase)
@@ -19,14 +19,37 @@ void CaiWen::advance(int phase)
     update();
     if ((int)hp <= 0)
         delete this;
-    else if (++counter >= time) // Ã¿¹ıÒ»¸ö¹¥»÷¼ä¸ôµÄÖ¡Êı
+    else if (++counter >= time) // æ¯è¿‡ä¸€ä¸ªæ”»å‡»é—´éš”çš„å¸§æ•°
     {
-        counter = 0; // ÖØÖÃ¼ÆÊıÆ÷
+        counter = 0; // é‡ç½®è®¡æ•°å™¨
         QList<QGraphicsItem*> items = collidingItems();
-        //Èç¹ûÓĞ½©Ê¬½øÈë¹¥»÷·¶Î§
+        //å¦‚æœæœ‰åƒµå°¸è¿›å…¥æ”»å‡»èŒƒå›´
         if (!items.isEmpty())
         {
             setMovie(":/new/prefix1/newPlants/CaiWen/shooting.gif");
+            QMediaPlayer* sound = new QMediaPlayer(scene());
+            sound->setMedia(QUrl::fromLocalFile("./sound/bonk.mp3"));
+            sound->setVolume(itemVolume);
+            sound->play();
+            QGraphicsScene* catchScene = scene();
+            mapScenes[catchScene].count++;
+            connect(sound, &QMediaPlayer::stateChanged, [sound, catchScene](QMediaPlayer::State state) {
+                if (state == QMediaPlayer::StoppedState) {
+                    if (mapScenes[catchScene].isValid != false) {
+                        delete sound;
+                        mapScenes[catchScene].count--;
+                        return;
+                    }
+                    else {
+                        if (mapScenes[catchScene].count) {
+                            mapScenes[catchScene].count--;
+                        }
+                        if (mapScenes[catchScene].count == 0) {
+                            mapScenes.erase(catchScene);
+                        }
+                    }
+                }
+                });
             foreach(QGraphicsItem * item, items)
             {
                 zombie* zom = qgraphicsitem_cast<zombie*>(item);
@@ -43,5 +66,5 @@ void CaiWen::advance(int phase)
 bool CaiWen::collidesWithItem(const QGraphicsItem* other, Qt::ItemSelectionMode mode) const
 {
     Q_UNUSED(mode)
-        return other->type() == zombie::Type && qAbs(pos().x() - other->pos().x()) < 140 && pos().y() == other->pos().y();
+        return other->type() == zombie::Type && qAbs(pos().x() - other->pos().x()) < 140 && qAbs(pos().y()- other->pos().y())<30;
 }

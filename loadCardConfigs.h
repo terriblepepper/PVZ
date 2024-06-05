@@ -15,7 +15,7 @@
 #include"card.h"
 
 extern QVector<Cards> cards;
-// ¶¨ÒåÒ»¸ö½á¹¹ÌåÀ´´æ´¢¿¨Æ¬ĞÅÏ¢
+// å®šä¹‰ä¸€ä¸ªç»“æ„ä½“æ¥å­˜å‚¨å¡ç‰‡ä¿¡æ¯
 struct Cards {
     QString name;
     int cool;

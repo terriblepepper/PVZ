@@ -7,6 +7,7 @@ HelpWidget::HelpWidget(QWidget *parent)
 {
 	ui->setupUi(this);
 	setWindowTitle("PlantsVsZombies");
+	this->setWindowIcon(QIcon(":/new/prefix1/WallNut.png")); // 设置窗口图标
 	connect(ui->mainMenu, &QPushButton::clicked, this, &HelpWidget::goToMainMenu);
 }
 

@@ -1,6 +1,4 @@
-#if defined(_MSC_VER) && (_MSC_VER >= 1600)    
-# pragma execution_character_set("utf-8")    
-#endif
+//utf8
 #pragma once
 #include <QDialog>
 #include <QSlider>
@@ -19,7 +17,7 @@ public:
     SettingsDialog(QWidget* parent = nullptr);
 
 signals:
-    void settingsChanged(int volume, const QString& difficulty, int fps);
+    void settingsChanged(int volumeBGM,int volumeItem, const QString& difficulty, int fps);
 
 private slots:
     void applySettings();
@@ -27,6 +25,8 @@ private slots:
 private:
     QLabel* volumeLabel;
     QSlider* volumeSlider;
+    QLabel* itemVolumeLabel;
+    QSlider* itemVolumeSlider;
     QComboBox* difficultyComboBox;
     QComboBox* fpsComboBox;
     QPushButton* applyButton;

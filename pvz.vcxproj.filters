@@ -113,7 +113,7 @@
     <ClCompile Include="potato.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DoublePea.h.cpp">
+    <ClCompile Include="DoublePea.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="screenzombie.cpp">
@@ -218,6 +218,12 @@
     <ClCompile Include="BowlingNut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="puzzleMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hammer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="HelpWidget.h">
@@ -236,9 +242,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="card.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cherry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="conezombie.h">
@@ -268,39 +271,15 @@
     <ClInclude Include="other.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pea.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="peashot.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="plant.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="potato.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DoublePea.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="screenzombie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="shop.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="shovel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="snowpea.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <QtMoc Include="startpage.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClInclude Include="sun.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="sunflower.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -320,6 +299,60 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="smallgameMode.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="puzzleMode.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="peashot.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="snowpea.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="GatlingPea.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="DoublePea.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="pea.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CaiWen.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="sun.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="cherry.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="potato.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="FumeShroom.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SunShroom.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="GloomShroom.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="PuffShroom.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="shovel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Torchwood.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Jalapeno.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="shop.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -610,31 +643,7 @@
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Jalapeno.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GatlingPea.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="gargantuarzombie.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FumeShroom.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PuffShroom.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="smallBubble.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GloomShroom.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SunShroom.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Torchwood.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TwinSunflower.h">
@@ -650,9 +659,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="icetrackerzombie.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CaiWen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="apolozombie.h">
@@ -674,6 +680,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hammer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="smallBubble.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,8 +7,12 @@ apolozombie::apolozombie()
     hp = 420;
     atk = 100.0 / (30 * (double)fpsIndex);
     speed = 7.0 * (33333.0 / (double)fpsIndex) / 1000000.0;
+    zmSound = new QMediaPlayer;
+    zmSoundList = new QMediaPlaylist;
+    zmSoundList->addMedia(QUrl::fromLocalFile("./sound/Eat.wav"));
+    zmSoundList->setPlaybackMode(QMediaPlaylist::Loop);
+    zmSound->setMedia(zmSoundList);
     setMovie("./images/newZombies/apolo/walk.gif");
-    //setScale(1.27);
 }
 
 void apolozombie::advance(int phase)
@@ -20,8 +24,8 @@ void apolozombie::advance(int phase)
     {
         if (state < 2)
         {
-            state = 2; // ½«×´Ì¬ÉèÖÃÎª2£¨ËÀÍö£©
-
+            state = 2; // å°†çŠ¶æ€è®¾ç½®ä¸º2ï¼ˆæ­»äº¡ï¼‰
+            zmSound->stop();
             setMovie("./images/newZombies/apolo/death.gif");
         }
         else if (mQMovie->currentFrameNumber() == mQMovie->frameCount() - 1)
@@ -35,14 +39,16 @@ void apolozombie::advance(int phase)
         pl->hp -= atk;
         if (state != 1)
         {
-            state = 1; // ½«×´Ì¬ÉèÖÃÎª1£¨¹¥»÷£©
+            state = 1; // å°†çŠ¶æ€è®¾ç½®ä¸º1ï¼ˆæ”»å‡»ï¼‰
+            zmSound->play();
             setMovie("./images/newZombies/apolo/eat.gif");
         }
         return;
     }
     if (state)
     {
-        state = 0; // ½«×´Ì¬ÉèÖÃÎª0£¨ÐÐ×ß£©
+        state = 0; // å°†çŠ¶æ€è®¾ç½®ä¸º0ï¼ˆè¡Œèµ°ï¼‰
+        zmSound->stop();
         setMovie("./images/newZombies/apolo/walk.gif");
     }
     setX(x() - speed);

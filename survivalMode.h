@@ -1,6 +1,4 @@
-#if defined(_MSC_VER) && (_MSC_VER >= 1600)    
-# pragma execution_character_set("utf-8")    
-#endif
+//utf8
 #pragma once
 #include<qdebug.h>
 #include <QWidget>
@@ -33,7 +31,7 @@
 #include "mower.h"
 #include"gameIndex.h"
 #include"gamingMenu.h"
-#include "highprecesionQtimer.h" // 包含高精度定时器的头文件.
+#include "highprecesionQtimer.h" // 鍖呭惈楂樼簿搴﹀畾鏃跺櫒鐨勫ご鏂囦欢.
 
 class gamingMenuDialog;
 class survivalGameMode : public QWidget {
@@ -48,11 +46,12 @@ public:
     gamingMenuDialog* gamingMenu;
     QMediaPlayer* gamingBGM;
     QMediaPlaylist* gamingBGM_List;
-    HighPrecisionTimer* mQTimer; // 使用高精度定时器
+    TimerThread* mQTimer; // 浣跨敤楂樼簿搴﹀畾鏃跺櫒
     QGraphicsView* view;
     QGraphicsScene* scene;
 public slots:
     void handleVolumeChange();
+    void initTimer();
 signals:
     void gameOver();
 private:
@@ -64,7 +63,7 @@ private:
     QGraphicsProxyWidget* gamingWidgetsProxy;
     int low;
     int high;
-    int maxtime;//初始最大出僵尸间隔时间
+    int maxtime;//鍒濆鏈�澶у嚭鍍靛案闂撮殧鏃堕棿
     int time;
     int counter;
 };

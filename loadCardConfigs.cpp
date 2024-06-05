@@ -1,6 +1,6 @@
 #include"loadCardConfigs.h"
 
-// 存储所有卡片的向量
+// 瀛樺偍鎵�鏈夊崱鐗囩殑鍚戦噺
 QVector<Cards> cards;
 
 void loadCards(const QString& filename) {

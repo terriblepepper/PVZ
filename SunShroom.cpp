@@ -4,7 +4,6 @@ SunShroom::SunShroom()
 {
     hp = 250.0;
     setMovie(":/new/prefix1/newPlants/SunShroom/bigidle.gif");
-    setScale(1.5);
 }
 
 void SunShroom::advance(int phase)
@@ -16,7 +15,7 @@ void SunShroom::advance(int phase)
         delete this;
     else
     {
-        time = (int)((qrand() % 15 + 15)* 1000000. / (33333. / (double)fpsIndex));//将生产阳光时间随机化
+        time = (int)((qrand() % 15 + 15)* 1000000. / (33333. / (double)fpsIndex));//灏嗙敓浜ч槼鍏夋椂闂撮殢鏈哄寲
         if (++counter >= time)
         {
             counter = 0;

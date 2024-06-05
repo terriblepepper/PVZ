@@ -2,6 +2,8 @@
 #include"gameIndex.h"
 #include"zombie.h"
 #include"smallBubble.h"
+#include<QTimer>
+#include <QMediaPlayer>
 PuffShroom::PuffShroom()
 {
     hp = 250.0;
@@ -18,18 +20,46 @@ void PuffShroom::advance(int phase)
     update();
     if ((int)hp <= 0)
         delete this;
-    else if (++counter >= time) // Ã¿¹ıÒ»¸ö¹¥»÷¼ä¸ôµÄÖ¡Êı
+    else if (++counter >= time) // æ¯è¿‡ä¸€ä¸ªæ”»å‡»é—´éš”çš„å¸§æ•°
     {
-        counter = 0; // ÖØÖÃ¼ÆÊıÆ÷
+        counter = 0; // é‡ç½®è®¡æ•°å™¨
         if (!collidingItems().isEmpty())
         {
             setMovie(":/new/prefix1/newPlants/PuffShroom/shooting.gif");
             smallBubble* newshot = new smallBubble(atk); 
             newshot->originX = x() + 15;
             newshot->setX(newshot->originX); 
-            newshot->setY(y()); // ÉèÖÃ×Óµ¯µÄ¸ß¶ÈÓëĞ¡Åç¹½ÏàÍ¬
-            scene()->addItem(newshot); // ½«ÅİÅİÌí¼Óµ½³¡¾°ÖĞ
-            return; // ·µ»Ø£¬²»½øĞĞÒÆ¶¯
+            newshot->setY(y() + 20); // è®¾ç½®å­å¼¹çš„é«˜åº¦ä¸å°å–·è‡ç›¸åŒ
+            if (mapScenes[scene()].soundsCount < maxSounds)
+            {
+                QMediaPlayer* soundbubble = new QMediaPlayer(scene());
+                soundbubble->setMedia(QUrl::fromLocalFile("./sound/fume.mp3"));
+                soundbubble->setVolume(itemVolume);
+                soundbubble->play();
+                QGraphicsScene* catchScene = scene();
+                mapScenes[catchScene].count++;
+                mapScenes[catchScene].soundsCount++;
+                connect(soundbubble, &QMediaPlayer::stateChanged, [soundbubble, catchScene](QMediaPlayer::State state) {
+                    if (state == QMediaPlayer::StoppedState) {
+                        if (mapScenes[catchScene].isValid != false) {
+                            delete soundbubble;
+                            mapScenes[catchScene].count--;
+                            mapScenes[catchScene].soundsCount--;
+                            return;
+                        }
+                        else {
+                            if (mapScenes[catchScene].count) {
+                                mapScenes[catchScene].count--;
+                            }
+                            if (mapScenes[catchScene].count == 0) {
+                                mapScenes.erase(catchScene);
+                            }
+                        }
+                    }
+                    });
+            }
+            scene()->addItem(newshot); // å°†æ³¡æ³¡æ·»åŠ åˆ°åœºæ™¯ä¸­
+            return; // è¿”å›ï¼Œä¸è¿›è¡Œç§»åŠ¨
         }
         else
         {

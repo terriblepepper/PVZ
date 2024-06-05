@@ -1,17 +1,15 @@
-#if defined(_MSC_VER) && (_MSC_VER >= 1600)    
-# pragma execution_character_set("utf-8")    
-#endif
+//utf8
 #pragma once
 #include "plant.h"
 
 class BowlingNut : public plant
 {
 public:
-    BowlingNut(); // ¹¹Ôìº¯Êı£¬´´½¨Ò»¸ö±£ÁäÇò¶ÔÏó£¬attack±íÊ¾¹¥»÷Á¦
-    bool collidesWithItem(const QGraphicsItem* other, Qt::ItemSelectionMode mode) const override; // ÅĞ¶ÏÍã¶¹ÊÇ·ñÓëÆäËûÍ¼ĞÎÏî·¢ÉúÅö×²
-    void advance(int phase) override; // ¿ØÖÆ±£ÁäÇòµÄÒÆ¶¯ºÍ¹¥»÷Âß¼­
+    BowlingNut(); // æ„é€ å‡½æ•°ï¼Œåˆ›å»ºä¸€ä¸ªä¿é¾„çƒå¯¹è±¡ï¼Œattackè¡¨ç¤ºæ”»å‡»åŠ›
+    bool collidesWithItem(const QGraphicsItem* other, Qt::ItemSelectionMode mode) const override; // åˆ¤æ–­è±Œè±†æ˜¯å¦ä¸å…¶ä»–å›¾å½¢é¡¹å‘ç”Ÿç¢°æ’
+    void advance(int phase) override; // æ§åˆ¶ä¿é¾„çƒçš„ç§»åŠ¨å’Œæ”»å‡»é€»è¾‘
 private:
-    int atk; // ¹¥»÷Á¦
-    qreal speed; // ËÙ¶È£¨Ã¿ÃëÒÆ¶¯µÄÏñËØÊı£©
+    int atk; // æ”»å‡»åŠ›
+    qreal speed; // é€Ÿåº¦ï¼ˆæ¯ç§’ç§»åŠ¨çš„åƒç´ æ•°ï¼‰
 };
 

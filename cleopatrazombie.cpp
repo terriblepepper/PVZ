@@ -20,7 +20,7 @@ void cleopatrazombie::advance(int phase)
     {
         if (state < 2)
         {
-            state = 2; // 将状态设置为2（死亡）
+            state = 2; // 灏嗙姸鎬佽缃负2锛堟浜★級
 
             setMovie("./images/newZombies/cleopatra/death.gif");
         }
@@ -35,14 +35,14 @@ void cleopatrazombie::advance(int phase)
         pl->hp -= atk;
         if (state != 1)
         {
-            state = 1; // 将状态设置为1（攻击）
+            state = 1; // 灏嗙姸鎬佽缃负1锛堟敾鍑伙級
             setMovie("./images/newZombies/cleopatra/eat.gif");
         }
         return;
     }
     if (state)
     {
-        state = 0; // 将状态设置为0（行走）
+        state = 0; // 灏嗙姸鎬佽缃负0锛堣璧帮級
         setMovie("./images/newZombies/cleopatra/walk.gif");
     }
     setX(x() - speed);

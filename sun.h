@@ -3,8 +3,9 @@
 
 #include "other.h"
 
-class sun : public other
+class sun : public QObject,public other
 {
+    Q_OBJECT
 public:
     sun();
     sun(QPointF pos);
@@ -19,6 +20,7 @@ private:
     qreal speed;
     int counter;
     int time;
+    bool iscollected;
 };
 
 #endif // SUN_H

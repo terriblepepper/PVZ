@@ -27,12 +27,37 @@ void BowlingNut::advance(int phase)
     QList<QGraphicsItem*> items = collidingItems();
     if (!items.isEmpty())
     {
-        // µ±Íã¶¹ÉäÊÖÓë½©Ê¬Åö×²Ê±
+        QMediaPlayer* sound = new QMediaPlayer(scene());
+        sound->setMedia(QUrl::fromLocalFile("./sound/bowlingimpact.mp3"));
+        sound->setVolume(itemVolume);
+        sound->play();
+        QGraphicsScene* catchScene = scene();
+        mapScenes[catchScene].count++;
+        QTimer::singleShot(1500, [sound, catchScene]()
+            {
+                if (mapScenes[catchScene].isValid != false)
+                {
+                    delete sound;
+                    mapScenes[catchScene].count--;
+                }
+                else
+                {
+                    if (mapScenes[catchScene].count)
+                    {
+                        mapScenes[catchScene].count--;
+                    }
+                    if (mapScenes[catchScene].count == 0)
+                    {
+                        mapScenes.erase(catchScene);
+                    }
+                }
+            });
         zombie* zom = qgraphicsitem_cast<zombie*>(items[qrand() % items.size()]);
-        zom->hp -= atk; // ¼õÉÙ½©Ê¬µÄÉúÃüÖµ
+        zom->hp -= atk; // å‡å°‘åƒµå°¸çš„ç”Ÿå‘½å€¼
     }
-    setX(x() + speed); // ¸üÐÂÎ»ÖÃ£¬ÈÃÆäÏòÇ°ÒÆ¶¯
-    // Èç¹ûÎ»ÖÃ³¬¹ýÆÁÄ»±ß½ç£¨x > 1069£©£¬ÔòÉ¾³ý¶ÔÏó
+    setX(x() + speed); // æ›´æ–°ä½ç½®ï¼Œè®©å…¶å‘å‰ç§»åŠ¨
+    update();
+    // å¦‚æžœä½ç½®è¶…è¿‡å±å¹•è¾¹ç•Œï¼ˆx > 1069ï¼‰ï¼Œåˆ™åˆ é™¤å¯¹è±¡
     if (x() > 1069)
         delete this;
 }

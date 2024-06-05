@@ -7,28 +7,28 @@
 #include <QGraphicsScene>
 smallBubble::smallBubble(int attack, bool flag)
 {
-	atk = attack; // ÉèÖÃ¹¥»÷Á¦
-	speed = 230.0 * (33333 / fpsIndex) / 1000000; // ÉèÖÃĞ¡ÅİÅİµÄËÙ¶È
+	atk = attack; // è®¾ç½®æ”»å‡»åŠ›
+	speed = 230.0 * (33333 / fpsIndex) / 1000000; // è®¾ç½®å°æ³¡æ³¡çš„é€Ÿåº¦
 }
 
 QRectF smallBubble::boundingRect() const
 {
-	// ±ß½ç¾ØĞÎ
-	return QRectF(-12, -28, 24, 24); // ¾ØĞÎµÄ×óÉÏ½Ç×ø±êÎª(-12, -28)£¬¿í¶ÈÎª24£¬¸ß¶ÈÎª24
+	// è¾¹ç•ŒçŸ©å½¢
+	return QRectF(-12, -28, 24, 24); // çŸ©å½¢çš„å·¦ä¸Šè§’åæ ‡ä¸º(-12, -28)ï¼Œå®½åº¦ä¸º24ï¼Œé«˜åº¦ä¸º24
 }
 
 bool smallBubble::collidesWithItem(const QGraphicsItem* other, Qt::ItemSelectionMode mode) const
 {
 	Q_UNUSED(mode)
-		// Óë½©Ê¬Åö×²Ê±£¬·µ»Øtrue
-		return other->type() == zombie::Type && qFuzzyCompare(other->y(), y()) && qAbs(other->x() - x()) < 15;
+		// ä¸åƒµå°¸ç¢°æ’æ—¶ï¼Œè¿”å›true
+		return other->type() == zombie::Type && qFuzzyCompare(other->y()+20, y()) && qAbs(other->x() - x()) < 15;
 }
 
 void smallBubble::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
 	Q_UNUSED(option)
 		Q_UNUSED(widget)
-		// »æÖÆĞ¡ÅİÅİµÄÍ¼Æ¬
+		// ç»˜åˆ¶å°æ³¡æ³¡çš„å›¾ç‰‡
 		painter->drawPixmap(QRect(-12, -28, 24, 24), QPixmap(":/new/prefix1/smallBubble.gif"));
 }
 
@@ -36,18 +36,18 @@ void smallBubble::advance(int phase)
 {
     if (!phase)
         return;
-    update(); // ¸üĞÂ»æÖÆ
-    // ¼ì²âĞ¡ÅİÅİÓëÆäËûÎïÌåÊÇ·ñ·¢ÉúÅö×²
+    update(); // æ›´æ–°ç»˜åˆ¶
+    // æ£€æµ‹å°æ³¡æ³¡ä¸å…¶ä»–ç‰©ä½“æ˜¯å¦å‘ç”Ÿç¢°æ’
     QList<QGraphicsItem*> items = collidingItems();
     if (!items.isEmpty())
     {
-        // µ±Íã¶¹ÉäÊÖÓë½©Ê¬Åö×²Ê±
+        // å½“è±Œè±†å°„æ‰‹ä¸åƒµå°¸ç¢°æ’æ—¶
         zombie* zom = qgraphicsitem_cast<zombie*>(items[qrand() % items.size()]);
-        zom->hp -= atk; // ¼õÉÙ½©Ê¬µÄÉúÃüÖµ£¬ÊÜµ½Íã¶¹ÉäÊÖµÄ¹¥»÷
-        delete this; // É¾³ıÍã¶¹ÉäÊÖ¶ÔÏó
+        zom->hp -= atk; // å‡å°‘åƒµå°¸çš„ç”Ÿå‘½å€¼ï¼Œå—åˆ°è±Œè±†å°„æ‰‹çš„æ”»å‡»
+        delete this; // åˆ é™¤è±Œè±†å°„æ‰‹å¯¹è±¡
         return;
     }
-    setX(x() + speed); // ¸üĞÂÎ»ÖÃ£¬ÈÃÆäÏòÇ°ÒÆ¶¯
+    setX(x() + speed); // æ›´æ–°ä½ç½®ï¼Œè®©å…¶å‘å‰ç§»åŠ¨
     if (x()-originX > 280)
         delete this;
 }
