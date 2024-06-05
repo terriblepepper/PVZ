@@ -19,6 +19,7 @@ private:
     qreal speed;
     int counter;
     int time;
+    bool iscollected;
 };
 
 #endif // SUN_H

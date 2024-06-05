@@ -14,7 +14,7 @@
     <ProjectGuid>{16CD3935-CB4E-3602-B717-69728F18425A}</ProjectGuid>
     <RootNamespace>pvz</RootNamespace>
     <Keyword>QtVS_v304</Keyword>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion>10.0.19041.0</WindowsTargetPlatformMinVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
@@ -32,7 +32,7 @@
     <PlatformToolset>v142</PlatformToolset>
     <OutputDirectory>debug\</OutputDirectory>
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
     <ConfigurationType>Application</ConfigurationType>
     <IntermediateDirectory>debug\</IntermediateDirectory>
     <PrimaryOutput>pvz</PrimaryOutput>
@@ -139,7 +139,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;debug;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 /utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -209,6 +209,7 @@
     <ClCompile Include="gargantuarzombie.cpp" />
     <ClCompile Include="GatlingPea.cpp" />
     <ClCompile Include="GloomShroom.cpp" />
+    <ClCompile Include="hammer.cpp" />
     <ClCompile Include="HelpWidget.cpp" />
     <ClCompile Include="icetrackerzombie.cpp" />
     <ClCompile Include="Jalapeno.cpp" />
@@ -237,6 +238,7 @@
     <ClCompile Include="potato.cpp" />
     <ClCompile Include="DoublePea.h.cpp" />
     <ClCompile Include="PuffShroom.cpp" />
+    <ClCompile Include="puzzleMode.cpp" />
     <ClCompile Include="pyramidzombie.cpp" />
     <ClCompile Include="screenzombie.cpp" />
     <ClCompile Include="shop.cpp" />
@@ -282,6 +284,7 @@
     <ClInclude Include="gargantuarzombie.h" />
     <ClInclude Include="GatlingPea.h" />
     <ClInclude Include="GloomShroom.h" />
+    <ClInclude Include="hammer.h" />
     <ClInclude Include="icetrackerzombie.h" />
     <ClInclude Include="Jalapeno.h" />
     <ClInclude Include="map.h" />
@@ -295,6 +298,7 @@
     <ClInclude Include="potato.h" />
     <ClInclude Include="DoublePea.h" />
     <ClInclude Include="PuffShroom.h" />
+    <QtMoc Include="puzzleMode.h" />
     <ClInclude Include="pyramidzombie.h" />
     <ClInclude Include="screenzombie.h" />
     <ClInclude Include="shop.h" />

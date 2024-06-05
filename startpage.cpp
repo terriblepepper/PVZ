@@ -1,11 +1,10 @@
 #include "startpage.h"
 
-bool startpage::closeWinTellItem = true;//ÌáĞÑ³¡¾°ÄÜ·ñÉ¾³ıÎïÆ·¶ÔÏó
 bool startpage::isSurvivalSelect = false;
 startpage::startpage(QWidget *parent)
     : QWidget{parent}
 {
-    initCardInformation();//³õÊ¼Ê±´ÓjsonÎÄ¼ş¶ÁÈëcardÊı¾İ
+    initCardInformation();//åˆå§‹æ—¶ä»jsonæ–‡ä»¶è¯»å…¥cardæ•°æ®
     this->setFixedSize(900,600);
     this->setWindowTitle("PlantsVsZombies");
     this->setWindowIcon(QIcon(":/new/prefix1/WallNut.png"));
@@ -13,47 +12,47 @@ startpage::startpage(QWidget *parent)
     mpainter_1=new QPainter(this);
     QPushButton* btn_adventure=new QPushButton(this);
     QPushButton* btn_smallgame=new QPushButton(this);
-    QPushButton* btn_yizhigame=new QPushButton(this);
+    QPushButton* btn_puzzlegame=new QPushButton(this);
     QPushButton* btn_survivegame=new QPushButton(this);
     QPushButton* btn_options=new QPushButton(this);
     QPushButton* btn_help = new QPushButton(this);
     QPushButton* btn_exit = new QPushButton(this);
     btn_options->setGeometry(644, 490, 72, 30);
     btn_options->setStyleSheet("QPushButton{"
-                         "border:none;" // ÉèÖÃÎŞ±ß¿ò
-                         "padding:0px;" // ÉèÖÃÎŞÄÚ±ß¾à
-                         "background:transparent;" // ÉèÖÃ±³¾°Í¸Ã÷        
+                         "border:none;" // è®¾ç½®æ— è¾¹æ¡†
+                         "padding:0px;" // è®¾ç½®æ— å†…è¾¹è·
+                         "background:transparent;" // è®¾ç½®èƒŒæ™¯é€æ˜        
                          "}"
                          "QPushButton:hover{"
-                         "border-image:url(:/new/prefix1/menu-options.png);" // Êó±êĞüÍ£ÑùÊ½ 
+                         "border-image:url(:/new/prefix1/menu-options.png);" // é¼ æ ‡æ‚¬åœæ ·å¼ 
                          "}");
     btn_help->setGeometry(728, 521, 59, 29);
     btn_help->setStyleSheet("QPushButton{"
-                         "border:none;" // ÉèÖÃÎŞ±ß¿ò
-                         "padding:0px;" // ÉèÖÃÎŞÄÚ±ß¾à
-                         "background:transparent;" // ÉèÖÃ±³¾°Í¸Ã÷        
+                         "border:none;" // è®¾ç½®æ— è¾¹æ¡†
+                         "padding:0px;" // è®¾ç½®æ— å†…è¾¹è·
+                         "background:transparent;" // è®¾ç½®èƒŒæ™¯é€æ˜        
                          "}"
                          "QPushButton:hover{"
-                         "border-image:url(:/new/prefix1/menu-help.png);" // Êó±êĞüÍ£ÑùÊ½ 
+                         "border-image:url(:/new/prefix1/menu-help.png);" // é¼ æ ‡æ‚¬åœæ ·å¼ 
                          "}");
     btn_exit->setGeometry(811, 510, 60, 30);
     btn_exit->setStyleSheet("QPushButton{"
-                         "border:none;" // ÉèÖÃÎŞ±ß¿ò
-                         "padding:0px;" // ÉèÖÃÎŞÄÚ±ß¾à
-                         "background:transparent;" // ÉèÖÃ±³¾°Í¸Ã÷        
+                         "border:none;" // è®¾ç½®æ— è¾¹æ¡†
+                         "padding:0px;" // è®¾ç½®æ— å†…è¾¹è·
+                         "background:transparent;" // è®¾ç½®èƒŒæ™¯é€æ˜        
                          "}"
                          "QPushButton:hover{"
-                         "border-image:url(:/new/prefix1/menu-exit.png);" // Êó±êĞüÍ£ÑùÊ½ 
+                         "border-image:url(:/new/prefix1/menu-exit.png);" // é¼ æ ‡æ‚¬åœæ ·å¼ 
                          "}");
     btn_adventure->setGeometry(450,60,340,120);
     btn_adventure->setStyleSheet("QPushButton{"
-                         "border:none;" // ÉèÖÃÎŞ±ß¿ò
-                         "padding:0px;" // ÉèÖÃÎŞÄÚ±ß¾à
-                         "background:transparent;" // ÉèÖÃ±³¾°Í¸Ã÷
-                         "border-image:url(:/new/prefix1/adventure.png);" // ÉèÖÃ°´Å¥ÑùÊ½£¬°üÀ¨±³¾°Í¼Æ¬
+                         "border:none;" // è®¾ç½®æ— è¾¹æ¡†
+                         "padding:0px;" // è®¾ç½®æ— å†…è¾¹è·
+                         "background:transparent;" // è®¾ç½®èƒŒæ™¯é€æ˜
+                         "border-image:url(:/new/prefix1/adventure.png);" // è®¾ç½®æŒ‰é’®æ ·å¼ï¼ŒåŒ…æ‹¬èƒŒæ™¯å›¾ç‰‡
                          "}"
                          "QPushButton:hover{"
-                         "border-image:url(:/new/prefix1/adventure1.png);" // Êó±êĞüÍ£ÑùÊ½
+                         "border-image:url(:/new/prefix1/adventure1.png);" // é¼ æ ‡æ‚¬åœæ ·å¼
                          "}"
                          );
     btn_smallgame->setGeometry(450,150,320,130);
@@ -67,8 +66,8 @@ startpage::startpage(QWidget *parent)
                          "border-image:url(:/new/prefix1/play1.png);"
                          "}"
                          );
-    btn_yizhigame->setGeometry(460,230,290,130);
-    btn_yizhigame->setStyleSheet("QPushButton{"
+    btn_puzzlegame->setGeometry(460,230,290,130);
+    btn_puzzlegame->setStyleSheet("QPushButton{"
                          "border:none;"
                          "padding:0px;"
                          "background:transparent;"
@@ -90,10 +89,10 @@ startpage::startpage(QWidget *parent)
                          "}"
                          );
 
-    //½øÈëÃ°ÏÕÄ£Ê½
+    //è¿›å…¥å†’é™©æ¨¡å¼
     connect(btn_adventure, &QPushButton::clicked, [this]() {
-        gamingMenu = new(gamingMenuDialog);//´´½¨ÓÎÏ·²Ëµ¥
-        adventureGaming = new (adventureGameMode);//´´½¨ÓÎÏ·´°¿Ú
+        gamingMenu = new(gamingMenuDialog);//åˆ›å»ºæ¸¸æˆèœå•
+        adventureGaming = new (adventureGameMode);//åˆ›å»ºæ¸¸æˆçª—å£
         currentGameMode = adventureGaming;
         gamingMenu->getCurrentGameMode(currentGameMode);
         gamingMenu->getMainMenuPoints(this);
@@ -101,26 +100,26 @@ startpage::startpage(QWidget *parent)
         adventureGaming->getGamingMenu(gamingMenu);
         this->close();
         adventureGaming->show();
-        //½ÓÊÕ»Øµ½²Ëµ¥ĞÅºÅ½øĞĞÁ¬½Ó
+        //æ¥æ”¶å›åˆ°èœå•ä¿¡å·è¿›è¡Œè¿æ¥
         connect(gamingMenu, &gamingMenuDialog::gameToMainMenu, this, &startpage::handleGameToMainMenu);
         connect(adventureGaming,&adventureGameMode::onBackClicked,this,&startpage::handleGameToMainMenu);
-        //½ÓÊÕÖØĞÂ¿ªÊ¼ĞÅºÅ
+        //æ¥æ”¶é‡æ–°å¼€å§‹ä¿¡å·
         connect(gamingMenu, static_cast<void(gamingMenuDialog::*)(adventureGameMode*)>(&gamingMenuDialog::restartGame),
             this, static_cast<void(startpage::*)(adventureGameMode*)>(&startpage::handleRestartGame));
-        //½ÓÊÕ¸üĞÂÒôÁ¿ĞÅºÅ
+        //æ¥æ”¶æ›´æ–°éŸ³é‡ä¿¡å·
         connect(gamingMenu, &gamingMenuDialog::changeVolume, this, &startpage::updateVolume);
-        //½ÓÊÕÍ£Ö¹Ö÷²Ëµ¥BGMĞÅºÅ
+        //æ¥æ”¶åœæ­¢ä¸»èœå•BGMä¿¡å·
         connect(adventureGaming, &adventureGameMode::stopLoadingBGM, loadingBGM, &QMediaPlayer::stop);
-        //½ÓÊÕÓÎÏ·Ê§°ÜÈ·ÈÏĞÅºÅ
+        //æ¥æ”¶æ¸¸æˆå¤±è´¥ç¡®è®¤ä¿¡å·
         connect(adventureGaming, &adventureGameMode::gameFinish, this, &startpage::handleGameToMainMenu);
-        //½ÓÊÕ»Ö¸´¹Ø¿¨½çÃæBGMĞÅºÅ
+        //æ¥æ”¶æ¢å¤å…³å¡ç•Œé¢BGMä¿¡å·
         connect(adventureGaming, &adventureGameMode::resumeLoadingBGM, loadingBGM, &QMediaPlayer::play);
         });
 
-    //½øÈëĞ¡ÓÎÏ·Ä£Ê½
+    //è¿›å…¥å°æ¸¸æˆæ¨¡å¼
     connect(btn_smallgame, &QPushButton::clicked, [this]() {
-        gamingMenu = new(gamingMenuDialog);//´´½¨ÓÎÏ·²Ëµ¥
-        smallGaming = new (smallGameMode);//´´½¨ÓÎÏ·´°¿Ú
+        gamingMenu = new(gamingMenuDialog);//åˆ›å»ºæ¸¸æˆèœå•
+        smallGaming = new (smallGameMode);//åˆ›å»ºæ¸¸æˆçª—å£
         currentGameMode = smallGaming;
         gamingMenu->getCurrentGameMode(currentGameMode);
         gamingMenu->getMainMenuPoints(this);
@@ -128,57 +127,87 @@ startpage::startpage(QWidget *parent)
         smallGaming->getGamingMenu(gamingMenu);
         this->close();
         smallGaming->show();
-        //½ÓÊÕ»Øµ½²Ëµ¥ĞÅºÅ½øĞĞÁ¬½Ó
+        //æ¥æ”¶å›åˆ°èœå•ä¿¡å·è¿›è¡Œè¿æ¥
         connect(gamingMenu, &gamingMenuDialog::gameToMainMenu, this, &startpage::handleGameToMainMenu);
         connect(smallGaming, &smallGameMode::onBackClicked, this, &startpage::handleGameToMainMenu);
-        //½ÓÊÕÖØĞÂ¿ªÊ¼ĞÅºÅ
+        //æ¥æ”¶é‡æ–°å¼€å§‹ä¿¡å·
         connect(gamingMenu, static_cast<void(gamingMenuDialog::*)(smallGameMode*)>(&gamingMenuDialog::restartGame),
             this, static_cast<void(startpage::*)(smallGameMode*)>(&startpage::handleRestartGame));
-        //½ÓÊÕ¸üĞÂÒôÁ¿ĞÅºÅ
+        //æ¥æ”¶æ›´æ–°éŸ³é‡ä¿¡å·
         connect(gamingMenu, &gamingMenuDialog::changeVolume, this, &startpage::updateVolume);
-        //½ÓÊÕÍ£Ö¹Ö÷²Ëµ¥BGMĞÅºÅ
+        //æ¥æ”¶åœæ­¢ä¸»èœå•BGMä¿¡å·
         connect(smallGaming, &smallGameMode::stopLoadingBGM, loadingBGM, &QMediaPlayer::stop);
-        //½ÓÊÕÓÎÏ·Ê§°ÜÈ·ÈÏĞÅºÅ
+        //æ¥æ”¶æ¸¸æˆå¤±è´¥ç¡®è®¤ä¿¡å·
         connect(smallGaming, &smallGameMode::gameFinish, this, &startpage::handleGameToMainMenu);
-        //½ÓÊÕ»Ö¸´¹Ø¿¨½çÃæBGMĞÅºÅ
+        //æ¥æ”¶æ¢å¤å…³å¡ç•Œé¢BGMä¿¡å·
         connect(smallGaming, &smallGameMode::resumeLoadingBGM, loadingBGM, &QMediaPlayer::play);
         });
 
-    // ½øÈëÉú´æÄ£Ê½
+    //è¿›å…¥è§£è°œæ¨¡å¼
+    connect(btn_puzzlegame, &QPushButton::clicked, [this]() {
+        gamingMenu = new(gamingMenuDialog);//åˆ›å»ºæ¸¸æˆèœå•
+        puzzleGaming = new (puzzleMode);//åˆ›å»ºæ¸¸æˆçª—å£
+        currentGameMode = puzzleGaming;
+        gamingMenu->getCurrentGameMode(currentGameMode);
+        gamingMenu->getMainMenuPoints(this);
+        gamingMenu->getGameWindow(puzzleGaming);
+        puzzleGaming->getGamingMenu(gamingMenu);
+        this->close();
+        puzzleGaming->show();
+        //æ¥æ”¶å›åˆ°èœå•ä¿¡å·è¿›è¡Œè¿æ¥
+        connect(gamingMenu, &gamingMenuDialog::gameToMainMenu, this, &startpage::handleGameToMainMenu);
+        connect(puzzleGaming, &puzzleMode::onBackClicked, this, &startpage::handleGameToMainMenu);
+        //æ¥æ”¶é‡æ–°å¼€å§‹ä¿¡å·
+        connect(gamingMenu, static_cast<void(gamingMenuDialog::*)(puzzleMode*)>(&gamingMenuDialog::restartGame),
+            this, static_cast<void(startpage::*)(puzzleMode*)>(&startpage::handleRestartGame));
+        //æ¥æ”¶æ›´æ–°éŸ³é‡ä¿¡å·
+        connect(gamingMenu, &gamingMenuDialog::changeVolume, this, &startpage::updateVolume);
+        //æ¥æ”¶åœæ­¢ä¸»èœå•BGMä¿¡å·
+        connect(puzzleGaming, &puzzleMode::stopLoadingBGM, loadingBGM, &QMediaPlayer::stop);
+        //æ¥æ”¶æ¸¸æˆå¤±è´¥ç¡®è®¤ä¿¡å·
+        connect(puzzleGaming, &puzzleMode::gameFinish, this, &startpage::handleGameToMainMenu);
+        //æ¥æ”¶æ¢å¤å…³å¡ç•Œé¢BGMä¿¡å·
+        connect(puzzleGaming, &puzzleMode::resumeLoadingBGM, loadingBGM, &QMediaPlayer::play);
+        });
+
+    // è¿›å…¥ç”Ÿå­˜æ¨¡å¼
     connect(btn_survivegame,&QPushButton::clicked,[this](){
     loadingBGM->stop();
-    selectingCardsWidget = new(CardSelectionDialog);//´´½¨¿¨Æ¬Ñ¡Ôñ´°¿Ú
+    selectingCardsWidget = new(CardSelectionDialog);//åˆ›å»ºå¡ç‰‡é€‰æ‹©çª—å£
     this->close();
     selectingCardsWidget->show();
     connect(selectingCardsWidget, &CardSelectionDialog::cancelGame, this, &startpage::handleGameToMainMenu);
     connect(selectingCardsWidget, &CardSelectionDialog::cardIsSelected, [this]() {
-        /*ÉèÖÃ¿¨Æ¬ÀäÈ´Ê±¼ä£¨ÔÚcard.cppÉèÖÃ»á³öÏÖ¸³ÖµÊ§Ğ§£©*/
+        /*è®¾ç½®å¡ç‰‡å†·å´æ—¶é—´ï¼ˆåœ¨card.cppè®¾ç½®ä¼šå‡ºç°èµ‹å€¼å¤±æ•ˆï¼‰*/
         isSurvivalSelect = true;
         initCardInformation();
-        gamingMenu = new(gamingMenuDialog);//´´½¨ÓÎÏ·²Ëµ¥
-        survivalGaming = new (survivalGameMode);//´´½¨ÓÎÏ·´°¿Ú
+        gamingMenu = new(gamingMenuDialog);//åˆ›å»ºæ¸¸æˆèœå•
+        survivalGaming = new (survivalGameMode);//åˆ›å»ºæ¸¸æˆçª—å£
         gamingMenu->getCurrentGameMode(currentGameMode);
         gamingMenu->getMainMenuPoints(this);
         gamingMenu->getGameWindow(survivalGaming);
         survivalGaming->getGamingMenu(gamingMenu);
-        currentGameMode = survivalGaming;
         survivalGaming->show();
-        //½ÓÊÕ»Øµ½²Ëµ¥ĞÅºÅ½øĞĞÁ¬½Ó
+        currentGameMode = survivalGaming;
+        //è¿æ¥å¼€å§‹æ¸¸æˆçš„ä¿¡å·
+        connect(this, &startpage::startSurvivalGame, survivalGaming, &survivalGameMode::initTimer);
+        //æ¥æ”¶å›åˆ°èœå•ä¿¡å·è¿›è¡Œè¿æ¥
         connect(gamingMenu, &gamingMenuDialog::gameToMainMenu, this, &startpage::handleGameToMainMenu);
-        //½ÓÊÕÖØĞÂ¿ªÊ¼ĞÅºÅ
+        //æ¥æ”¶é‡æ–°å¼€å§‹ä¿¡å·
         connect(gamingMenu, static_cast<void(gamingMenuDialog::*)(survivalGameMode*)>(&gamingMenuDialog::restartGame),
             this, static_cast<void(startpage::*)(survivalGameMode*)>(&startpage::handleRestartGame));
-        //½ÓÊÕ¸üĞÂÒôÁ¿ĞÅºÅ
+        //æ¥æ”¶æ›´æ–°éŸ³é‡ä¿¡å·
         connect(gamingMenu, &gamingMenuDialog::changeVolume, this, &startpage::updateVolume);
-        //½ÓÊÕÓÎÏ·Ê§°ÜÈ·ÈÏĞÅºÅ
+        //æ¥æ”¶æ¸¸æˆå¤±è´¥ç¡®è®¤ä¿¡å·
         connect(survivalGaming, &survivalGameMode::gameOver, this, &startpage::handleGameToMainMenu);
+        emit startSurvivalGame();
         });
     });
-    //ÍË³ö
+    //é€€å‡º
     connect(btn_exit, &QPushButton::clicked, [this]() {
         QMessageBox exitBox;
-        exitBox.setWindowTitle("ÍË³ö");
-        exitBox.setText("ÊÇ·ñÒªÍË³öÓÎÏ·?");
+        exitBox.setWindowTitle("é€€å‡º");
+        exitBox.setText("æ˜¯å¦è¦é€€å‡ºæ¸¸æˆ?");
         exitBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         exitBox.setDefaultButton(QMessageBox::No);
         int ret = exitBox.exec();
@@ -194,9 +223,9 @@ startpage::startpage(QWidget *parent)
             break;
         }
         });
-    //°ïÖú
+    //å¸®åŠ©
     connect(btn_help, &QPushButton::clicked,this,&startpage::goToHelp);
-    //ÉèÖÃ
+    //è®¾ç½®
     connect(btn_options, &QPushButton::clicked, this, &startpage::openSettingsDialog); 
 }
 
@@ -209,8 +238,8 @@ void startpage::initCardInformation()
 {
     if (!isLoadCards) 
     {
-        loadCards(":/cards/configs/cards.json"); // ¼ÙÉèÎÄ¼şÂ·¾¶ÔÚ×ÊÔ´Ä¿Â¼ÖĞ
-    // ¸üĞÂ card ÀàÖĞµÄ¾²Ì¬³ÉÔ±
+        loadCards(":/cards/configs/cards.json"); // å‡è®¾æ–‡ä»¶è·¯å¾„åœ¨èµ„æºç›®å½•ä¸­
+    // æ›´æ–° card ç±»ä¸­çš„é™æ€æˆå‘˜
         for (const auto& cardData : cards) {
                 CardsData Cards;
                 Cards.name = cardData.name;
@@ -245,25 +274,23 @@ void startpage::openSettingsDialog()
     settingsDialog.exec();
 }
 
-void startpage::updateSettings(int volume, const QString& difficulty, int fps)
+void startpage::updateSettings(int volumeBGM,int volumeItem, const QString& difficulty, int fps)
 {
-    musicVolume = volume;
+    musicVolume = volumeBGM;
+    itemVolume = volumeItem;
     loadingBGM->setVolume(musicVolume);
     Difficulty = difficulty;
-    fpsIndex = fps / 30;//ÉèÖÃË¢ĞÂÖ¡Êı
+    fpsIndex = fps / 30;//è®¾ç½®åˆ·æ–°å¸§æ•°
     writeSettingsToFile("./configs/settings.ini");
 }
 
-void startpage::updateVolume()//½ÓÊÕÓÎÏ·ÖĞ±ä»¯ÒôÁ¿ĞÅºÅµÄ´¦Àí
+void startpage::updateVolume()//æ¥æ”¶æ¸¸æˆä¸­å˜åŒ–éŸ³é‡ä¿¡å·çš„å¤„ç†
 {
     loadingBGM->setVolume(musicVolume);
 }
 
 void startpage::handleGameToMainMenu()
 {
-    startpage::closeWinTellItem = false;
-    bool change = true;
-    QTimer::singleShot(1100, [change]() { startpage::closeWinTellItem = change; });
     loadingBGM->play();
         if (isSurvivalSelect && survivalGaming != nullptr)
         {
@@ -289,7 +316,14 @@ void startpage::handleGameToMainMenu()
             gamingMenu->close();
             gamingMenu->deleteLater();
         }
-        
+        else if (puzzleGaming != nullptr && currentGameMode == puzzleGaming)
+        {
+            puzzleGaming->close();
+            puzzleGaming->deleteLater();
+            puzzleGaming = nullptr;
+            gamingMenu->close();
+            gamingMenu->deleteLater();
+        }
     this->show();
 }
 
@@ -297,9 +331,6 @@ void startpage::handleRestartGame(survivalGameMode* g)
 {
     initCardInformation();
     survivalGaming = g;
-    startpage::closeWinTellItem = false;
-    bool change = true;
-    QTimer::singleShot(1100, [change]() { startpage::closeWinTellItem = change; });
     currentGameMode = survivalGaming;
 }
 
@@ -307,9 +338,6 @@ void startpage::handleRestartGame(adventureGameMode* g2)
 {
     adventureGaming = g2;
     currentGameMode = adventureGaming;
-    startpage::closeWinTellItem = false;
-    bool change = true;
-    QTimer::singleShot(1100, [change]() { startpage::closeWinTellItem = change; });
     connect(adventureGaming, &adventureGameMode::onBackClicked, this, &startpage::handleGameToMainMenu);
 }
 
@@ -317,10 +345,14 @@ void startpage::handleRestartGame(smallGameMode* g3)
 {
     smallGaming = g3;
     currentGameMode = smallGaming;
-    startpage::closeWinTellItem = false;
-    bool change = true;
-    QTimer::singleShot(1100, [change]() { startpage::closeWinTellItem = change; });
     connect(smallGaming, &smallGameMode::onBackClicked, this, &startpage::handleGameToMainMenu);
+}
+
+void startpage::handleRestartGame(puzzleMode* g4)
+{
+    puzzleGaming = g4;
+    currentGameMode = puzzleGaming;
+    connect(puzzleGaming, &puzzleMode::onBackClicked, this, &startpage::handleGameToMainMenu);
 }
 
 void startpage::loadCards(const QString& filename)
@@ -360,26 +392,27 @@ void startpage::writeSettingsToFile(const QString& filePath)
 
     settings.beginGroup("Audio");
     settings.setValue("musicVolume", musicVolume);
+    settings.setValue("itemVolume", itemVolume);
     settings.endGroup();
 
     settings.beginGroup("Game");
-    if(Difficulty == "¼òµ¥")
+    if(Difficulty == "ç®€å•")
         settings.setValue("Difficulty", "Easy");
-    if(Difficulty == "ÖĞµÈ")
+    if(Difficulty == "ä¸­ç­‰")
         settings.setValue("Difficulty", "Medium");
-    if(Difficulty == "À§ÄÑ")
+    if(Difficulty == "å›°éš¾")
         settings.setValue("Difficulty", "Hard");
-    if(Difficulty == "±äÌ¬")
+    if(Difficulty == "å˜æ€")
         settings.setValue("Difficulty", "Insane");
     settings.endGroup();
 }
 
 void startpage::paintEvent(QPaintEvent *event)
 {
-    mpainter_1->begin(this); // ¿ªÊ¼»æÖÆ
-    QImage img(":/new/prefix1/Surface.png"); // ¼ÓÔØÍ¼Æ¬×ÊÔ´
-    mpainter_1->drawImage(QRect(0, 0, 900, 600), img); // ÔÚÖ÷´°¿Ú»æÖÆÍ¼Æ¬
-    mpainter_1->end(); // ½áÊø»æÖÆ
+    mpainter_1->begin(this); // å¼€å§‹ç»˜åˆ¶
+    QImage img(":/new/prefix1/Surface.png"); // åŠ è½½å›¾ç‰‡èµ„æº
+    mpainter_1->drawImage(QRect(0, 0, 900, 600), img); // åœ¨ä¸»çª—å£ç»˜åˆ¶å›¾ç‰‡
+    mpainter_1->end(); // ç»“æŸç»˜åˆ¶
 }
 
 

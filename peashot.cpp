@@ -5,24 +5,24 @@
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
-
+#include<QMediaPlayer>
 peashot::peashot(int attack, bool flag)
     : atk(attack), snow(flag), speed(360.0 * (33333 / fpsIndex) / 1000000)
 {
-    currentPixmap = QPixmap(snow ? ":/new/prefix1/PeaSnow.gif" : ":/new/prefix1/Pea.gif");
+    currentPixmap = QPixmap(snow ? "./images/PeaSnow.png" : "./images/Pea.png");
 }
 
 
 QRectF peashot::boundingRect() const
 {
-    // ÉèÖÃÍã¶¹ÉäÊÖµÄ±ß½ç¾ØĞÎ
-    return QRectF(-36, -42, 72, 36); 
+    // è®¾ç½®è±Œè±†å°„æ‰‹çš„è¾¹ç•ŒçŸ©å½¢
+    return QRectF(-12, -28, 24, 24);
 }
 
 bool peashot::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const
 {
     Q_UNUSED(mode)
-    // µ±Íã¶¹ÉäÊÖÓë½©Ê¬Åö×²Ê±£¬·µ»Øtrue
+    // å½“è±Œè±†å°„æ‰‹ä¸åƒµå°¸ç¢°æ’æ—¶ï¼Œè¿”å›true
     return other->type() == zombie::Type && qAbs(other->y()- y())<20 && qAbs(other->x() - x()) < 5;
 }
 
@@ -30,7 +30,7 @@ void peashot::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, Q
 {
     Q_UNUSED(option)
         Q_UNUSED(widget)
-        painter->drawPixmap(QRect(-18, -42, 36, 36), currentPixmap);
+        painter->drawPixmap(QRect(-12, -28, 24, 24), currentPixmap);
 }
 
 
@@ -38,28 +38,51 @@ void peashot::advance(int phase)
 {
     if (!phase)
         return;
-    update(); // ¸üĞÂÍã¶¹ÉäÊÖµÄ»æÖÆ
-    // ¼ì²âÍã¶¹ÉäÊÖÓëÆäËûÎïÌåÊÇ·ñ·¢ÉúÅö×²
+    // æ£€æµ‹è±Œè±†å°„æ‰‹ä¸å…¶ä»–ç‰©ä½“æ˜¯å¦å‘ç”Ÿç¢°æ’
     QList<QGraphicsItem *> items = collidingItems();
     if (!items.isEmpty())
     {
-        // µ±Íã¶¹ÉäÊÖÓë½©Ê¬Åö×²Ê±
+        // å½“è±Œè±†å°„æ‰‹ä¸åƒµå°¸ç¢°æ’æ—¶
         zombie *zom = qgraphicsitem_cast<zombie *>(items[qrand() % items.size()]);
-        zom->hp -= atk; // ¼õÉÙ½©Ê¬µÄÉúÃüÖµ£¬ÊÜµ½Íã¶¹ÉäÊÖµÄ¹¥»÷
+        zom->hp -= atk; // å‡å°‘åƒµå°¸çš„ç”Ÿå‘½å€¼ï¼Œå—åˆ°è±Œè±†å°„æ‰‹çš„æ”»å‡»
 
-        // Èç¹ûÍã¶¹ÉäÊÖ´øÓĞ±ù¶³Ğ§¹û£¬ÇÒ½©Ê¬Ã»±»¶³
+        // å¦‚æœè±Œè±†å°„æ‰‹å¸¦æœ‰å†°å†»æ•ˆæœï¼Œä¸”åƒµå°¸æ²¡è¢«å†»
         if (snow && zom->isSnow==false)
         {
             zom->isSnow = true;
             zom->speed /= 2;
-        } // ½«½©Ê¬µÄËÙ¶È¼õÉÙÎªÔ­À´µÄ1/2
-
-
-        delete this; // É¾³ıÍã¶¹ÉäÊÖ¶ÔÏó
+        } // å°†åƒµå°¸çš„é€Ÿåº¦å‡å°‘ä¸ºåŸæ¥çš„1/2
+        QMediaPlayer* soundpea = new QMediaPlayer(scene());
+        soundpea->setMedia(QUrl::fromLocalFile("./sound/kernelpult2.mp3"));
+        soundpea->setVolume(itemVolume);
+        QGraphicsScene* catchScene = scene();
+        mapScenes[catchScene].count++;
+        QTimer::singleShot(100, [soundpea, catchScene]()
+            {
+                if (mapScenes[catchScene].isValid != false)
+                {
+                    delete soundpea;
+                    mapScenes[catchScene].count--;
+                }
+                else
+                {
+                    if (mapScenes[catchScene].count)
+                    {
+                        mapScenes[catchScene].count--;
+                    }
+                    if (mapScenes[catchScene].count == 0)
+                    {
+                        mapScenes.erase(catchScene);
+                    }
+                }
+            });
+        delete this; // åˆ é™¤è±Œè±†å°„æ‰‹å¯¹è±¡
+        soundpea->play();
         return;
     }
-    setX(x() + speed); // ¸üĞÂÍã¶¹ÉäÊÖµÄÎ»ÖÃ£¬ÈÃÆäÏòÇ°ÒÆ¶¯
-    // Èç¹ûÍã¶¹ÉäÊÖµÄÎ»ÖÃ³¬¹ıÆÁÄ»±ß½ç£¨x > 1069£©£¬ÔòÉ¾³ıÍã¶¹ÉäÊÖ¶ÔÏó
+    setX(x() + speed); // æ›´æ–°è±Œè±†å°„æ‰‹çš„ä½ç½®ï¼Œè®©å…¶å‘å‰ç§»åŠ¨
+    update(); // æ›´æ–°è±Œè±†å°„æ‰‹çš„ç»˜åˆ¶
+    // å¦‚æœè±Œè±†å°„æ‰‹çš„ä½ç½®è¶…è¿‡å±å¹•è¾¹ç•Œï¼ˆx > 1069ï¼‰ï¼Œåˆ™åˆ é™¤è±Œè±†å°„æ‰‹å¯¹è±¡
     if (x() > 1069)
         delete this;
 }
@@ -72,5 +95,5 @@ void peashot::addAtk(double att)
 void peashot::setImage(const QString& filePath)
 {
     currentPixmap = QPixmap(filePath);
-    update(); // ¸üĞÂ»æÖÆ
+    update(); // æ›´æ–°ç»˜åˆ¶
 }

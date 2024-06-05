@@ -1,32 +1,31 @@
 #include "Mainwindow.h"
 #include "ui_Mainwindow.h"
 
-QMediaPlaylist* loadingBGMList = new (QMediaPlaylist);//loading->startµÄbgm
+QMediaPlaylist* loadingBGMList = new (QMediaPlaylist);//loading->startçš„bgm
 QMediaPlayer* loadingBGM = new (QMediaPlayer);
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    ui->setupUi(this);
+    this->setFixedSize(900,600);
+    this->setWindowTitle("PlantsVsZombies");
+    this->setWindowIcon(QIcon(":/new/prefix1/WallNut.png")); // è®¾ç½®çª—å£å›¾æ ‡
     loadingBGMList->addMedia(QUrl::fromLocalFile("./sound/02CrazyDave.mp3"));
-    // ²¶×½QMediaPlayerµÄ´íÎóĞÅºÅ
     loadingBGMList->setPlaybackMode(QMediaPlaylist::Loop);
     loadingBGM->setPlaylist(loadingBGMList);
     loadingBGM->setVolume(musicVolume);
     loadingBGM->play();
-    ui->setupUi(this);
-    this->setFixedSize(900,600);
-    this->setWindowTitle("PlantsVsZombies");
-    this->setWindowIcon(QIcon(":/new/prefix1/WallNut.png")); // ÉèÖÃ´°¿ÚÍ¼±ê
-    mpainter_1 = new QPainter(this); // ´´½¨ QPainter ¶ÔÏó
-    mqtimer = new QTimer(this); // ´´½¨ QTimer ¶ÔÏó
-    mqtimer->setInterval(4000); // ÉèÖÃ¶¨Ê±Æ÷Ê±¼ä¼ä¸ôÎª 4000 ºÁÃë
-    mqtimer->start(); // Æô¶¯¶¨Ê±Æ÷
+    mpainter_1 = new QPainter(this); // åˆ›å»º QPainter å¯¹è±¡
+    mqtimer = new QTimer(this); // åˆ›å»º QTimer å¯¹è±¡
+    mqtimer->setInterval(4000); // è®¾ç½®å®šæ—¶å™¨æ—¶é—´é—´éš”ä¸º 4000 æ¯«ç§’
+    mqtimer->start(); // å¯åŠ¨å®šæ—¶å™¨
     connect(mqtimer, &QTimer::timeout, [this]() {
         loading* load = new(loading);
-        mqtimer->stop(); // ¶¨Ê±Æ÷´¥·¢ºóÍ£Ö¹
-        this->close(); // ¹Ø±ÕÖ÷´°¿Ú
-        load->show(); // ÏÔÊ¾ loading ´°¿Ú
+        mqtimer->stop(); // å®šæ—¶å™¨è§¦å‘ååœæ­¢
+        this->close(); // å…³é—­ä¸»çª—å£
+        load->show(); // æ˜¾ç¤º loading çª—å£
     });
 }
 
@@ -36,10 +35,10 @@ MainWindow::~MainWindow()
 }
 void MainWindow::paintEvent(QPaintEvent *event)
 {
-    mpainter_1->begin(this); // ¿ªÊ¼»æÖÆ
-    QImage img(":/new/prefix1/init.png"); // ¼ÓÔØÍ¼Æ¬×ÊÔ´
-    mpainter_1->drawImage(QRect(0, 0, 900, 600), img); // ÔÚÖ÷´°¿Ú»æÖÆÍ¼Æ¬
-    mpainter_1->end(); // ½áÊø»æÖÆ
+    mpainter_1->begin(this); // å¼€å§‹ç»˜åˆ¶
+    QImage img(":/new/prefix1/init.png"); // åŠ è½½å›¾ç‰‡èµ„æº
+    mpainter_1->drawImage(QRect(0, 0, 900, 600), img); // åœ¨ä¸»çª—å£ç»˜åˆ¶å›¾ç‰‡
+    mpainter_1->end(); // ç»“æŸç»˜åˆ¶
 }
 
 

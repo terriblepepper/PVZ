@@ -9,7 +9,7 @@ GloomShroom::GloomShroom()
     atk = 28.0;
     time = int(1.72 * 1000000. / (33333. / (double)fpsIndex));
     setMovie(":/new/prefix1/newPlants/GloomShroom/idle.gif");
-    setScale(2);
+    setScale(1.27);
 }
 
 void GloomShroom::advance(int phase)
@@ -19,17 +19,17 @@ void GloomShroom::advance(int phase)
     update();
     if ((int)hp <= 0)
         delete this;
-    else if (++counter >= time) // √øπ˝“ª∏ˆπ•ª˜º‰∏Ùµƒ÷° ˝
+    else if (++counter >= time) // ÊØèËøá‰∏Ä‰∏™ÊîªÂáªÈó¥ÈöîÁöÑÂ∏ßÊï∞
     {
-        counter = 0; // ÷ÿ÷√º∆ ˝∆˜
+        counter = 0; // ÈáçÁΩÆËÆ°Êï∞Âô®
         QList<QGraphicsItem*> items = collidingItems();
-        //»Áπ˚”–Ω© ¨Ω¯»Îπ•ª˜∑∂Œß
+        //Â¶ÇÊûúÊúâÂÉµÂ∞∏ËøõÂÖ•ÊîªÂáªËåÉÂõ¥
         if (!items.isEmpty())
         {
             setMovie(":/new/prefix1/newPlants/GloomShroom/shooting.gif");
             foreach(QGraphicsItem * item, items)
             {
-                // …˙≥…≈›≈›∂Øª≠
+                // ÁîüÊàêÊ≥°Ê≥°Âä®Áîª
                 QGraphicsPixmapItem* bubbleUp = new QGraphicsPixmapItem();
                 QGraphicsPixmapItem* bubbleDown = new QGraphicsPixmapItem();
                 QGraphicsPixmapItem* bubbleLeft = new QGraphicsPixmapItem();
@@ -44,23 +44,101 @@ void GloomShroom::advance(int phase)
 
                 QPointF pos = this->pos();
 
-                // …Ë÷√≈›≈›Œª÷√
-                bubbleUp->setPos(pos.x(), pos.y() - 60); 
-                bubbleDown->setPos(pos.x(), pos.y() + 60); 
-                bubbleLeft->setPos(pos.x() - 130, pos.y()); 
-                bubbleRight->setPos(pos.x() + 75, pos.y()); 
+                // ËÆæÁΩÆÊ≥°Ê≥°‰ΩçÁΩÆ
+                bubbleUp->setPos(pos.x()-20, pos.y() - 70); 
+                bubbleDown->setPos(pos.x()-20, pos.y() + 70); 
+                bubbleLeft->setPos(pos.x() - 125, pos.y()); 
+                bubbleRight->setPos(pos.x() + 60, pos.y()); 
 
-                // Ω´≈›≈›ÃÌº”µΩ≥°æ∞÷–
+                // Â∞ÜÊ≥°Ê≥°Ê∑ªÂä†Âà∞Âú∫ÊôØ‰∏≠
                 scene()->addItem(bubbleUp);
                 scene()->addItem(bubbleDown);
                 scene()->addItem(bubbleLeft);
                 scene()->addItem(bubbleRight);
-
-                // …Ë÷√∂® ±∆˜£¨≈›≈›œ‘ æ“ª∂Œ ±º‰∫Û…æ≥˝
-                QTimer::singleShot(1000, [bubbleUp]() { if(startpage::closeWinTellItem)delete bubbleUp; });
-                QTimer::singleShot(1000, [bubbleDown]() { if (startpage::closeWinTellItem)delete bubbleDown; });
-                QTimer::singleShot(1000, [bubbleLeft]() { if (startpage::closeWinTellItem)delete bubbleLeft; });
-                QTimer::singleShot(1000, [bubbleRight]() { if (startpage::closeWinTellItem)delete bubbleRight; });
+                QMediaPlayer* soundbubble = new QMediaPlayer(scene());
+                soundbubble->setMedia(QUrl::fromLocalFile("./sound/fume.mp3"));
+                soundbubble->setVolume(itemVolume);
+                soundbubble->play();
+                QGraphicsScene* catchScene = scene();
+                mapScenes[catchScene].count += 4;
+                // ËÆæÁΩÆÂÆöÊó∂Âô®ÔºåÊ≥°Ê≥°ÊòæÁ§∫‰∏ÄÊÆµÊó∂Èó¥ÂêéÂà†Èô§
+                QTimer::singleShot(1000, [soundbubble,bubbleUp,catchScene]()
+                    { 
+                        if (mapScenes[catchScene].isValid != false)
+                        {
+                            delete soundbubble;
+                            delete bubbleUp;
+                            mapScenes[catchScene].count--;
+                        }
+                        else
+                        {
+                            if (mapScenes[catchScene].count)
+                            {
+                                mapScenes[catchScene].count--;
+                            }
+                            if (mapScenes[catchScene].count == 0)
+                            {
+                                mapScenes.erase(catchScene);
+                            }
+                        }
+                    });
+                QTimer::singleShot(1000, [bubbleDown, catchScene]() 
+                    {
+                        if (mapScenes[catchScene].isValid != false)
+                        {
+                            delete bubbleDown;
+                            mapScenes[catchScene].count--;
+                        }
+                        else
+                        {
+                            if (mapScenes[catchScene].count)
+                            {
+                                mapScenes[catchScene].count--;
+                            }
+                            if (mapScenes[catchScene].count == 0)
+                            {
+                                mapScenes.erase(catchScene);
+                            }
+                        }
+                    });
+                QTimer::singleShot(1000, [bubbleLeft, catchScene]() 
+                    { 
+                        if (mapScenes[catchScene].isValid != false)
+                        {
+                            delete bubbleLeft;
+                            mapScenes[catchScene].count--;
+                        }
+                        else
+                        {
+                            if (mapScenes[catchScene].count)
+                            {
+                                mapScenes[catchScene].count--;
+                            }
+                            if (mapScenes[catchScene].count == 0)
+                            {
+                                mapScenes.erase(catchScene);
+                            }
+                        }
+                    });
+                QTimer::singleShot(1000, [bubbleRight, catchScene]() 
+                    { 
+                        if (mapScenes[catchScene].isValid != false)
+                        {
+                            delete bubbleRight;
+                            mapScenes[catchScene].count--;
+                        }
+                        else
+                        {
+                            if (mapScenes[catchScene].count)
+                            {
+                                mapScenes[catchScene].count--;
+                            }
+                            if (mapScenes[catchScene].count == 0)
+                            {
+                                mapScenes.erase(catchScene);
+                            }
+                        }
+                    });
 
                 zombie* zom = qgraphicsitem_cast<zombie*>(item);
                 zom->hp -= atk;

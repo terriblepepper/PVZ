@@ -6,17 +6,22 @@ gamingMenuDialog::gamingMenuDialog(QWidget* parent) : QDialog(parent)
     Qt::WindowFlags flags = windowFlags();
     this->setStyleSheet("font-size: 18px;font-family: MiSans");
     setWindowFlags(flags & ~Qt::WindowCloseButtonHint);
-    // ´´½¨ÒôÁ¿»¬¿é
-    volumeLabel = new QLabel("ÒôÁ¿:"+QString::number(musicVolume)+"%", this);
-    volumeSlider = new QSlider(Qt::Horizontal, this);
-    volumeSlider->setRange(0, 100); // ¼ÙÉèÒôÁ¿·¶Î§ÊÇ0µ½100
-    volumeSlider->setValue(musicVolume);
-    connect(volumeSlider, &QSlider::valueChanged, this, &gamingMenuDialog::onVolumeChanged);
 
-    // ´´½¨°´Å¥
-    restartButton = new QPushButton("ÖØĞÂ¿ªÊ¼", this);
-    mainMenuButton = new QPushButton("Ö÷²Ëµ¥", this);
-    resumeButton = new QPushButton("·µ»ØÓÎÏ·", this);
+    // åˆ›å»ºéŸ³ä¹æ»‘å—
+    volumeLabel = new QLabel("éŸ³ä¹:"+QString::number(musicVolume)+"%", this);
+    volumeSlider = new QSlider(Qt::Horizontal, this);
+    volumeSlider->setRange(0, 100); // å‡è®¾éŸ³é‡èŒƒå›´æ˜¯0åˆ°100
+    volumeSlider->setValue(musicVolume);
+    //éŸ³æ•ˆ
+    itemVolumeLabel = new QLabel("éŸ³æ•ˆ:" + QString::number(itemVolume) + "%", this);
+    itemVolumeSlider = new QSlider(Qt::Horizontal, this);
+    itemVolumeSlider->setRange(0, 100); // å‡è®¾éŸ³é‡èŒƒå›´æ˜¯0åˆ°100
+    itemVolumeSlider->setValue(itemVolume);
+
+    // åˆ›å»ºæŒ‰é’®
+    restartButton = new QPushButton("é‡æ–°å¼€å§‹", this);
+    mainMenuButton = new QPushButton("ä¸»èœå•", this);
+    resumeButton = new QPushButton("è¿”å›æ¸¸æˆ", this);
 
     QFont yaheiFont("Microsoft YaHei", 12);
     restartButton->setFont(yaheiFont);
@@ -24,19 +29,22 @@ gamingMenuDialog::gamingMenuDialog(QWidget* parent) : QDialog(parent)
     resumeButton->setFont(yaheiFont);
 
 
-    // Á¬½Ó°´Å¥ĞÅºÅ
+    // è¿æ¥æŒ‰é’®ä¿¡å·
     connect(volumeSlider, &QSlider::valueChanged, this, &gamingMenuDialog::onVolumeChanged);
+    connect(itemVolumeSlider, &QSlider::valueChanged, this, &gamingMenuDialog::onVolumeChanged);
     connect(restartButton, &QPushButton::clicked, this, &gamingMenuDialog::onRestartClicked);
     connect(mainMenuButton, &QPushButton::clicked, this, &gamingMenuDialog::onMainMenuClicked);
     connect(resumeButton, &QPushButton::clicked, this, &gamingMenuDialog::onResumeClicked);
-    // ÉèÖÃ²¼¾Ö
+    // è®¾ç½®å¸ƒå±€
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addWidget(volumeLabel);
     layout->addWidget(volumeSlider);
+    layout->addWidget(itemVolumeLabel);
+    layout->addWidget(itemVolumeSlider);
     layout->addWidget(restartButton);
     layout->addWidget(mainMenuButton);
     layout->addWidget(resumeButton);
-    this->setFixedSize(300, 210);
+    this->setFixedSize(300, 280);
     setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     setLayout(layout);
 }
@@ -65,6 +73,12 @@ void gamingMenuDialog::getGameWindow(smallGameMode* m3)
     currentGameMode =smallGaming;
 }
 
+void gamingMenuDialog::getGameWindow(puzzleMode* m4)
+{
+    puzzleGaming = m4;
+    currentGameMode = puzzleGaming;
+}
+
 void gamingMenuDialog::getCurrentGameMode(QWidget* current)
 {
     currentGameMode = current;
@@ -73,53 +87,82 @@ void gamingMenuDialog::getCurrentGameMode(QWidget* current)
 
 void gamingMenuDialog::onVolumeChanged(int volume)
 {
-    // ´¦ÀíÒôÁ¿±ä»¯
-    musicVolume = volume;
-    volumeLabel->setText("ÒôÁ¿:" + QString::number(musicVolume) + "%");
-
-    if (currentGameMode == survivalGaming) {
-        survivalGaming->gamingBGM->setVolume(musicVolume);
-    }
-    else if (currentGameMode == adventureGaming) {
-        adventureGaming->gamingBGM->setVolume(musicVolume);
-    }
-    else if (currentGameMode == smallGaming)
+    QSlider* senderSlider = qobject_cast<QSlider*>(sender());
+    if (currentGameMode)
     {
-        smallGaming->gamingBGM->setVolume(musicVolume);
-    }
+        // å¤„ç†éŸ³é‡å˜åŒ–
+        if (senderSlider == volumeSlider)
+        {
+            musicVolume = volume;
+            volumeLabel->setText("éŸ³ä¹:" + QString::number(musicVolume) + "%");
+            if (currentGameMode == survivalGaming) {
+                survivalGaming->gamingBGM->setVolume(musicVolume);
+            }
+            else if (currentGameMode == adventureGaming) {
+                adventureGaming->gamingBGM->setVolume(musicVolume);
+            }
+            else if (currentGameMode == smallGaming)
+            {
+                smallGaming->gamingBGM->setVolume(musicVolume);
+            }
+            else if (currentGameMode == puzzleGaming)
+            {
+                puzzleGaming->gamingBGM->setVolume(musicVolume);
+            }
+        }
+        else
+        {
+            itemVolume = volume;
+            itemVolumeLabel->setText("éŸ³æ•ˆ:" + QString::number(itemVolume) + "%");
+        }     
+    }  
 }
 
 void gamingMenuDialog::onRestartClicked()
-{    
-    if (currentGameMode == survivalGaming) {
-        survivalGaming->close();
-        survivalGaming->deleteLater();
-        survivalGaming = new survivalGameMode;
-        survivalGaming->getGamingMenu(this);
-        currentGameMode = survivalGaming;
-        emit restartGame(survivalGaming);
-        survivalGaming->show();
-    }
-    else if (currentGameMode == adventureGaming) {
-        adventureGaming->close();
-        adventureGaming->deleteLater();
-        adventureGaming = new adventureGameMode;
-        adventureGaming->getGamingMenu(this);
-        currentGameMode = adventureGaming;
-        emit restartGame(adventureGaming);
-        adventureGaming->show();
-    }
-    else if (currentGameMode == smallGaming)
+{
+    if (currentGameMode)
     {
-        smallGaming->close();
-        smallGaming->deleteLater();
-        smallGaming = new smallGameMode;
-        smallGaming->getGamingMenu(this);
-        currentGameMode = smallGaming;
-        emit restartGame(smallGaming);
-        smallGaming->show();
-    }
-    this->hide();
+        if (currentGameMode == survivalGaming) {
+            survivalGaming->close();
+            survivalGaming->deleteLater();
+            survivalGaming = new survivalGameMode;
+            survivalGaming->getGamingMenu(this);
+            currentGameMode = survivalGaming;
+            emit restartGame(survivalGaming);
+            survivalGaming->initTimer();
+            survivalGaming->show();
+        }
+        else if (currentGameMode == adventureGaming) {
+            adventureGaming->close();
+            adventureGaming->deleteLater();
+            adventureGaming = new adventureGameMode;
+            adventureGaming->getGamingMenu(this);
+            currentGameMode = adventureGaming;
+            emit restartGame(adventureGaming);
+            adventureGaming->show();
+        }
+        else if (currentGameMode == smallGaming)
+        {
+            smallGaming->close();
+            smallGaming->deleteLater();
+            smallGaming = new smallGameMode;
+            smallGaming->getGamingMenu(this);
+            currentGameMode = smallGaming;
+            emit restartGame(smallGaming);
+            smallGaming->show();
+        }
+        else if (currentGameMode == puzzleGaming)
+        {
+            puzzleGaming->close();
+            puzzleGaming->deleteLater();
+            puzzleGaming = new puzzleMode;
+            puzzleGaming->getGamingMenu(this);
+            currentGameMode = puzzleGaming;
+            emit restartGame(puzzleGaming);
+            puzzleGaming->show();
+        }
+        this->hide();
+    }  
 }
 
 void gamingMenuDialog::onMainMenuClicked()
@@ -129,20 +172,28 @@ void gamingMenuDialog::onMainMenuClicked()
 
 void gamingMenuDialog::onResumeClicked()
 {
-    if (currentGameMode == survivalGaming) 
+    if (currentGameMode)
     {
-        survivalGaming->gamingBGM->play();
-        survivalGaming->mQTimer->resume();
-    }
-    else if (currentGameMode == adventureGaming) 
-    {
-        adventureGaming->gamingBGM->play();
-        adventureGaming->mQTimer->resume();
-    }
-    else if (currentGameMode == smallGaming)
-    {
-        smallGaming->gamingBGM->play();
-        smallGaming->mQTimer->resume();
-    }
-    this->hide(); // ¹Ø±Õ¶Ô»°¿ò
+        if (currentGameMode == survivalGaming)
+        {
+            survivalGaming->gamingBGM->play();
+            survivalGaming->mQTimer->resume();
+        }
+        else if (currentGameMode == adventureGaming)
+        {
+            adventureGaming->gamingBGM->play();
+            adventureGaming->mQTimer->resume();
+        }
+        else if (currentGameMode == smallGaming)
+        {
+            smallGaming->gamingBGM->play();
+            smallGaming->mQTimer->resume();
+        }
+        else if (currentGameMode == puzzleGaming)
+        {
+            puzzleGaming->gamingBGM->play();
+            puzzleGaming->mQTimer->resume();
+        }
+        this->hide(); // å…³é—­å¯¹è¯æ¡†
+    }  
 }

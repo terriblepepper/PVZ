@@ -7,15 +7,16 @@ CardSelectionDialog::CardSelectionDialog(QWidget *parent)
 {
 	ui->setupUi(this);
 	this->setStyleSheet("font-size: 18px;font-family: MiSans");
-	// »ñÈ¡µ±Ç°´°¿Ú±êÖ¾
+	// è·å–å½“å‰çª—å£æ ‡å¿—
 	Qt::WindowFlags flags = windowFlags();
-	// ÒÆ³ı¹Ø±Õ°´Å¥±êÖ¾
+	// ç§»é™¤å…³é—­æŒ‰é’®æ ‡å¿—
 	setWindowFlags(flags & ~Qt::WindowCloseButtonHint);
-	setWindowTitle("ÇëÑ¡ÔñÄãµÄÖ²Îï");
+	setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+	setWindowTitle("è¯·é€‰æ‹©ä½ çš„æ¤ç‰©");
 	setWindowIcon(QIcon(":/new/prefix1/WallNut.png"));
 	bgmPlay();
-	card::cardSelectedMap.clear();//Çå¿ÕÒÑÑ¡ÔñµÄ¿¨Æ¬ÒÔ·ÀÖØ¸´Ñ¡Ôñ
-	createCardBtn();//»æÖÆ¿¨Æ¬°´Å¥
+	card::cardSelectedMap.clear();//æ¸…ç©ºå·²é€‰æ‹©çš„å¡ç‰‡ä»¥é˜²é‡å¤é€‰æ‹©
+	createCardBtn();//ç»˜åˆ¶å¡ç‰‡æŒ‰é’®
 	if (cardTotal > 28) 
 	{
 		if(cardTotal%7)
@@ -28,7 +29,7 @@ CardSelectionDialog::CardSelectionDialog(QWidget *parent)
 		}
 	}
 	QScrollArea* levelSelectArea = new QScrollArea(this);
-	levelSelectArea->setWidgetResizable(true); // ÉèÖÃÎª¿Éµ÷Õû´óĞ¡
+	levelSelectArea->setWidgetResizable(true); // è®¾ç½®ä¸ºå¯è°ƒæ•´å¤§å°
 	levelSelectArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	levelSelectArea->setWidget(ui->widget);
 	QVBoxLayout* layout = new QVBoxLayout(this);
@@ -46,21 +47,21 @@ CardSelectionDialog::~CardSelectionDialog()
 	delete selectingBGM;
 	delete selectingBGM_List;
 }
-//ÒÆ¶¯¿¨Æ¬
+//ç§»åŠ¨å¡ç‰‡
 void CardSelectionDialog::moveCard(const QString& contactObjName)
 {
 	QString contactN = contactObjName;
 	contactN.remove("btn_");
 	
-	if (buttonSelectedMap.contains(contactN))//µã»÷tabÀ¸ÉÏ¿¨Æ¬Ê±ÒÆ³ı¸Ã¿¨Æ¬
+	if (buttonSelectedMap.contains(contactN))//ç‚¹å‡»tabæ ä¸Šå¡ç‰‡æ—¶ç§»é™¤è¯¥å¡ç‰‡
 	{
 		CustomButton* rm = this->findChild<CustomButton*>(contactObjName);
 		rm->setParent(ui->widget);
-		//mapÖĞÒÆ³ı¿¨Æ¬
+		//mapä¸­ç§»é™¤å¡ç‰‡
 		buttonSelectedMap.remove(contactN);	
 		rm->setFixedSize(60, 81);
 		int counts = 0;
-		for (auto& key : buttonSelectedMap.keys())//tabÖĞÒÆ³ı¿¨Æ¬ÒªÖØĞÂÅÅĞò
+		for (auto& key : buttonSelectedMap.keys())//tabä¸­ç§»é™¤å¡ç‰‡è¦é‡æ–°æ’åº
 		{
 			buttonSelectedMap[key]->move(60 * counts++, 30);
 		}
@@ -70,16 +71,16 @@ void CardSelectionDialog::moveCard(const QString& contactObjName)
 		ui->widget->update();
 		return;
 	}
-	if (buttonTotalMap.contains(contactN) && buttonSelectedMap.size()<7 && !buttonSelectedMap.contains(contactN))//Ñ¡ÖĞ¿¨Æ¬Ê±ÒÆ³ı¿¨Æ¬µ«²»´ÓtotalMapÖĞÒÆ³ı
+	if (buttonTotalMap.contains(contactN) && buttonSelectedMap.size()<7 && !buttonSelectedMap.contains(contactN))//é€‰ä¸­å¡ç‰‡æ—¶ç§»é™¤å¡ç‰‡ä½†ä¸ä»totalMapä¸­ç§»é™¤
 	{
 		CustomButton* rm2 = ui->widget->findChild<CustomButton*>(contactObjName);
 		rm2->setParent(ui->cardTab);
 		rm2->setFixedSize(60, 81);
-		//½«Ñ¡ÖĞµÄ¿¨Æ¬¼ÓÈëÑ¡ÖĞmap
+		//å°†é€‰ä¸­çš„å¡ç‰‡åŠ å…¥é€‰ä¸­map
 		buttonSelectedMap.insert(contactN, rm2);
 		rm2->show();
 		int counts = 0;
-		for (auto& key : buttonSelectedMap.keys())//tabÌí¼ÓÖØĞÂÅÅĞò
+		for (auto& key : buttonSelectedMap.keys())//tabæ·»åŠ é‡æ–°æ’åº
 		{
 			buttonSelectedMap[key]->move(10+60 * counts++, 30);
 		}
@@ -108,43 +109,43 @@ void CardSelectionDialog::onApplyClicked()
 	{
 		card::cardSelectedMap.insert(key, card::baseCardMap[key]);
 	}
-	emit cardIsSelected();
 	selectingBGM->stop();
-	this->close();	
+	this->close();
 	this->deleteLater();
+	emit cardIsSelected();
 }
 
 void CardSelectionDialog::createCardBtn()
 {
-	cardTotal = 0;//¼ÇÂ¼×Ü¹²ÓĞµÄ¿¨Æ¬Êı
+	cardTotal = 0;//è®°å½•æ€»å…±æœ‰çš„å¡ç‰‡æ•°
 	for (auto& key : card::baseCardMap.keys())
 	{
 		if (!(adventureGameMode::level > 5 && adventureGameMode::level < 11 && (key == "SunFlower"|| key == "TwinSunflower")))
 		{
-			//´´½¨¿¨Æ¬¾ØÕó
-			CustomButton* seedButton = new CustomButton(ui->widget);//´´½¨¿¨Æ¬°´Å¥(¸¸ÀàÎªStackedWidget£©
-			//ÉèÖÃ°´Å¥Ãû³Æ
+			//åˆ›å»ºå¡ç‰‡çŸ©é˜µ
+			CustomButton* seedButton = new CustomButton(ui->widget);//åˆ›å»ºå¡ç‰‡æŒ‰é’®(çˆ¶ç±»ä¸ºStackedWidgetï¼‰
+			//è®¾ç½®æŒ‰é’®åç§°
 			seedButton->setObjectName("btn_" + key);
-			//ÉèÖÃ¿¨Æ¬Í¼±ê
+			//è®¾ç½®å¡ç‰‡å›¾æ ‡
 			seedButton->setBackgroundImage(":/new/prefix1/Card.png", QPoint(0, 0), 0.6, 0.58);
 			seedButton->setOverlayImage(QString("./images/") + key + ".png", QPoint(12, 20), 0.48, 0.483);
 			seedButton->setFixedSize(60, 81);
 			seedButton->move(10 + (seedButton->width() + 3) * (cardTotal % 7), 26 + (seedButton->height() + 3) * (cardTotal / 7));
 			buttonOrignPos.insert(key, seedButton->pos());
-			//°Ñ°´Å¥Ìí¼Óµ½mapÖĞÒÔ±ãºóĞø²Ù×÷
+			//æŠŠæŒ‰é’®æ·»åŠ åˆ°mapä¸­ä»¥ä¾¿åç»­æ“ä½œ
 			buttonTotalMap.insert(key, seedButton);
 			seedButton->setButtonName(key);
-			//»æÖÆ¿¨Æ¬ĞèÒªµÄÑô¹âÊı
+			//ç»˜åˆ¶å¡ç‰‡éœ€è¦çš„é˜³å…‰æ•°
 			QString displayText = QString("%1").arg(card::baseCardMap[key].cost, 3, 10, QChar(' '));
 			qInfo() << "key" << key<<"level:"<<adventureGameMode::level;
 			qInfo() << "Text" << displayText;
 			seedButton->setDisplayText(displayText);
 
-			//Á¬½ÓÒÆ¶¯¿¨Æ¬µÄĞÅºÅ²Û
+			//è¿æ¥ç§»åŠ¨å¡ç‰‡çš„ä¿¡å·æ§½
 			connect(seedButton, &QPushButton::clicked, [this, seedButton]() {
 				moveCard(seedButton->objectName());
 				});
-			//¿¨Æ¬Êı¼ÓÒ»
+			//å¡ç‰‡æ•°åŠ ä¸€
 			cardTotal++;
 		}
 	}

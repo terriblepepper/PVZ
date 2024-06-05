@@ -94,8 +94,6 @@ void shop::addPlant(QString s, QPointF pos)//在游戏中添加植物
     else if (cardName == "GatlingPea") 
     {
         pl = new GatlingPea;
-        //微调坐标
-        pos.setY(pos.y() - 10);
     }
     else if (cardName == "Jalapeno") 
     {
@@ -104,8 +102,6 @@ void shop::addPlant(QString s, QPointF pos)//在游戏中添加植物
     else if(cardName == "FumeShroom")
     {
         pl = new FumeShroom;
-        pos.setY(pos.y() - 10);
-        pos.setX(pos.x() + 10);
     }
     else if (cardName == "PuffShroom")
     {
@@ -135,7 +131,6 @@ void shop::addPlant(QString s, QPointF pos)//在游戏中添加植物
     else if (cardName == "Pot")
     {
         pl = new Pot;
-        pos.setY(pos.y() - 25);
     }
     else if (cardName == "BowlingNut")
     {
@@ -147,10 +142,44 @@ void shop::addPlant(QString s, QPointF pos)//在游戏中添加植物
         qWarning() << "Unknown plant type:" << cardName;
         return;
     }
-    //处理越界问题
+    //处理种植越界问题
     if (pos.y() > 500)
         return;
-    pl->setPos(pos);  
+    //处理pot的位置
+    if (pl->isPot)
+    {
+        pos.setY(pos.y() + 20);
+        pl->setPos(pos);
+    }
+    else
+    {
+        pl->setPos(pos);
+    }
+    QMediaPlayer* sound = new QMediaPlayer();
+    sound->setMedia(QUrl::fromLocalFile("./sound/plant.mp3"));
+    sound->setVolume(itemVolume);
+    sound->play();
+    QGraphicsScene* catchScene = scene();
+    mapScenes[catchScene].count++;
+    QTimer::singleShot(400, [sound, catchScene]()
+        {
+            if (mapScenes[catchScene].isValid != false)
+            {
+                delete sound;
+                mapScenes[catchScene].count--;
+            }
+            else
+            {
+                if (mapScenes[catchScene].count)
+                {
+                    mapScenes[catchScene].count--;
+                }
+                if (mapScenes[catchScene].count == 0)
+                {
+                    mapScenes.erase(catchScene);
+                }
+            }
+        });
     scene()->addItem(pl);
     qInfo() << "pos: " << pos;
     QList<QGraphicsItem *> child = childItems();

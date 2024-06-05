@@ -1,12 +1,16 @@
 #include "smallzombie.h"
 #include"gameIndex.h"
-#include<QDebug>
 #include"adventureMode.h"
 smallzombie::smallzombie()
 {
     hp = 270.0; 
     atk = 125.0 / (30 * (double)fpsIndex);
     speed = 7.0 * (33333.0 / (double)fpsIndex) / 1000000.0; 
+    zmSound = new QMediaPlayer;
+    zmSoundList = new QMediaPlaylist;
+    zmSoundList->addMedia(QUrl::fromLocalFile("./sound/Eat.wav"));
+    zmSoundList->setPlaybackMode(QMediaPlaylist::Loop);
+    zmSound->setMedia(zmSoundList);
     if (adventureGameMode::level < 16 && adventureGameMode::level>10)
     {
         setMovie(":/new/prefix2/images/newZombies/small2/walk.gif");
@@ -29,7 +33,8 @@ void smallzombie::advance(int phase)
     {
         if (state < 2) 
         {
-            state = 2; // ½«×´Ì¬ÉèÖÃÎª2£¨ËÀÍö£©
+            state = 2; // å°†çŠ¶æ€è®¾ç½®ä¸º2ï¼ˆæ­»äº¡ï¼‰
+            zmSound->stop();
             if (adventureGameMode::level < 16 && adventureGameMode::level>10)
             {
                 setMovie(":/new/prefix2/images/newZombies/small2/death.gif");
@@ -50,10 +55,10 @@ void smallzombie::advance(int phase)
     {
         plant* pl = qgraphicsitem_cast<plant*>(items[0]);
         pl->hp -= atk; 
-        qInfo() << "basicAtk" << atk;
         if (state != 1) 
         {
-            state = 1; // ½«×´Ì¬ÉèÖÃÎª1£¨¹¥»÷£©
+            state = 1; // å°†çŠ¶æ€è®¾ç½®ä¸º1ï¼ˆæ”»å‡»ï¼‰
+            zmSound->play();
             if (adventureGameMode::level < 16 && adventureGameMode::level>10)
             {
                 setMovie(":/new/prefix2/images/newZombies/small2/eat.gif");
@@ -68,7 +73,8 @@ void smallzombie::advance(int phase)
     }
     if (state) 
     {
-        state = 0; // ½«×´Ì¬ÉèÖÃÎª0£¨ÐÐ×ß£©
+        state = 0; // å°†çŠ¶æ€è®¾ç½®ä¸º0ï¼ˆè¡Œèµ°ï¼‰
+        zmSound->stop();
         if (adventureGameMode::level < 16 && adventureGameMode::level>10)
         {
             setMovie(":/new/prefix2/images/newZombies/small2/walk.gif");

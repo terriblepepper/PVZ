@@ -4,9 +4,14 @@
 #include<QDebug>
 basiczombie::basiczombie()
 {
-    hp = 270.0; // ÉèÖÃ»ù´¡½©Ê¬µÄÉúÃüÖµÎª270
-    atk = 100.0 / (30 * (double)fpsIndex);// ÉèÖÃ»ù´¡½©Ê¬µÄ¹¥»÷Á¦Îª100£¨Ã¿Ãë¹¥»÷100µã£©
-    speed = 7.0 * (33333.0 / (double)fpsIndex) / 1000000.0; // ÉèÖÃ»ù´¡½©Ê¬µÄËÙ¶ÈÎª5.0ÏñËØ/Ãë£¨16ºÁÃëÎªÖ¡¼ä¸ô£©
+    hp = 270.0; // è®¾ç½®åŸºç¡€åƒµå°¸çš„ç”Ÿå‘½å€¼ä¸º270
+    atk = 100.0 / (30 * (double)fpsIndex);// è®¾ç½®åŸºç¡€åƒµå°¸çš„æ”»å‡»åŠ›ä¸º100ï¼ˆæ¯ç§’æ”»å‡»100ç‚¹ï¼‰
+    speed = 7.0 * (33333.0 / (double)fpsIndex) / 1000000.0; // è®¾ç½®åŸºç¡€åƒµå°¸çš„é€Ÿåº¦ä¸º5.0åƒç´ /ç§’ï¼ˆ16æ¯«ç§’ä¸ºå¸§é—´éš”ï¼‰
+    zmSound = new QMediaPlayer;
+    zmSoundList = new QMediaPlaylist;
+    zmSoundList->addMedia(QUrl::fromLocalFile("./sound/Eat.wav"));
+    zmSoundList->setPlaybackMode(QMediaPlaylist::Loop);
+    zmSound->setMedia(zmSoundList);
     if (adventureGameMode::level < 16 && adventureGameMode::level>10)
     {
         setMovie(":/new/prefix2/images/newZombies/flag2/walk.gif");
@@ -21,35 +26,37 @@ void basiczombie::advance(int phase)
 {
     if (!phase)
         return;
-    update(); // ¸üĞÂ»ù´¡½©Ê¬µÄ»æÖÆ
-    if (hp <= 0) // Èç¹û»ù´¡½©Ê¬µÄÉúÃüÖµĞ¡ÓÚµÈÓÚ0£¬±íÊ¾ÒÑ¾­±»»÷°Ü
+    update(); // æ›´æ–°åŸºç¡€åƒµå°¸çš„ç»˜åˆ¶
+    if (hp <= 0) // å¦‚æœåŸºç¡€åƒµå°¸çš„ç”Ÿå‘½å€¼å°äºç­‰äº0ï¼Œè¡¨ç¤ºå·²ç»è¢«å‡»è´¥
     {
-        if (state < 2) // Èç¹û»ù´¡½©Ê¬µÄ×´Ì¬Ğ¡ÓÚ2£¬±íÊ¾´¦ÓÚËÀÍö×´Ì¬
+        if (state < 2) // å¦‚æœåŸºç¡€åƒµå°¸çš„çŠ¶æ€å°äº2ï¼Œè¡¨ç¤ºå¤„äºæ­»äº¡çŠ¶æ€
         {
-            state = 2; // ½«×´Ì¬ÉèÖÃÎª2£¨ËÀÍö£©
+            state = 2; // å°†çŠ¶æ€è®¾ç½®ä¸º2ï¼ˆæ­»äº¡ï¼‰
+            zmSound->stop();
             if (adventureGameMode::level < 16 && adventureGameMode::level>10)
             {
                 setMovie(":/new/prefix2/images/newZombies/flag2/death.gif");
             }
             else
             {
-                setMovie(":/new/prefix1/ZombieDie.gif"); // ÉèÖÃ»ù´¡½©Ê¬µÄĞĞ×ß¶¯»­
-                setHead(":/new/prefix1/ZombieHead.gif"); // ÉèÖÃ»ù´¡½©Ê¬µÄÍ·²¿µôÂä¶¯»­
+                setMovie(":/new/prefix1/ZombieDie.gif"); // è®¾ç½®åŸºç¡€åƒµå°¸çš„è¡Œèµ°åŠ¨ç”»
+                setHead(":/new/prefix1/ZombieHead.gif"); // è®¾ç½®åŸºç¡€åƒµå°¸çš„å¤´éƒ¨æ‰è½åŠ¨ç”»
             }
         }
         else if (mQMovie->currentFrameNumber() == mQMovie->frameCount() - 1)
-            delete this; // Èç¹û»ù´¡½©Ê¬µÄËÀÍö¶¯»­²¥·ÅÍê±Ï£¬É¾³ı»ù´¡½©Ê¬¶ÔÏó
+            delete this; // å¦‚æœåŸºç¡€åƒµå°¸çš„æ­»äº¡åŠ¨ç”»æ’­æ”¾å®Œæ¯•ï¼Œåˆ é™¤åŸºç¡€åƒµå°¸å¯¹è±¡
         return;
     }
     QList<QGraphicsItem *> items = collidingItems();
-    if (!items.isEmpty()) // Èç¹û»ù´¡½©Ê¬ÓëÆäËûÍ¼ĞÎÏî·¢ÉúÅö×²
+    if (!items.isEmpty()) // å¦‚æœåŸºç¡€åƒµå°¸ä¸å…¶ä»–å›¾å½¢é¡¹å‘ç”Ÿç¢°æ’
     {
         plant *pl = qgraphicsitem_cast<plant *>(items[0]);
-        pl->hp -= atk; // ¼õÉÙÖ²ÎïµÄÉúÃüÖµ£¬ÊÜµ½»ù´¡½©Ê¬µÄ¹¥»÷
+        pl->hp -= atk; // å‡å°‘æ¤ç‰©çš„ç”Ÿå‘½å€¼ï¼Œå—åˆ°åŸºç¡€åƒµå°¸çš„æ”»å‡»
         qInfo() << "basicAtk" << atk;
-        if (state != 1) // Èç¹û»ù´¡½©Ê¬µÄ×´Ì¬²»Îª1£¨¹¥»÷×´Ì¬£©
+        if (state != 1) // å¦‚æœåŸºç¡€åƒµå°¸çš„çŠ¶æ€ä¸ä¸º1ï¼ˆæ”»å‡»çŠ¶æ€ï¼‰
         {
-            state = 1; // ½«×´Ì¬ÉèÖÃÎª1£¨¹¥»÷£©
+            state = 1; // å°†çŠ¶æ€è®¾ç½®ä¸º1ï¼ˆæ”»å‡»ï¼‰
+            zmSound->play();
             if (adventureGameMode::level < 16 && adventureGameMode::level>10)
             {
                 setMovie(":/new/prefix2/images/newZombies/flag2/eat.gif");
@@ -61,9 +68,10 @@ void basiczombie::advance(int phase)
         }
         return;
     }
-    if (state) // Èç¹û»ù´¡½©Ê¬µÄ×´Ì¬²»Îª0£¨ĞĞ×ß×´Ì¬£©
+    if (state) // å¦‚æœåŸºç¡€åƒµå°¸çš„çŠ¶æ€ä¸ä¸º0ï¼ˆè¡Œèµ°çŠ¶æ€ï¼‰
     {
-        state = 0; // ½«×´Ì¬ÉèÖÃÎª0£¨ĞĞ×ß£©
+        state = 0; // å°†çŠ¶æ€è®¾ç½®ä¸º0ï¼ˆè¡Œèµ°ï¼‰
+        zmSound->stop();
         if (adventureGameMode::level < 16 && adventureGameMode::level>10)
         {
             setMovie(":/new/prefix2/images/newZombies/flag2/walk.gif");
@@ -73,5 +81,5 @@ void basiczombie::advance(int phase)
             setMovie(":/new/prefix1/ZombieWalk1.gif");
         }
     }
-    setX(x() - speed); // ¸üĞÂ»ù´¡½©Ê¬µÄÎ»ÖÃ£¬ÈÃÆäÏò×óÒÆ¶¯
+    setX(x() - speed); // æ›´æ–°åŸºç¡€åƒµå°¸çš„ä½ç½®ï¼Œè®©å…¶å‘å·¦ç§»åŠ¨
 }

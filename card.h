@@ -4,9 +4,9 @@
 #include<QString>
 
 struct CardsData {
-    QString name;//¿¨Æ¬Ãû
-    int cool; // ÀäÈ´Ê±¼ä
-    int cost;      // ÏûºÄÑô¹âÊı
+    QString name;//å¡ç‰‡å
+    int cool; // å†·å´æ—¶é—´
+    int cost;      // æ¶ˆè€—é˜³å…‰æ•°
 };
 
 class card : public other
@@ -15,8 +15,8 @@ public:
     int counter;
     QString text;
     card(QString s);
-    static QMap<QString, CardsData> baseCardMap;   // ´æ´¢¿¨Æ¬Ô­Ê¼Êı¾İ
-    static QMap<QString, CardsData>cardSelectedMap;//´æ´¢ËùÑ¡È¡µÄ¿¨Æ¬£¨name,cost,cool)
+    static QMap<QString, CardsData> baseCardMap;   // å­˜å‚¨å¡ç‰‡åŸå§‹æ•°æ®
+    static QMap<QString, CardsData>cardSelectedMap;//å­˜å‚¨æ‰€é€‰å–çš„å¡ç‰‡ï¼ˆname,cost,cool)
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void advance(int phase) override;
