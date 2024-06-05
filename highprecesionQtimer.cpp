@@ -1,42 +1,63 @@
-#include "highprecesionQtimer.h"
+#include"highprecesionQtimer.h"
+#include <QDebug>
 
-HighPrecisionTimer::HighPrecisionTimer(QObject* parent) : QObject(parent), interval(0), running(false) {}
-
-void HighPrecisionTimer::start(int msec) {
-    interval = msec;
-    running = true;
-    timer.start();
-    nextTrigger = timer.nsecsElapsed() / 1000 + interval;
-    this->startTimer(0);
+TimerThread::TimerThread(QObject* parent)
+    : QThread(parent), mRunning(false), mPaused(false), mIntervalUs(33333 / fpsIndex)
+{
 }
 
-void HighPrecisionTimer::stop() {
-    running = false;
-    this->killTimer(timerId);
+TimerThread::~TimerThread()
+{
+    stop();
+    wait();  // 确保线程已退出
 }
 
-void HighPrecisionTimer::pause() {
-    running = false;
-    pausedTime = timer.nsecsElapsed(); // 保存暂停时的时间点
-}
+void TimerThread::run()
+{
+    mRunning = true;
+    mTimer.start();
+    qint64 nextWakeup = mTimer.nsecsElapsed() + mIntervalUs * 1000;
 
-void HighPrecisionTimer::resume() {
-    if (!running) {
-        running = true;
-        qint64 elapsed = timer.nsecsElapsed() - pausedTime;
-        nextTrigger += elapsed / 1000; // 根据暂停的时间调整下一次触发的时间
-        this->startTimer(0);
-    }
-}
-
-void HighPrecisionTimer::timerEvent(QTimerEvent* event) {
-    Q_UNUSED(event);
-    if (!running) {
-        return;
-    }
-    qint64 currentTime = timer.nsecsElapsed() / 1000;
-    if (currentTime >= nextTrigger) {
+    while (mRunning) 
+    {
+        {
+            QMutexLocker locker(&mMutex);
+            if (mPaused) {
+                mCondition.wait(&mMutex);  // 等待恢复
+            }
+        }
         emit timeout();
-        nextTrigger += interval;
+        qint64 sleepTime = nextWakeup - mTimer.nsecsElapsed();
+        if (sleepTime > 0) {
+            QThread::usleep(sleepTime / 1000);
+        }
+        nextWakeup += mIntervalUs * 1000;
     }
+}
+
+void TimerThread::pause()
+{
+    QMutexLocker locker(&mMutex);
+    mPaused = true;
+}
+
+void TimerThread::resume()
+{
+    {
+        QMutexLocker locker(&mMutex);
+        mPaused = false;
+    }
+    mCondition.wakeAll();  // 唤醒暂停的线程
+}
+
+void TimerThread::stop()
+{
+    mRunning = false;
+    {
+        QMutexLocker locker(&mMutex);
+        mPaused = false;
+    }
+    mCondition.wakeAll();  // 确保线程不会在暂停状态卡住
+    quit();  // 退出事件循环
+    wait();
 }

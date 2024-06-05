@@ -72,7 +72,7 @@ bool zombie::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode 
     Q_UNUSED(mode)
 
     // 当僵尸和植物碰撞时，返回true
-    return other->type() == plant::Type && qFuzzyCompare(other->y(), y()) && qAbs(other->x() - x()) < 30;
+    return other->type() == plant::Type && qAbs(other->x() - x())<15 && qAbs(other->x() - x()) < 30;
 }
 
 void zombie::setMovie(QString path)

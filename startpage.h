@@ -19,6 +19,7 @@
 #include "HelpWidget.h"
 #include"card.h"
 #include"CardSelectionDialog.h"
+#include"highprecesionQtimer.h"
 
 struct Cards {
     QString name;
@@ -52,6 +53,8 @@ public slots:
     void handleRestartGame(survivalGameMode* g);
     void handleRestartGame(adventureGameMode* g);
     void handleRestartGame(smallGameMode* g);
+signals:
+    void startSurvivalGame();
 private:
     HelpWidget* Help;//帮助菜单指针
     QWidget* currentGameMode = nullptr; // 保存当前游戏模式的指针

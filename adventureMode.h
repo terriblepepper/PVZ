@@ -55,11 +55,11 @@ public:
     explicit adventureGameMode(QWidget* parent = nullptr);
     ~adventureGameMode();
     void getGamingMenu(gamingMenuDialog* gM);
-    HighPrecisionTimer* mQTimer;
+    TimerThread* mQTimer;
     QGraphicsScene* scene;
     QMediaPlayer* gamingBGM = nullptr;
-    QMediaPlaylist* gamingBGM_List =nullptr;
-    static int level ;//¹Ø¿¨
+    QMediaPlaylist* gamingBGM_List = nullptr;
+    static int level;//¹Ø¿¨
     void startGame();
 public slots:
     void checkGameState();

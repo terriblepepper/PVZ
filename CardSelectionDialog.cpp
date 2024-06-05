@@ -11,6 +11,7 @@ CardSelectionDialog::CardSelectionDialog(QWidget *parent)
 	Qt::WindowFlags flags = windowFlags();
 	// 移除关闭按钮标志
 	setWindowFlags(flags & ~Qt::WindowCloseButtonHint);
+	setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
 	setWindowTitle("请选择你的植物");
 	setWindowIcon(QIcon(":/new/prefix1/WallNut.png"));
 	bgmPlay();
@@ -108,10 +109,10 @@ void CardSelectionDialog::onApplyClicked()
 	{
 		card::cardSelectedMap.insert(key, card::baseCardMap[key]);
 	}
-	emit cardIsSelected();
 	selectingBGM->stop();
-	this->close();	
+	this->close();
 	this->deleteLater();
+	emit cardIsSelected();
 }
 
 void CardSelectionDialog::createCardBtn()

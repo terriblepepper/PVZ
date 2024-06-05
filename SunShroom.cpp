@@ -4,7 +4,6 @@ SunShroom::SunShroom()
 {
     hp = 250.0;
     setMovie(":/new/prefix1/newPlants/SunShroom/bigidle.gif");
-    setScale(1.5);
 }
 
 void SunShroom::advance(int phase)

@@ -1,33 +1,32 @@
-// highPrecisionTimer.h
-#ifndef HIGHPRECISIONTIMER_H
-#define HIGHPRECISIONTIMER_H
-
-#include <QObject>
+#pragma once
+#include <QThread>
 #include <QElapsedTimer>
-#include <QTimerEvent>
+#include <QWaitCondition>
+#include <QMutex>
+#include "gameIndex.h"
 
-class HighPrecisionTimer : public QObject {
+class TimerThread : public QThread
+{
     Q_OBJECT
 
 public:
-    explicit HighPrecisionTimer(QObject* parent = nullptr);
-    void start(int msec);
-    void stop();
-    void pause(); 
+    explicit TimerThread(QObject* parent = nullptr);
+    ~TimerThread();
+    void pause();
     void resume();
+    void stop();
+
 signals:
     void timeout();
 
 protected:
-    void timerEvent(QTimerEvent* event) override;
+    void run() override;
 
 private:
-    QElapsedTimer timer;
-    qint64 nextTrigger;
-    int interval;
-    bool running;
-    int timerId;
-    qint64 pausedTime; // 保存暂停时的时间点
+    QElapsedTimer mTimer;
+    QWaitCondition mCondition;
+    QMutex mMutex;
+    bool mRunning;
+    bool mPaused;
+    int mIntervalUs;  // 微秒级间隔
 };
-
-#endif // HIGHPRECISIONTIMER_H

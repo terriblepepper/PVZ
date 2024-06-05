@@ -4,7 +4,7 @@
 #include<QObject>
 #include "Mainwindow.h"
 #include"gameIndex.h"
-
+#include"highprecesionQtimer.h"
 //¶ÁÅäÖÃÎÄ¼ş
 void readSettingsFromFile(const QString& filePath) {
     QSettings settings(filePath, QSettings::IniFormat);

@@ -1,15 +1,12 @@
 #include "survivalMode.h"
 
 survivalGameMode::survivalGameMode(QWidget* parent)
-    : QWidget{ parent }, mQTimer(new HighPrecisionTimer(this)), view(nullptr), scene(nullptr), gamingMenu(nullptr),
+    : QWidget{ parent }, mQTimer(nullptr), view(nullptr), scene(nullptr), gamingMenu(nullptr),
 gamingBGM(nullptr), gamingBGM_List(nullptr) 
 {   
     initIndex();
     /* 创建窗口 */
     this->setFixedSize(910, 610);
-
-    // 使用高精度定时器
-    mQTimer = new HighPrecisionTimer(this);
     scene = new QGraphicsScene(this);
     scene->setSceneRect(150, 0, 900, 600); // 控制img需要截取部分
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -38,28 +35,19 @@ gamingBGM(nullptr), gamingBGM_List(nullptr)
     view->setBackgroundBrush(QPixmap(":/new/prefix1/Background.jpg")); // 设置背景图片
     view->setCacheMode(QGraphicsView::CacheBackground);
     view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-
     // 创建按钮等控件渲染
     createMenuButton();
-    // 连接菜单按钮
-    connect(menuButton, &QPushButton::clicked, this, &survivalGameMode::goToGamingMenu);
-    // 连接高精度定时器的timeout信号到场景的advance槽，实现场景中物体的动画效果
-    connect(mQTimer, &HighPrecisionTimer::timeout, scene, &QGraphicsScene::advance);
-    // 连接高精度定时器的timeout信号到游戏的addZombie槽，添加僵尸
-    connect(mQTimer, &HighPrecisionTimer::timeout, this, &survivalGameMode::addZombie);
-    // 连接高精度定时器的timeout信号到游戏的check槽，检查游戏是否结束
-    connect(mQTimer, &HighPrecisionTimer::timeout, this, &survivalGameMode::checkGameState);
-    mQTimer->start(33333 / fpsIndex); // 启动高精度定时器，以微秒为单位
-    qInfo() << "High precision timer started with interval:" << 33333 / fpsIndex << " microseconds";
     view->show(); // 显示视图
+
 }
 
 survivalGameMode::~survivalGameMode() {
+    mQTimer->stop();
     delete gamingBGM;
     delete gamingBGM_List;
     delete mQTimer;
-    delete view;
     delete scene;
+    delete view;
 }
 
 
@@ -186,6 +174,20 @@ void survivalGameMode::createMenuButton()
     scene->addItem(gamingWidgetsProxy);
 }
 
+void survivalGameMode::initTimer()
+{
+    mQTimer = new TimerThread(this);
+    // 连接菜单按钮
+    connect(menuButton, &QPushButton::clicked, this, &survivalGameMode::goToGamingMenu);
+    // 连接高精度定时器的timeout信号到场景的advance槽，实现场景中物体的动画效果
+    connect(mQTimer, &TimerThread::timeout, scene, &QGraphicsScene::advance);
+    // 连接高精度定时器的timeout信号到游戏的addZombie槽，添加僵尸
+    connect(mQTimer, &TimerThread::timeout, this, &survivalGameMode::addZombie);
+    // 连接高精度定时器的timeout信号到游戏的check槽，检查游戏是否结束
+    connect(mQTimer, &TimerThread::timeout, this, &survivalGameMode::checkGameState);
+    mQTimer->start(); 
+}
+
 void survivalGameMode::checkGameState()
 {
     //检查游戏是否结束，是否有僵尸到达屏幕最左边
@@ -196,7 +198,6 @@ void survivalGameMode::checkGameState()
         {
             // 结束计时器停止游戏
             mQTimer->stop();
-
             // 添加游戏结束图片
             scene->addPixmap(QPixmap(":/new/prefix1/ZombiesWon.png"))->setPos(336, 92);
             gamingBGM->stop();

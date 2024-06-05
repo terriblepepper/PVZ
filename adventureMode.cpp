@@ -56,21 +56,21 @@ bool adventureGameMode::loadLevelConfig(const QString& filePath, QQueue<QMap<QSt
 void adventureGameMode::setupUi() {
     adventureGameMode::level = 0;//重置关卡
     card::cardSelectedMap.clear();//清空已选择卡片以防重复选择
-     QVBoxLayout* mainLayout = new QVBoxLayout(this);
-     back = new QPushButton("返回");
-     back->setFixedSize(120, 40);
-     back->move(790, back->y());
-     back->setStyleSheet("QPushButton {"
-         "border-image: url(:/new/prefix1/levelbutton.png) center no-repeat;" // 设置按钮样式，包括背景图片
-         "font-size: 30px;" // 设置字体大小
-         "font-weight: bold"
-         "}"
-         "QPushButton:hover {" // 鼠标悬停样式
-         "color: green;" // 设置鼠标悬停时的字体颜色
-         "border-image: url(:/new/prefix1/levelbutton1.png) center no-repeat;"
-         "}");
-     connect(this->back, &QPushButton::clicked, this, &adventureGameMode::onBackClicked);
-     mainLayout->addWidget(back);
+    QVBoxLayout* mainLayout = new QVBoxLayout(this);
+    back = new QPushButton("返回");
+    back->setFixedSize(120, 40);
+    back->move(790, back->y());
+    back->setStyleSheet("QPushButton {"
+        "border-image: url(:/new/prefix1/levelbutton.png) center no-repeat;" // 设置按钮样式，包括背景图片
+        "font-size: 30px;" // 设置字体大小
+        "font-weight: bold"
+        "}"
+        "QPushButton:hover {" // 鼠标悬停样式
+        "color: green;" // 设置鼠标悬停时的字体颜色
+        "border-image: url(:/new/prefix1/levelbutton1.png) center no-repeat;"
+        "}");
+    connect(this->back, &QPushButton::clicked, this, &adventureGameMode::onBackClicked);
+    mainLayout->addWidget(back);
 
     // 创建堆栈式窗口
     Widget = new QStackedWidget(this);
@@ -85,8 +85,8 @@ void adventureGameMode::setupUi() {
     for (int i = 1; i <= 20; ++i) {
         QPushButton* levelButton = new QPushButton;
         if (i > 0 && i < 6)
-            levelButton->setText("白天："+QString("关卡%1").arg(i));
-        else if(i>5&&i<11)
+            levelButton->setText("白天：" + QString("关卡%1").arg(i));
+        else if (i > 5 && i < 11)
             levelButton->setText("黑夜：" + QString("关卡%1").arg(i));
         else if (i > 10 && i < 16)
             levelButton->setText("玛雅：" + QString("关卡%1").arg(i));
@@ -105,6 +105,7 @@ void adventureGameMode::setupUi() {
             "border-image: url(:/new/prefix1/levelbutton1.png) center no-repeat;"
             "}");
         connect(levelButton, &QPushButton::clicked, [this, levelButton]() {
+            this->hide();
             QString temp = levelButton->objectName();
             adventureGameMode::level = temp.remove("level_").toInt();//按下关卡按钮就立马设置关卡
             emit stopLoadingBGM();
@@ -114,7 +115,8 @@ void adventureGameMode::setupUi() {
             adSelecting->show();
             //接收恢复BGM信号
             connect(adSelecting, &CardSelectionDialog::resumeLevel_BGM, this, &adventureGameMode::backFromSelect);
-            connect(adSelecting, &CardSelectionDialog::cardIsSelected, [this, levelButton]()  {
+            connect(adSelecting, &CardSelectionDialog::cardIsSelected, [this, levelButton]() {
+                this->show();
                 startGame();
                 });
             });
@@ -144,7 +146,7 @@ void adventureGameMode::initCardCool()
 }
 
 void adventureGameMode::startGame() {
-    setWindowTitle("PlantsVsZombies | Level"+QString::number(adventureGameMode::level));
+    setWindowTitle("PlantsVsZombies | Level" + QString::number(adventureGameMode::level));
     //初始化参数
     initIndex();
     initCardCool();//设置卡片冷却时间
@@ -153,7 +155,7 @@ void adventureGameMode::startGame() {
     bgmPlay();
 
     // 使用高精度定时器
-    mQTimer = new HighPrecisionTimer(this);
+    mQTimer = new TimerThread(this);
 
     // 创建游戏场景并设置其分辨率
     scene = new QGraphicsScene(this);
@@ -176,9 +178,9 @@ void adventureGameMode::startGame() {
     // 设置视图属性并将场景添加到视图中
     view->setScene(scene);
     view->setRenderHint(QPainter::Antialiasing);
-    if(adventureGameMode::level<6)
+    if (adventureGameMode::level < 6)
         view->setBackgroundBrush(QPixmap(":/new/prefix1/Background.jpg")); // 设置背景图片
-    else if(adventureGameMode::level > 5 && adventureGameMode::level < 11)
+    else if (adventureGameMode::level > 5 && adventureGameMode::level < 11)
         view->setBackgroundBrush(QPixmap(":/new/prefix1/Background2.jpg")); // 设置背景图片
     else if (adventureGameMode::level > 10 && adventureGameMode::level < 16)
         view->setBackgroundBrush(QPixmap(":/new/prefix1/Background3.jpg")); // 设置背景图片
@@ -189,7 +191,7 @@ void adventureGameMode::startGame() {
     view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
     //添加除草机
     for (int i = 0; i < 5; ++i) {
-        Mower* mower = new Mower; 
+        Mower* mower = new Mower;
         mower->setPos(215, 120 + 95 * i);
         scene->addItem(mower);
     }
@@ -197,17 +199,17 @@ void adventureGameMode::startGame() {
     view->resize(905, 605); // 确保视图大小与场景大小匹配
     view->move(0, 0); // 确保视图在窗口中的位置正确
     // 连接高精度定时器的timeout信号到场景的advance槽，实现场景中物体的动画效果
-    connect(mQTimer, &HighPrecisionTimer::timeout, scene, &QGraphicsScene::advance);
+    connect(mQTimer, &TimerThread::timeout, scene, &QGraphicsScene::advance);
     // 连接高精度定时器的timeout信号到游戏的addZombie槽，添加僵尸
-    connect(mQTimer, &HighPrecisionTimer::timeout, this, &adventureGameMode::addZombie);
+    connect(mQTimer, &TimerThread::timeout, this, &adventureGameMode::addZombie);
     // 连接高精度定时器的timeout信号到游戏的check槽，检查游戏是否结束
-    connect(mQTimer, &HighPrecisionTimer::timeout, this, &adventureGameMode::checkGameState);
-    mQTimer->start(33333 / fpsIndex); // 启动高精度定时器，以微秒为单位
-    view->show();
+    connect(mQTimer, &TimerThread::timeout, this, &adventureGameMode::checkGameState);
     //添加菜单按钮
     createMenuButton();
     //连接到菜单按钮
     connect(menuButton, &QPushButton::clicked, this, &adventureGameMode::goToGamingMenu);
+    view->show();
+    mQTimer->start();
 }
 
 void adventureGameMode::checkGameState()
@@ -244,13 +246,13 @@ void adventureGameMode::addZombie()
         }
     }
     //判断回合是否完成(僵尸没有并且不是第一回合和最后一回合)
-    if (!isRoundDone && !rounds.isEmpty()&& zombieCount <=0 )
+    if (!isRoundDone && !rounds.isEmpty() && zombieCount <= 0)
     {
         isRoundDone = true;
         time = 0;//重置计时器
     }
     //判断回合是否完成
-    if (isRoundDone) 
+    if (isRoundDone)
     {
         ++time;
         if (time >= duration) //一波完成后，间隔duration的时间开始下一波
@@ -328,11 +330,12 @@ void adventureGameMode::addZombie()
                 isRoundDone = false;
             }
         }
-    }   
+    }
 }
 
 void adventureGameMode::backFromSelect()
 {
+    this->show();
     emit resumeLoadingBGM();
 }
 
@@ -423,8 +426,9 @@ void adventureGameMode::winScene()
 
 adventureGameMode::~adventureGameMode()
 {
-    if (gamingBGM) 
+    if (gamingBGM)
     {
+        mQTimer->stop();
         delete back;
         delete gamingBGM;
         delete gamingBGM_List;

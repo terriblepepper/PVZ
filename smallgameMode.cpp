@@ -114,6 +114,7 @@ void smallGameMode::setupUi() {
 
 void smallGameMode::loadCards(const QString& filename)
 {
+    card::cardSelectedMap.clear();
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qWarning() << "Could not open file" << filename;
@@ -147,9 +148,8 @@ void smallGameMode::startGame() {
 
     //播放BGM
     bgmPlay();
-
     // 使用高精度定时器
-    mQTimer = new HighPrecisionTimer(this);
+    mQTimer = new TimerThread(this);
     // 创建游戏场景并设置其分辨率
     scene = new QGraphicsScene(this);
     scene->setSceneRect(150, 0, 900, 600); // 控制img需要截取部分
@@ -193,17 +193,17 @@ void smallGameMode::startGame() {
     view->resize(905, 605); // 确保视图大小与场景大小匹配
     view->move(0, 0); // 确保视图在窗口中的位置正确
     // 连接高精度定时器的timeout信号到场景的advance槽，实现场景中物体的动画效果
-    connect(mQTimer, &HighPrecisionTimer::timeout, scene, &QGraphicsScene::advance);
+    connect(mQTimer, &TimerThread::timeout, scene, &QGraphicsScene::advance);
     // 连接高精度定时器的timeout信号到游戏的addZombie槽，添加僵尸
-    connect(mQTimer, &HighPrecisionTimer::timeout, this, &smallGameMode::addZombie);
+    connect(mQTimer, &TimerThread::timeout, this, &smallGameMode::addZombie);
     // 连接高精度定时器的timeout信号到游戏的check槽，检查游戏是否结束
-    connect(mQTimer, &HighPrecisionTimer::timeout, this, &smallGameMode::checkGameState);
-    mQTimer->start(33333 / fpsIndex); // 启动高精度定时器，以微秒为单位
-    view->show();
+    connect(mQTimer, &TimerThread::timeout, this, &smallGameMode::checkGameState);
     //添加菜单按钮
     createMenuButton();
     //连接到菜单按钮
     connect(menuButton, &QPushButton::clicked, this, &smallGameMode::goToGamingMenu);
+    view->show();
+    mQTimer->start(); 
 }
 
 void smallGameMode::initIndex()
@@ -374,6 +374,7 @@ smallGameMode::~smallGameMode()
 {
     if (gamingBGM)
     {
+        mQTimer->stop();
         delete back;
         delete gamingBGM;
         delete gamingBGM_List;

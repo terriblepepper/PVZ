@@ -94,8 +94,6 @@ void shop::addPlant(QString s, QPointF pos)//在游戏中添加植物
     else if (cardName == "GatlingPea") 
     {
         pl = new GatlingPea;
-        //微调坐标
-        pos.setY(pos.y() - 10);
     }
     else if (cardName == "Jalapeno") 
     {
@@ -104,8 +102,6 @@ void shop::addPlant(QString s, QPointF pos)//在游戏中添加植物
     else if(cardName == "FumeShroom")
     {
         pl = new FumeShroom;
-        pos.setY(pos.y() - 10);
-        pos.setX(pos.x() + 10);
     }
     else if (cardName == "PuffShroom")
     {
@@ -135,7 +131,6 @@ void shop::addPlant(QString s, QPointF pos)//在游戏中添加植物
     else if (cardName == "Pot")
     {
         pl = new Pot;
-        pos.setY(pos.y() - 25);
     }
     else if (cardName == "BowlingNut")
     {
@@ -150,7 +145,16 @@ void shop::addPlant(QString s, QPointF pos)//在游戏中添加植物
     //处理越界问题
     if (pos.y() > 500)
         return;
-    pl->setPos(pos);  
+    //处理pot的位置
+    if (pl->isPot)
+    {
+        pos.setY(pos.y() + 25);
+        pl->setPos(pos);
+    }
+    else
+    {
+        pl->setPos(pos);
+    }
     scene()->addItem(pl);
     qInfo() << "pos: " << pos;
     QList<QGraphicsItem *> child = childItems();

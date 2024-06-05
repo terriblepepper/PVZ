@@ -48,11 +48,12 @@ public:
     gamingMenuDialog* gamingMenu;
     QMediaPlayer* gamingBGM;
     QMediaPlaylist* gamingBGM_List;
-    HighPrecisionTimer* mQTimer; // 使用高精度定时器
+    TimerThread* mQTimer; // 使用高精度定时器
     QGraphicsView* view;
     QGraphicsScene* scene;
 public slots:
     void handleVolumeChange();
+    void initTimer();
 signals:
     void gameOver();
 private:

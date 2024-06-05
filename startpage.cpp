@@ -161,8 +161,10 @@ startpage::startpage(QWidget *parent)
         gamingMenu->getMainMenuPoints(this);
         gamingMenu->getGameWindow(survivalGaming);
         survivalGaming->getGamingMenu(gamingMenu);
-        currentGameMode = survivalGaming;
         survivalGaming->show();
+        currentGameMode = survivalGaming;
+        //连接开始游戏的信号
+        connect(this, &startpage::startSurvivalGame, survivalGaming, &survivalGameMode::initTimer);
         //接收回到菜单信号进行连接
         connect(gamingMenu, &gamingMenuDialog::gameToMainMenu, this, &startpage::handleGameToMainMenu);
         //接收重新开始信号
@@ -172,6 +174,7 @@ startpage::startpage(QWidget *parent)
         connect(gamingMenu, &gamingMenuDialog::changeVolume, this, &startpage::updateVolume);
         //接收游戏失败确认信号
         connect(survivalGaming, &survivalGameMode::gameOver, this, &startpage::handleGameToMainMenu);
+        emit startSurvivalGame();
         });
     });
     //退出

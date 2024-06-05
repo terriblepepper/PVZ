@@ -50,7 +50,7 @@ public:
     explicit smallGameMode(QWidget* parent = nullptr);
     ~smallGameMode();
     void getGamingMenu(gamingMenuDialog* gM);
-    HighPrecisionTimer* mQTimer;
+    TimerThread* mQTimer;
     QGraphicsScene* scene;
     QMediaPlayer* gamingBGM = nullptr;
     QMediaPlaylist* gamingBGM_List = nullptr;

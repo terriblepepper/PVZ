@@ -289,9 +289,6 @@
     <ClInclude Include="shop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="shovel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="snowpea.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -674,6 +671,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shovel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

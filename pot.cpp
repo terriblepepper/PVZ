@@ -5,7 +5,7 @@ Pot::Pot()
     hp = 300.0;
     isPot = true;
     setMovie("./images/newPlants/Pot/idle.gif");
-    setScale(2.5);
+    setScale(1.25);
 }
 void Pot::advance(int phase)
 {
@@ -25,6 +25,6 @@ QPainterPath Pot::shape() const
 {
     // 定义碰撞形状，不随缩放变化
     QPainterPath path;
-    path.addRect(-17.5, -17.5, 35, 35);  // 碰撞形状矩形
+    path.addRect(-14.5, -14.5, 35, 35);  // 碰撞形状矩形
     return path;
 }

@@ -10,7 +10,7 @@ GatlingPea::GatlingPea()
     atk = 25.0; // 设置豌豆射手的攻击力为25
     time = int(1.4 * 1000000 / (33333 / fpsIndex)); // 计算豌豆射手攻击间隔的帧数，1.4秒对应的帧数（33333/fpsIndex为帧间隔）
     setMovie(":/new/prefix1/newPlants/GatlingPea/idle.gif"); // 设置豌豆射手的动画
-    setScale(2);
+    setScale(1.1);
 }
 
 void GatlingPea::advance(int phase)
@@ -28,19 +28,19 @@ void GatlingPea::advance(int phase)
         {
             peashot* pe = new peashot(atk);
             pe->setX(x() + 20);
-            pe->setY(y()+18);
+            pe->setY(y()+ 5);
             scene()->addItem(pe);
             pe = new peashot(atk);
             pe->setX(x() + 40);
-            pe->setY(y()+18);
+            pe->setY(y() + 5);
             scene()->addItem(pe);
             pe = new peashot(atk);
             pe->setX(x() + 60);
-            pe->setY(y()+18);
+            pe->setY(y() + 5);
             scene()->addItem(pe);
             pe = new peashot(atk);
             pe->setX(x() + 80);
-            pe->setY(y()+18);
+            pe->setY(y() + 5);
             scene()->addItem(pe);
             return;
         }

@@ -9,14 +9,14 @@
 peashot::peashot(int attack, bool flag)
     : atk(attack), snow(flag), speed(360.0 * (33333 / fpsIndex) / 1000000)
 {
-    currentPixmap = QPixmap(snow ? ":/new/prefix1/PeaSnow.gif" : ":/new/prefix1/Pea.gif");
+    currentPixmap = QPixmap(snow ? "./images/PeaSnow.png" : "./images/Pea.png");
 }
 
 
 QRectF peashot::boundingRect() const
 {
     // 设置豌豆射手的边界矩形
-    return QRectF(-36, -42, 72, 36); 
+    return QRectF(-12, -28, 24, 24);
 }
 
 bool peashot::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const
@@ -30,7 +30,7 @@ void peashot::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, Q
 {
     Q_UNUSED(option)
         Q_UNUSED(widget)
-        painter->drawPixmap(QRect(-18, -42, 36, 36), currentPixmap);
+        painter->drawPixmap(QRect(-12, -28, 24, 24), currentPixmap);
 }
 
 

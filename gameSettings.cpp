@@ -4,9 +4,9 @@ SettingsDialog::SettingsDialog(QWidget* parent) : QDialog(parent)
 {
     Qt::WindowFlags flags = windowFlags();
     setWindowFlags(flags & ~Qt::WindowCloseButtonHint);
+    setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     this->setFixedSize(300, 300);
-    setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     // “Ù¿÷“Ù¡ø…Ë÷√
     volumeLabel = new QLabel("“Ù¡ø:"+QString::number(musicVolume)+"%", this);
     volumeSlider = new QSlider(Qt::Horizontal, this);
