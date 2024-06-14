@@ -3,7 +3,7 @@
 Mower::Mower()
 {
     flag = false;
-    speed = 270.0 * (33 / fpsIndex) / 1000;
+    speed = 270.0 * (33333 / fpsIndex) / 1000000;
 }
 
 QRectF Mower::boundingRect() const

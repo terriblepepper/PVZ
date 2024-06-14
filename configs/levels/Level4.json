@@ -1,0 +1,36 @@
+{
+    "round1":[
+        {
+            "basic": 2,
+            "cone": 1
+        }
+    ],
+    "round2":[
+        {
+            "basic": 2,
+            "cone": 2,
+            "bucket":1,
+            "football": 2
+        }
+    ],
+    "round3":[
+        {
+            "flag": 1,
+            "basic": 3,
+            "cone": 3,
+            "bucket":2,
+            "football": 3,
+            "screen": 2
+        }
+    ],
+    "round4":[
+        {
+            "flag": 2,
+            "basic": 6,
+            "cone": 6,
+            "bucket":6,
+            "football": 5,
+            "screen": 3
+        }
+    ]
+}

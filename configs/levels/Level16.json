@@ -1,0 +1,24 @@
+{
+    "round1":[
+        {           
+            "basic": 3,
+            "cone":2,
+            "bucket":1
+        }
+    ],
+    "round2":[
+        {
+            "basic": 4,
+            "cone": 3,
+            "bucket":2
+        }
+    ],
+    "round3":[
+        {
+            "basic": 5,
+            "cone": 3,
+            "bucket":3,
+            "flag": 1
+        }
+    ]
+}

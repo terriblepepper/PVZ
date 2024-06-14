@@ -12,11 +12,12 @@ class plant : public QGraphicsItem
 {
 public:
     enum { Type = UserType + 1};
-    int hp;
+    double hp;
     int state;
-    int atk;
+    double atk;
     int counter;
     int time;
+    bool isPot = false;
     QMovie* mQMovie;
     int type()const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0)override;

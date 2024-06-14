@@ -2,11 +2,12 @@
 #include "peashot.h"
 #include "zombie.h"
 #include"gameIndex.h"
+#include<QMediaPlayer>
 snowpea::snowpea()
 {
-    atk = 25;
-    hp = 300;
-    time = int(1.4 * 1000 * fpsIndex / 33);
+    atk = 25.0;
+    hp = 300.0;
+    time = int(1.4 * 1000000 * fpsIndex / 33333);
     setMovie(":/new/prefix1/SnowPea.gif");
 }
 void snowpea::advance(int phase)
@@ -14,7 +15,7 @@ void snowpea::advance(int phase)
     if (!phase)
         return;
     update();
-    if (hp <= 0)
+    if ((int)hp <= 0)
         delete this;
     else if (++counter >= time)
     {
@@ -22,9 +23,34 @@ void snowpea::advance(int phase)
         if (!collidingItems().isEmpty())
         {
             peashot *pe = new peashot(atk, true);
-            pe->setX(x() + 30/fpsIndex);
+            pe->setX(x() + 30);
             pe->setY(y());
             scene()->addItem(pe);
+            QMediaPlayer* soundpea = new QMediaPlayer(scene());
+            soundpea->setMedia(QUrl::fromLocalFile("./sound/kernelpult.mp3"));
+            soundpea->setVolume(itemVolume);
+            soundpea->play();
+            QGraphicsScene* catchScene = scene();
+            mapScenes[catchScene].count++;
+            QTimer::singleShot(250, [soundpea, catchScene]()
+                {
+                    if (mapScenes[catchScene].isValid != false)
+                    {
+                        delete soundpea;
+                        mapScenes[catchScene].count--;
+                    }
+                    else
+                    {
+                        if (mapScenes[catchScene].count)
+                        {
+                            mapScenes[catchScene].count--;
+                        }
+                        if (mapScenes[catchScene].count == 0)
+                        {
+                            mapScenes.erase(catchScene);
+                        }
+                    }
+                });
             return;
         }
     }
@@ -32,5 +58,5 @@ void snowpea::advance(int phase)
 bool snowpea::collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode) const
 {
     Q_UNUSED(mode)
-    return other->type() == zombie::Type && qFuzzyCompare(other->y(), y());
+        return other->type() == zombie::Type && qAbs(other->y() - y()) < 30;
 }

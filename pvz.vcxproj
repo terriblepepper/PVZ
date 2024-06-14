@@ -14,7 +14,7 @@
     <ProjectGuid>{16CD3935-CB4E-3602-B717-69728F18425A}</ProjectGuid>
     <RootNamespace>pvz</RootNamespace>
     <Keyword>QtVS_v304</Keyword>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion>10.0.19041.0</WindowsTargetPlatformMinVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
@@ -32,7 +32,7 @@
     <PlatformToolset>v142</PlatformToolset>
     <OutputDirectory>debug\</OutputDirectory>
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
     <ConfigurationType>Application</ConfigurationType>
     <IntermediateDirectory>debug\</IntermediateDirectory>
     <PrimaryOutput>pvz</PrimaryOutput>
@@ -139,7 +139,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;debug;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 /utf-8 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -165,7 +165,7 @@
       <IgnoreImportLibrary>true</IgnoreImportLibrary>
       <OutputFile>$(OutDir)\pvz.exe</OutputFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
-      <StackReserveSize>8388608</StackReserveSize>
+      <StackReserveSize>838860800</StackReserveSize>
       <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Link>
@@ -198,18 +198,33 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="gamingMenu.cpp" />
+    <ClCompile Include="apolozombie.cpp" />
+    <ClCompile Include="BowlingNut.cpp" />
+    <ClCompile Include="CaiWen.cpp" />
+    <ClCompile Include="CardSelectionDialog.cpp" />
+    <ClCompile Include="cleopatrazombie.cpp" />
+    <ClCompile Include="CustomButton.cpp" />
+    <ClCompile Include="flagzombie.cpp" />
+    <ClCompile Include="FumeShroom.cpp" />
+    <ClCompile Include="gargantuarzombie.cpp" />
+    <ClCompile Include="GatlingPea.cpp" />
+    <ClCompile Include="GloomShroom.cpp" />
+    <ClCompile Include="hammer.cpp" />
     <ClCompile Include="HelpWidget.cpp" />
+    <ClCompile Include="icetrackerzombie.cpp" />
+    <ClCompile Include="Jalapeno.cpp" />
     <ClCompile Include="Mainwindow.cpp" />
+    <ClCompile Include="adventureMode.cpp" />
     <ClCompile Include="basiczombie.cpp" />
     <ClCompile Include="bucketzombie.cpp" />
     <ClCompile Include="card.cpp" />
     <ClCompile Include="cherry.cpp" />
     <ClCompile Include="conezombie.cpp" />
     <ClCompile Include="footballzombie.cpp" />
-    <ClCompile Include="game.cpp" />
     <ClCompile Include="gameIndex.cpp" />
     <ClCompile Include="gameSettings.cpp" />
+    <ClCompile Include="gamingMenu.cpp" />
+    <ClCompile Include="highprecesionQtimer.cpp" />
     <ClCompile Include="loading.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
@@ -217,49 +232,90 @@
     <ClCompile Include="other.cpp" />
     <ClCompile Include="pea.cpp" />
     <ClCompile Include="peashot.cpp" />
+    <ClCompile Include="pharaohzombie.cpp" />
     <ClCompile Include="plant.cpp" />
+    <ClCompile Include="pot.cpp" />
     <ClCompile Include="potato.cpp" />
-    <ClCompile Include="repeater.cpp" />
+    <ClCompile Include="DoublePea.h.cpp" />
+    <ClCompile Include="PuffShroom.cpp" />
+    <ClCompile Include="puzzleMode.cpp" />
+    <ClCompile Include="pyramidzombie.cpp" />
     <ClCompile Include="screenzombie.cpp" />
     <ClCompile Include="shop.cpp" />
     <ClCompile Include="shovel.cpp" />
+    <ClCompile Include="smallBubble.cpp" />
+    <ClCompile Include="smallgameMode.cpp" />
+    <ClCompile Include="smallzombie.cpp" />
     <ClCompile Include="snowpea.cpp" />
     <ClCompile Include="startpage.cpp" />
     <ClCompile Include="sun.cpp" />
     <ClCompile Include="sunflower.cpp" />
+    <ClCompile Include="SunShroom.cpp" />
+    <ClCompile Include="survivalMode.cpp" />
+    <ClCompile Include="Torchwood.cpp" />
+    <ClCompile Include="TwinSunflower.cpp" />
     <ClCompile Include="wallnut.cpp" />
+    <ClCompile Include="yetizombie.cpp" />
     <ClCompile Include="zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="HelpWidget.h" />
     <QtMoc Include="Mainwindow.h" />
+    <QtMoc Include="adventureMode.h" />
+    <ClInclude Include="apolozombie.h" />
     <ClInclude Include="basiczombie.h" />
+    <ClInclude Include="BowlingNut.h" />
     <ClInclude Include="bucketzombie.h" />
+    <ClInclude Include="CaiWen.h" />
     <ClInclude Include="card.h" />
+    <QtMoc Include="CardSelectionDialog.h" />
     <ClInclude Include="cherry.h" />
+    <ClInclude Include="cleopatrazombie.h" />
     <ClInclude Include="conezombie.h" />
+    <QtMoc Include="CustomButton.h" />
+    <ClInclude Include="flagzombie.h" />
     <ClInclude Include="footballzombie.h" />
-    <QtMoc Include="game.h" />
+    <ClInclude Include="FumeShroom.h" />
     <ClInclude Include="gameIndex.h" />
     <QtMoc Include="gameSettings.h" />
-    <QtMoc Include="loading.h" />
     <QtMoc Include="gamingMenu.h" />
+    <QtMoc Include="highprecesionQtimer.h" />
+    <QtMoc Include="loading.h" />
+    <ClInclude Include="gargantuarzombie.h" />
+    <ClInclude Include="GatlingPea.h" />
+    <ClInclude Include="GloomShroom.h" />
+    <ClInclude Include="hammer.h" />
+    <ClInclude Include="icetrackerzombie.h" />
+    <ClInclude Include="Jalapeno.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="mower.h" />
     <ClInclude Include="other.h" />
     <ClInclude Include="pea.h" />
     <ClInclude Include="peashot.h" />
+    <ClInclude Include="pharaohzombie.h" />
     <ClInclude Include="plant.h" />
+    <ClInclude Include="pot.h" />
     <ClInclude Include="potato.h" />
-    <ClInclude Include="repeater.h" />
+    <ClInclude Include="DoublePea.h" />
+    <ClInclude Include="PuffShroom.h" />
+    <QtMoc Include="puzzleMode.h" />
+    <ClInclude Include="pyramidzombie.h" />
     <ClInclude Include="screenzombie.h" />
     <ClInclude Include="shop.h" />
     <ClInclude Include="shovel.h" />
+    <ClInclude Include="smallBubble.h" />
+    <QtMoc Include="smallgameMode.h" />
+    <ClInclude Include="smallzombie.h" />
     <ClInclude Include="snowpea.h" />
     <QtMoc Include="startpage.h" />
     <ClInclude Include="sun.h" />
     <ClInclude Include="sunflower.h" />
+    <QtMoc Include="survivalMode.h" />
+    <ClInclude Include="SunShroom.h" />
+    <ClInclude Include="Torchwood.h" />
+    <ClInclude Include="TwinSunflower.h" />
     <ClInclude Include="wallnut.h" />
+    <ClInclude Include="yetizombie.h" />
     <ClInclude Include="zombie.h" />
   </ItemGroup>
   <ItemGroup>
@@ -279,6 +335,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="CardSelectionDialog.ui" />
     <QtUic Include="HelpWidget.ui" />
     <QtUic Include="Mainwindow.ui" />
   </ItemGroup>
@@ -307,10 +364,8 @@
     <None Include="sound\Mush.wav" />
     <None Include="sound\NewsLost.wav" />
     <None Include="sound\NotEnoughSun.wav" />
-    <None Include="images\Pea.png" />
     <None Include="sound\Pea.wav" />
     <None Include="sound\PeaHit.wav" />
-    <None Include="images\PeaSnow.png" />
     <None Include="images\Peashooter.gif" />
     <None Include="images\Peashooter.png" />
     <None Include="sound\Place.wav" />
@@ -320,8 +375,7 @@
     <None Include="images\PotatoMine.png" />
     <None Include="images\PotatoMine1.gif" />
     <None Include="images\PotatoMineBomb.gif" />
-    <None Include="images\Repeater.gif" />
-    <None Include="images\Repeater.png" />
+    <None Include="images\DoublePea.gif" />
     <None Include="images\ScreenZombieAttack.gif" />
     <None Include="images\ScreenZombieWalk.gif" />
     <None Include="sound\ShieldHit.wav" />
@@ -347,33 +401,40 @@
     <None Include="images\ZombieWalk1.gif" />
     <None Include="images\ZombieWalk2.gif" />
     <None Include="images\ZombiesWon.png" />
+    <None Include="images\adventure.png" />
+    <None Include="images\adventure1.png" />
     <None Include="images\floor.png" />
+    <None Include="images\gamingMenu.png" />
+    <None Include="images\gamingMenu1.png" />
     <None Include="images\help-hover.png" />
     <None Include="images\help.png" />
+    <QtRcc Include="configs.qrc" />
+    <QtRcc Include="images2.qrc" />
     <QtRcc Include="images\images.qrc">
       <InitFuncName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">images</InitFuncName>
       <InitFuncName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">images</InitFuncName>
     </QtRcc>
     <None Include="images\init.png" />
+    <None Include="images\levelSelectBackground.jpg" />
     <None Include="images\mainlogo.png" />
     <None Include="images\menu-exit.png" />
     <None Include="images\menu-help.png" />
     <None Include="images\menu-options.png" />
     <None Include="images\mini.png" />
     <None Include="images\mini1.png" />
-    <None Include="images\mx.png" />
-    <None Include="images\mx1.png" />
     <None Include="images\play.png" />
     <None Include="images\play1.png" />
     <QtRcc Include="sound\sound.qrc">
       <InitFuncName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">sound</InitFuncName>
       <InitFuncName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">sound</InitFuncName>
     </QtRcc>
+    <None Include="images\survive.png" />
+    <None Include="images\survive1.png" />
     <None Include="images\yizi.png" />
     <None Include="images\yizi1.png" />
   </ItemGroup>
   <ItemGroup>
-    <Object Include="Debug\moc_gamingMenu.obj" />
+    <Image Include="images\DoublePea.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(QtMsBuild)\qt.targets" Condition="Exists('$(QtMsBuild)\qt.targets')" />

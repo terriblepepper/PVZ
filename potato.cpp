@@ -1,12 +1,13 @@
 #include "potato.h"
 #include "zombie.h"
 #include"gameIndex.h"
-
+#include<QTimer>
+#include<QMediaPlayer>
 potato::potato()
 {
-    atk = 18000;//土豆雷直接秒杀
-    hp = 300;
-    time = int(15.0 * 1000 / (33 / fpsIndex));
+    atk = 1800.0;//鍦熻眴闆风洿鎺ョ鏉�
+    hp = 300.0;
+    time = int(15.0 * 1000000 / (33333.0 / (double)fpsIndex));
     setMovie(":/new/prefix1/PotatoMine1.gif");
 }
 
@@ -20,13 +21,13 @@ void potato::advance(int phase)
     if (!phase)
         return;
     update();
-    if (hp <= 0)
+    if ((int)hp <= 0)
         delete this;
     else if (state == 0 && ++counter >= time)
     {
         state = 1;
         counter = 0;
-        time = int(1.0 * 1000 / (33 / fpsIndex));
+        time = int(1.0 * 1000000 / (33333 / fpsIndex));
         setMovie(":/new/prefix1/PotatoMine.gif");
     }
     else if (state == 1 && ++counter >= time)
@@ -36,6 +37,31 @@ void potato::advance(int phase)
         if (!items.isEmpty())
         {
             state = 2;
+            QMediaPlayer* sound = new QMediaPlayer(scene());
+            sound->setMedia(QUrl::fromLocalFile("./sound/potato_mine.mp3"));
+            sound->setVolume(itemVolume);
+            sound->play();
+            QGraphicsScene* catchScene = scene();
+            mapScenes[catchScene].count++;
+            QTimer::singleShot(1500, [sound, catchScene]()
+                {
+                    if (mapScenes[catchScene].isValid != false)
+                    {
+                        delete sound;
+                        mapScenes[catchScene].count--;
+                    }
+                    else
+                    {
+                        if (mapScenes[catchScene].count)
+                        {
+                            mapScenes[catchScene].count--;
+                        }
+                        if (mapScenes[catchScene].count == 0)
+                        {
+                            mapScenes.erase(catchScene);
+                        }
+                    }
+                });
             setMovie(":/new/prefix1/PotatoMineBomb.gif");
             foreach (QGraphicsItem *item, items)
             {

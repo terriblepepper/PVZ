@@ -5,18 +5,24 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QPainter>
+#include<QTimer>
+#include<QMediaPlaylist>
+#include<QMediaPlayer>
 #include <QMovie>
 
 class zombie : public QGraphicsItem
 {
 public:
     enum { Type = UserType + 2};
-    int hp;
+    double hp;
     int state;
-    int atk;
+    double atk;
     qreal speed;
     QMovie* mQMovie;
     QMovie* mhead;
+    QMediaPlayer* zmSound;
+    QMediaPlaylist* zmSoundList;
+    bool isSnow;
     zombie();
     ~zombie();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget )override;

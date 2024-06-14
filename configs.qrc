@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/cards">
+        <file>configs/cards.json</file>
+    </qresource>
+    <qresource prefix="/levels">
+        <file>configs/levels/Level1.json</file>
+    </qresource>
+</RCC>

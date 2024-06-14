@@ -1,11 +1,24 @@
 #include "bucketzombie.h"
 #include"gameIndex.h"
+#include"adventureMode.h"
 BucketZombie::BucketZombie()
 {
-    hp = 1370;
-    atk = 100 * (33 / fpsIndex) / 1000;
-    speed = 80.0 * (33 / fpsIndex)  / 1000 / 4.7;
-    setMovie(":/new/prefix1/BucketZombieWalk.gif");
+    hp = 1370.0;
+    atk = 100.0 / (30 * (double)fpsIndex);;
+    speed = 40.0 * (33333.0 / (double)fpsIndex)  / 1000000.0 / 4.7;
+    zmSound = new QMediaPlayer;
+    zmSoundList = new QMediaPlaylist;
+    zmSoundList->addMedia(QUrl::fromLocalFile("./sound/Eat.wav"));
+    zmSoundList->setPlaybackMode(QMediaPlaylist::Loop);
+    zmSound->setMedia(zmSoundList);
+    if (adventureGameMode::level > 10 && adventureGameMode::level < 16)
+    {
+        setMovie(":/new/prefix1/newZombies/bucket2/walk.gif");
+    }
+    else
+    {
+        setMovie(":/new/prefix1/BucketZombieWalk.gif");
+    } 
 }
 
 void BucketZombie::advance(int phase)
@@ -18,6 +31,7 @@ void BucketZombie::advance(int phase)
         if (state < 2)
         {
             state = 2;
+            zmSound->stop();
             setMovie(":/new/prefix1/ZombieDie.gif");
             setHead(":/new/prefix1/ZombieHead.gif");
         }
@@ -33,14 +47,30 @@ void BucketZombie::advance(int phase)
         if (state != 1)
         {
             state = 1;
-            setMovie(":/new/prefix1/BucketZombieAttack.gif");
+            zmSound->play();
+            if (adventureGameMode::level > 10 && adventureGameMode::level < 16)
+            {
+                setMovie(":/new/prefix1/newZombies/bucket2/eat.gif");
+            }
+            else
+            {
+                setMovie(":/new/prefix1/BucketZombieAttack.gif");
+            }
         }
         return;
     }
     if (state)
     {
         state = 0;
-        setMovie(":/new/prefix1/BucketZombieWalk.gif");
+        zmSound->stop();
+        if (adventureGameMode::level > 10 && adventureGameMode::level < 16)
+        {
+            setMovie(":/new/prefix1/newZombies/bucket2/walk.gif");
+        }
+        else
+        {
+            setMovie(":/new/prefix1/BucketZombieWalk.gif");
+        }
     }
     setX(x() - speed);
 }

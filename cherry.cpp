@@ -1,11 +1,12 @@
 #include "cherry.h"
 #include "zombie.h"
-
-
+#include"gameIndex.h"
+#include<QMediaPlayer>
+#include<QTimer>
 cherry::cherry()
 {
-    atk = 18000;//”£Ã“’®µØ÷±Ω”√Î…±
-    hp = 800;
+    atk = 1800.0;//Ê®±Ê°ÉÁÇ∏ÂºπÁõ¥Êé•ÁßíÊùÄ
+    hp = 8000.0;
     setMovie(":/new/prefix1/CherryBomb.gif");
 }
 QRectF cherry::boundingRect() const
@@ -17,11 +18,36 @@ void cherry::advance(int phase)
     if(!phase)
         return;
     update();
-    if(hp<=0)
+    if((int)hp<=0)
         delete this;
     else if (state == 0 && mQMovie->currentFrameNumber() == mQMovie->frameCount() - 1)
     {
         state = 1;
+        QMediaPlayer* sound = new QMediaPlayer(scene());
+        sound->setMedia(QUrl::fromLocalFile("./sound/cherrybomb.mp3"));
+        sound->setVolume(itemVolume);
+        sound->play();
+        QGraphicsScene* catchScene = scene();
+        mapScenes[catchScene].count++;
+        QTimer::singleShot(2000, [sound, catchScene]()
+            {
+                if (mapScenes[catchScene].isValid != false)
+                {
+                    delete sound;
+                    mapScenes[catchScene].count--;
+                }
+                else
+                {
+                    if (mapScenes[catchScene].count)
+                    {
+                        mapScenes[catchScene].count--;
+                    }
+                    if (mapScenes[catchScene].count == 0)
+                    {
+                        mapScenes.erase(catchScene);
+                    }
+                }
+            });
         setMovie(":/new/prefix1/Boom.gif");
         QList<QGraphicsItem *> items = collidingItems();
         foreach (QGraphicsItem *item, items)

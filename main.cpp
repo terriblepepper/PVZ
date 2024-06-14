@@ -1,32 +1,41 @@
-#include "Mainwindow.h"
 #include <QApplication>
-#include <loading.h>
-#include "game.h"
-#include"startpage.h"
-#include"HelpWidget.h"
 #include<qtextcodec.h>
+#include <QSettings>
+#include<QObject>
+#include "Mainwindow.h"
+#include"gameIndex.h"
+#include"highprecesionQtimer.h"
+//ËØªÈÖçÁΩÆÊñá‰ª∂
+void readSettingsFromFile(const QString& filePath) {
+    QSettings settings(filePath, QSettings::IniFormat);
+    settings.beginGroup("FPS");
+    fpsIndex = settings.value("fpsIndex", 2).toInt();
+    settings.endGroup();
 
+    settings.beginGroup("Audio");
+    musicVolume = settings.value("musicVolume", 80).toInt();
+    itemVolume = settings.value("itemVolume", 80).toInt();
+    settings.endGroup();
+
+    settings.beginGroup("Game");
+    QString difficultyStr = settings.value("Difficulty", "Medium").toString();
+    if (difficultyStr == "Easy")
+        Difficulty = "ÁÆÄÂçï";
+    else if (difficultyStr == "Medium")
+        Difficulty = "‰∏≠Á≠â";
+    else if (difficultyStr == "Hard")
+        Difficulty = "Âõ∞Èöæ";
+    else if (difficultyStr == "Insane")
+        Difficulty = "ÂèòÊÄÅ";
+    settings.endGroup();
+}
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    //…Ë÷√÷–Œƒ±‡¬Î
-#if (QT_VERSION <= QT_VERSION_CHECK(5,0,0))
-#if _MSC_VER
-    QTextCodec* codec = QTextCodec::codecForName("GBK");
-#else
-    QTextCodec* codec = QTextCodec::codecForName("UTF-8");
-#endif
-    QTextCodec::setCodecForLocale(codec);
-    QTextCodec::setCodecForCStrings(codec);
-    QTextCodec::setCodecForTr(codec);
-#else
-    QTextCodec* codec = QTextCodec::codecForName("UTF-8");
-    QTextCodec::setCodecForLocale(codec);
-#endif
-
+  
+    //ËØªÈÖçÁΩÆÊñá‰ª∂
+    readSettingsFromFile("./configs/settings.ini");
     MainWindow w;
     w.show();
-//    game w;
-//    w.show();
     return a.exec();
 }

@@ -50,7 +50,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="images/imges.qrc">:/new/prefix1/help.png</pixmap>
+    <pixmap resource="images/images.qrc">:/new/prefix1/help.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -96,6 +96,7 @@ QPushButton:hover{
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
+  <include location="images/images.qrc"/>
   <include location="images/imges.qrc"/>
  </resources>
  <connections/>

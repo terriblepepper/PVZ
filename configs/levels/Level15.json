@@ -1,0 +1,83 @@
+{
+    "round1":[
+        {
+            "basic": 2,
+            "cone": 2,
+            "bucket":2,
+            "small":3,
+            "apolo":1,
+            "cleopratra":3
+        }
+    ],
+    "round2":[
+        {
+            "basic": 3,
+            "cone": 3,
+            "bucket": 2,
+            "small":4,
+            "apolo":2,
+            "cleopratra":3,
+            "pyramid":2
+        }
+    ],
+    "round3":[
+        {
+            "flag": 3,
+            "basic": 6,
+            "cone": 6,
+            "bucket": 3,
+            "gargantuar": 1,
+            "screen":3,
+            "small":4,
+            "apolo":3,
+            "cleopratra":4,
+            "pharaoh":2,
+            "pyramid":3
+        }
+    ],
+    "round4":[
+        {
+            "flag": 3,
+            "bucket": 4,
+            "basic": 7,
+            "cone": 6,
+            "pharaoh":3,
+            "gargantuar": 2,
+            "screen": 4,
+            "small":5,
+            "pyramid": 4,
+            "cleopratra": 4,
+            "apolo":4
+        }
+    ],
+    "round5":[
+        {
+            "flag": 4,
+            "basic": 8,
+            "cone": 8,
+            "bucket": 8,
+            "gargantuar": 3,
+            "screen": 5,
+            "small":7,
+            "pyramid":5,
+            "apolo": 5,
+            "pharaoh":5,
+            "cleopratra":4
+        }
+    ],
+    "round6":[
+        {
+            "small":7,
+            "flag": 4,
+            "basic": 10,
+            "cone": 8,
+            "bucket": 8,
+            "pyramid": 7,
+            "gargantuar": 5,
+            "pharaoh":6,
+            "cleopratra": 7,
+            "screen": 5,
+            "apolo":7
+        }
+    ]
+}

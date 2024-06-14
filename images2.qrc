@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/new/prefix2">
+        <file>images/newZombies/cone2/eat.gif</file>
+        <file>images/newZombies/cone2/walk.gif</file>
+        <file>images/newZombies/flag2/death.gif</file>
+        <file>images/newZombies/flag2/eat.gif</file>
+        <file>images/newZombies/flag2/walk.gif</file>
+        <file>images/newZombies/basic2/eat.gif</file>
+        <file>images/newZombies/basic2/walk.gif</file>
+        <file>images/newZombies/basic2/death.gif</file>
+        <file>images/newZombies/small2/death.gif</file>
+        <file>images/newZombies/small2/eat.gif</file>
+        <file>images/newZombies/small2/walk.gif</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,67 @@
+{
+    "round1":[
+        {
+            "small": 3,
+            "basic": 2,
+            "cone": 1,
+            "pharaoh":1,
+            "apolo":2
+        }
+    ],
+    "round2":[
+        {
+            "flag": 1,
+            "basic": 2,
+            "cone": 2,
+            "bucket":1,
+            "small": 3,
+            "pyramid":2,
+            "pharaoh":2,
+            "cleopatra":1
+        }
+    ],
+    "round3":[
+        {
+            "flag": 3,
+            "basic": 5,
+            "small": 5,
+            "cone": 4,
+            "bucket":2,
+            "pyramid": 4,
+            "screen": 2,
+            "cleopatra": 3,
+            "gargantuar": 2,
+            "apolo":3,
+            "pharaoh":2
+        }
+    ],
+    "round4":[
+        {
+            "flag": 3,
+            "small": 6,
+            "basic": 6,
+            "cone": 6,
+            "bucket":6,
+            "pyramid": 6,
+            "screen": 3,
+            "cleopatra": 5,
+            "gargantuar": 3,
+            "apolo":4
+        }
+    ],
+    "round5":[
+        {
+            "flag": 4,
+            "basic": 10,
+            "small": 7,
+            "cone": 8,
+            "bucket":7,
+            "pyramid": 7,
+            "screen": 4,
+            "cleopatra": 5,
+            "gargantuar": 3,
+            "apolo": 6,
+            "pharaoh":4
+        }
+    ]
+}

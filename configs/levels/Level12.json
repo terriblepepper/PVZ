@@ -1,0 +1,31 @@
+{
+    "round1":[
+        {           
+            "basic": 3,
+            "flag": 2,
+            "bucket":1,
+            "cleopatra": 1
+        }
+    ],
+    "round2":[
+        {
+            "flag": 2,
+            "basic": 4,
+            "cone": 3,
+            "bucket":2,
+            "apolo":2,
+            "cleopatra":1
+        }
+    ],
+    "round3":[
+        {
+            "flag": 3,
+            "basic": 6,
+            "cone": 4,
+            "bucket":3,
+            "small":3,
+            "cleopatra":3,
+            "pyramid": 1
+        }
+    ]
+}
